@@ -109,20 +109,20 @@ html,
 }
 
 h1 {
-  font-size: var(--5base);
+  font-size: var(--4base);
   color: var(--grey-900);
   line-height: 125%;
   padding-bottom: var(--1base);
 }
 
 h2 {
-  font-size: var(--4base);
+  font-size: var(--3base);
   color: var(--grey-900);
   padding-bottom: var(--halfbase);
 }
 
 h3 {
-  font-size: var(--3base);
+  font-size: var(--2base);
   color: var(--grey-900);
 }
 
