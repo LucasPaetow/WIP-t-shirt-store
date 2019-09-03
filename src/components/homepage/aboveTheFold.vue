@@ -13,22 +13,13 @@
       </div>
       <div class="tshirt">
         <p class="description--tshirt description">This is what you want</p>
-        <div class="image-overlay-wrapper">
-          <picture class="picture-svg--tshirt picture">
-            <img
-              class="svg--tshirt"
-              src="@/assets/overlays/kA9asUxmVka.svg"
-              alt=""
-            />
-          </picture>
-          <picture class="picture--tshirt picture">
-            <img
-              class="image--tshirt"
-              src="@/assets/images/kA9asUxmVka.png"
-              alt=""
-            />
-          </picture>
-        </div>
+        <image-overlay
+          :image_max="require('@/assets/images/kA9asUxmVka.png')"
+          :svg="productData[11].svg"
+          :alt_description="productData[11].alt_description"
+          :overlay_color="color"
+          class="overlay-layout"
+        />
       </div>
     </div>
     <div class="search-color">
@@ -43,34 +34,40 @@
             id: 'home'
           }"
           :error="errorSearch"
+          :results="filteredList"
+          @searchresultevent="selectResult"
         />
       </header>
     </div>
-    <div class="previous-color">
-      <p class="user-color">Your latest colors</p>
-      <p class="community-color">Favourite community colors</p>
-    </div>
-    <p class="scroll-down">Scroll down if you are unsure</p>
   </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import search from "@/components/inputs/InputSearch.vue";
+import imageOverlay from "@/components/overlay/ImageOverlay";
 
 export default {
   components: {
-    search
+    search,
+    imageOverlay
   },
   props: [],
   name: "aboveTheFold",
   data() {
     return {
       inputSearch: "",
-      errorSearch: ""
+      errorSearch: "",
+      color: ""
     };
   },
   methods: {
+    selectResult(result) {
+      console.log(result);
+      this.inputSearch = result;
+      this.color = result;
+    },
+
     //navigation
     goTo(locationName) {
       this.$router.push({
@@ -79,7 +76,19 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      loadingState: "initModule/getLoadingState",
+      productData: "productModule/getProduct",
+      productColor: "productModule/getColor"
+    }),
+    filteredList() {
+      if (!this.inputSearch && !this.color) {
+        return;
+      }
+      return Object.keys(this.productColor).filter(color => {
+        return color.toLowerCase().includes(this.inputSearch.toLowerCase());
+      });
+    }
   },
   created() {},
   //same check for route-view keep-alive
@@ -91,7 +100,7 @@ export default {
 .above-the-fold {
   height: 100%;
   display: grid;
-  grid-auto-rows: min-content 1fr 1.5fr 1fr;
+  grid-auto-rows: min-content 0.5fr 1fr 0.5fr;
   grid-template-columns: var(--padding-main) var(--view-main) var(
       --padding-main
     );
@@ -113,11 +122,8 @@ export default {
   padding: var(--2base);
 }
 
-.image-overlay-wrapper {
-  height: auto;
+.overlay-layout {
   min-height: 8rem;
-  width: 100%;
-  position: relative;
 }
 
 .picture {
@@ -127,30 +133,6 @@ export default {
 .description {
   text-align: center;
   padding-bottom: var(--2base);
-}
-
-.picture-svg--tshirt {
-  position: absolute;
-  z-index: 3;
-  mix-blend-mode: multiply;
-}
-
-.picture--tshirt {
-  position: absolute;
-  z-index: 2;
-}
-
-.image--tshirt {
-  height: auto;
-  width: 100%;
-  object-fit: contain;
-}
-
-.svg--tshirt {
-  height: auto;
-  width: 100%;
-  object-fit: contain;
-  mix-blend-mode: multiply;
 }
 
 .image--coathanger {
