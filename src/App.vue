@@ -25,7 +25,9 @@ export default {
     ...mapGetters({})
   },
 
-  created() {}
+  created() {
+    this.$store.dispatch("initModule/INIT_store");
+  }
 };
 </script>
 
