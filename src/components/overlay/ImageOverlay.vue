@@ -1,10 +1,10 @@
 <template>
   <section class="overlay">
-    <div class="text">
-      <h2 class="soundbite headline" v-if="soundbite">
+    <div class="text" v-if="!soundbite === undefined">
+      <h2 class="soundbite headline" v-if="soundbite.headline">
         <span class="background--soundbite">{{ soundbite.headline }}</span>
       </h2>
-      <h2 class="soundbite subline" v-if="soundbite">
+      <h2 class="soundbite subline" v-if="soundbite.subline">
         <span class="background--soundbite">{{ soundbite.subline }}</span>
       </h2>
     </div>
@@ -18,7 +18,7 @@
       class="svg"
     >
       <path :fill="svg.path1.fill" :d="svg.path1.d" />
-      <path :fill="overlay_color" :d="svg.path2.d" />
+      <path :fill="overlay_color || 'mediumspringgreen'" :d="svg.path2.d" />
     </svg>
     <picture class="picture--tshirt picture">
       <!--  <img class="image--tshirt" :src="image_min" :alt="alt_description" />

@@ -17,25 +17,28 @@
           :image_max="require('@/assets/images/kA9asUxmVka.png')"
           :svg="productData[11].svg"
           :alt_description="productData[11].alt_description"
-          :overlay_color="color"
+          :overlay_color="selectedColor"
           class="overlay-layout"
         />
       </div>
     </div>
     <div class="search-color">
       <header class="header">
-        <h1 class="headline">I just want a t-shirt in</h1>
+        <h1 class="headline">I just want a t-shirt in my favourite color:</h1>
         <search
           class="search-layout"
           v-model="inputSearch"
           :input="{
-            label: 'my favourite color',
+            label: null,
             placeholder: 'mediumspringgreen?',
             id: 'home'
           }"
           :error="errorSearch"
           :results="filteredList"
+          :selectedColor="selectedColor"
           @searchresultevent="selectResult"
+          @searchenterevent="selectResult"
+          @searcherrorevent="clearInput"
         />
       </header>
     </div>
@@ -58,14 +61,26 @@ export default {
     return {
       inputSearch: "",
       errorSearch: "",
-      color: ""
+      selectedColor: ""
     };
   },
   methods: {
     selectResult(result) {
       console.log(result);
+      if (!result) {
+        setTimeout(() => {
+          this.errorSearch = "";
+        }, 5000);
+        this.errorSearch = "Sadly, we dont have this color";
+        this.clearInput();
+        return;
+      }
       this.inputSearch = result;
-      this.color = result;
+      this.selectedColor = result;
+    },
+    clearInput() {
+      this.inputSearch = "";
+      this.selectedColor = "";
     },
 
     //navigation
@@ -82,9 +97,10 @@ export default {
       productColor: "productModule/getColor"
     }),
     filteredList() {
-      if (!this.inputSearch && !this.color) {
+      if (!this.inputSearch && !this.selectedColor) {
         return;
       }
+
       return Object.keys(this.productColor).filter(color => {
         return color.toLowerCase().includes(this.inputSearch.toLowerCase());
       });
@@ -154,7 +170,7 @@ export default {
 }
 
 .headline {
-  line-height: 100%;
+  line-height: 125%;
 }
 
 /* previous searches*/

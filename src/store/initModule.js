@@ -2,6 +2,7 @@
 
 import { pictures } from "@/assets/pictureData.js";
 import { colors } from "@/assets/colors.js";
+import { colors_simple } from "@/assets/colors_simple.js";
 
 export default {
   namespaced: true,
@@ -57,6 +58,7 @@ export default {
     },
     INIT_checkForSavedColorData: () => {
       let localSaveColors = localStorage.getItem("storeColors");
+      /*let localSaveColors = localStorage.getItem("storeColors_simple");*/
       return localSaveColors ? JSON.parse(localSaveColors) : false;
     }
   }

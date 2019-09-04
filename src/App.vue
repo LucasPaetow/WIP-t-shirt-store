@@ -113,7 +113,7 @@ html,
 h1 {
   font-size: var(--4base);
   color: var(--grey-900);
-  line-height: 125%;
+  line-height: 150%;
   padding-bottom: var(--1base);
 }
 
