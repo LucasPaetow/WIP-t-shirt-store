@@ -17,7 +17,7 @@
           :image_max="require('@/assets/images/kA9asUxmVka.png')"
           :svg="productData[11].svg"
           :alt_description="productData[11].alt_description"
-          :overlay_color="searchResultColor || 'mediumspringgreen'"
+          :overlay_color="selectedColor || 'mediumspringgreen'"
           class="overlay-layout"
         />
       </div>
@@ -27,22 +27,18 @@
         <h1 class="headline">I just want a t-shirt in my favourite color:</h1>
         <search
           class="search-layout"
-          v-model="inputSearch"
           :input="{
             label: null,
             placeholder: 'mediumspringgreen?',
             id: 'home'
           }"
           :error="errorSearch"
-          :results="filteredList"
-          :selectedColor="selectedColor"
+          :clearSearchInput="clearSearchInput"
           @searchresultevent="selectResult"
-          @searchenterevent="selectResult"
-          @searcherrorevent="clearInput"
-          @searchescevent="clearInput"
-          @searchdeleteevent="enableResultsAgain"
+          @searchupdateevent="updateColor"
         />
       </header>
+      <p v-if="showTransitionMessage">{{ showTransitionMessage }}</p>
     </div>
   </section>
 </template>
@@ -61,9 +57,9 @@ export default {
   name: "aboveTheFold",
   data() {
     return {
-      inputSearch: "",
       errorSearch: "",
-      selectedColor: ""
+      selectedColor: "",
+      showTransitionMessage: ""
     };
   },
   methods: {
@@ -77,57 +73,45 @@ export default {
         this.clearInput();
         return;
       }
-      this.inputSearch = result;
       this.selectedColor = result;
 
       this.$store
         .dispatch("productModule/PRODUCT_setCurrentColor", this.selectedColor)
         .then(() => {
-          this.goTo("store", { color: this.selectedColor });
           setTimeout(() => {
-            this.clearInput();
-          }, 1000);
+            this.goTo(
+              "store",
+              { color: this.selectedColor },
+              "#looks-best-on-you"
+            );
+          }, 2000);
+          this.showTransitionMessage = `Well done, lets get you the best ${this.selectedColor} t-shirts there are`;
         });
     },
     clearInput() {
-      this.inputSearch = "";
       this.selectedColor = "";
     },
-    enableResultsAgain() {
-      this.selectedColor = "";
+    updateColor(color) {
+      this.selectedColor = color;
     },
     //navigation
-    goTo(locationName, paramObject) {
+    goTo(locationName, paramObject, locationHash) {
       this.$router.push({
         name: locationName,
-        params: paramObject
+        params: paramObject,
+        hash: locationHash
       });
     }
   },
   computed: {
     ...mapGetters({
       loadingState: "initModule/getLoadingState",
-      productData: "productModule/getProduct",
-      productColors: "productModule/getColorPalette"
-    }),
-    filteredList() {
-      if (!this.inputSearch && !this.selectedColor) {
-        return [];
-      }
-      return Object.keys(this.productColors).filter(color => {
-        return color.toLowerCase().includes(this.inputSearch.toLowerCase());
-      });
-    },
-    searchResultColor() {
-      if (this.selectedColor) {
-        return this.selectedColor;
-      }
-
-      let manualColor = Object.keys(this.productColors).find(color => {
-        return color === this.inputSearch;
-      });
-      return manualColor ? manualColor : "";
-    }
+      productData: "productModule/getProduct"
+    })
+  },
+  beforeRouteLeave(to, from, next) {
+    this.clearInput();
+    next();
   },
   created() {},
   //same check for route-view keep-alive

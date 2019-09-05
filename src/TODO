@@ -1,4 +1,9 @@
 
+Home-page
+
+- prefetch the data object if not already in store before routing to the store 
+
+
 Store-Page
 
 1. searchelement on top

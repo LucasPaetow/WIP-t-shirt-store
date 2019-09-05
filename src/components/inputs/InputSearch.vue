@@ -9,22 +9,20 @@
         :class="[error || searchError.length ? 'error' : '']"
         :placeholder="input.placeholder"
         :id="'search' + input.id"
-        :value="value"
-        @input="$emit('input', $event.target.value)"
-        @focus="$emit('searchfocusevent')"
-        @blur="$emit('searchblurevent')"
+        v-model="searchInput"
+        @input="updateColorOnType()"
         @keydown.up="previousItem()"
         @keydown.down="nextItem()"
         @keydown.enter.prevent="searchEnterEvent()"
-        @keydown.esc="$emit('searchescevent')"
-        @keydown.delete="$emit('searchdeleteevent')"
+        @keydown.esc="clearInput()"
+        @keydown.delete="enableSearchAgain()"
         autocomplete="off"
       />
       <ul class="results" id="searchResults" v-if="showSearchResults">
         <li
           class="result"
-          v-for="(result, index) in results"
-          @click="$emit('searchresultevent', result)"
+          v-for="(result, index) in filteredList"
+          @click="addResultFromFilteredList(result)"
           :class="[highlightResult(index) ? 'active-element' : '']"
         >
           <div class="colored-dot" :style="`background-color: ${result}`"></div>
@@ -41,6 +39,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import arrowIcon from "@/components/icons/arrow.vue";
 import searchIcon from "@/components/icons/search.vue";
 
@@ -48,16 +47,15 @@ export default {
   components: { arrowIcon, searchIcon },
   name: "inputField",
   props: {
-    value: String,
     input: Object,
-    error: String,
-    results: Array,
-    selectedColor: String
-  }, //["value", "input", "error", "results"],
+    error: String
+  },
   data() {
     return {
-      currentResult: null,
-      searchError: ""
+      highlightedResult: null,
+      searchError: "",
+      searchInput: "",
+      searchResult: ""
     };
   },
   methods: {
@@ -65,38 +63,49 @@ export default {
       let results = document.getElementById("searchResults");
       let result = results.querySelectorAll(".result");
       if (
-        this.currentResult === null ||
-        this.currentResult >= result.length - 1
+        this.highlightedResult === null ||
+        this.highlightedResult >= result.length - 1
       ) {
-        this.currentResult = 0;
+        this.highlightedResult = 0;
+        this.$emit(
+          "searchupdateevent",
+          this.filteredList[this.highlightedResult]
+        );
         return;
       }
-      this.currentResult += 1;
+      this.highlightedResult += 1;
+      this.$emit(
+        "searchupdateevent",
+        this.filteredList[this.highlightedResult]
+      );
     },
     previousItem() {
-      if (this.currentResult === null) {
+      if (this.highlightedResult === null) {
         return;
       }
-      if (this.currentResult === 0) {
-        this.currentResult = null;
+      if (this.highlightedResult === 0) {
+        this.highlightedResult = null;
         return;
       }
-      this.currentResult -= 1;
+      this.highlightedResult -= 1;
+      this.$emit(
+        "searchupdateevent",
+        this.filteredList[this.highlightedResult]
+      );
     },
     highlightResult(index) {
-      return this.currentResult === index ? true : false;
+      return this.highlightedResult === index ? true : false;
     },
     searchEnterEvent() {
-      let manualColor = this.results.find(color => {
-        return color === this.value;
+      let manualColor = this.filteredList.find(color => {
+        return color === this.searchInput;
       });
-      if (manualColor && this.currentResult === null) {
-        console.log(manualColor);
-        this.$emit("searchenterevent", manualColor);
+      if (manualColor && this.highlightedResult === null) {
+        this.addResultFromFilteredList(manualColor);
         return;
       }
 
-      if (this.currentResult === null) {
+      if (this.highlightedResult === null) {
         setTimeout(() => {
           this.searchError = "";
         }, 5000);
@@ -104,20 +113,56 @@ export default {
         this.$emit("searcherrorevent");
         return;
       }
-
-      this.$emit("searchenterevent", this.results[this.currentResult]);
+      this.addResultFromFilteredList(this.filteredList[this.highlightedResult]);
+    },
+    addResultFromFilteredList(result) {
+      this.searchInput = this.searchResult = result;
+      console.log(result);
+      this.$emit("searchresultevent", result);
+    },
+    enableSearchAgain() {
+      this.searchResult = "";
+    },
+    clearInput() {
+      this.searchInput = this.searchResult = "";
+    },
+    updateColorOnType() {
+      let manualColor = this.filteredList.find(color => {
+        return color === this.searchInput;
+      });
+      if (manualColor) {
+        this.$emit("searchupdateevent", manualColor);
+      }
     }
   },
   computed: {
+    ...mapGetters({
+      productColors: "productModule/getColorPalette"
+    }),
+    filteredList() {
+      if (!this.searchInput) {
+        return [];
+      }
+      return Object.keys(this.productColors).filter(color => {
+        return color.toLowerCase().includes(this.searchInput.toLowerCase());
+      });
+    },
+
     showSearchResults() {
-      if (!this.results) {
+      if (!this.searchInput) {
         return false;
       }
-      if (this.selectedColor) {
+      if (this.searchResult) {
         return false;
       }
       return true;
     }
+  },
+  beforeRouteLeave(to, from, next) {
+    this.searchError = "";
+    this.searchInput = "";
+    this.searchResult = "";
+    next();
   }
 };
 </script>
@@ -129,6 +174,7 @@ export default {
   grid-template-columns: 1fr var(--6base);
   width: 100%;
   position: relative;
+  background-color: white;
 }
 
 .label--form {
