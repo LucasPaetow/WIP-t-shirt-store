@@ -6,27 +6,35 @@ export default {
   namespaced: true,
   // -----------------------------------------------------------------
   state: {
-    productData: null,
-    ProductColor: null
+    productDataSet: null,
+    ProductColorPalette: null,
+    currentColor: null
   },
   // -----------------------------------------------------------------
   getters: {
     getProduct: state => {
-      return state.productData;
+      return state.productDataSet;
     },
-    getColor: state => {
-      return state.ProductColor;
+    getColorPalette: state => {
+      return state.ProductColorPalette;
+    },
+    getcurrentColor: state => {
+      return state.currentColor;
     }
   },
   // -----------------------------------------------------------------
   mutations: {
     PRODUCT_setDataToStore(state, product) {
       //set the current state to that of the index
-      state.productData = product;
+      state.productDataSet = product;
     },
-    PRODUCT_setColorToStore(state, product) {
+    PRODUCT_setAllColors(state, colors) {
       //set the current state to that of the index
-      state.ProductColor = product;
+      state.ProductColorPalette = colors;
+    },
+    PRODUCT_setCurrentColor(state, color) {
+      //set the current state to that of the index
+      state.currentColor = color;
     }
   },
   // -----------------------------------------------------------------
@@ -34,8 +42,11 @@ export default {
     PRODUCT_setDataToStore: ({ commit }, product) => {
       commit("PRODUCT_setDataToStore", product);
     },
-    PRODUCT_setColorToStore: ({ commit }, product) => {
-      commit("PRODUCT_setColorToStore", product);
+    PRODUCT_setAllColors: ({ commit }, colors) => {
+      commit("PRODUCT_setAllColors", colors);
+    },
+    PRODUCT_setCurrentColor: ({ commit }, color) => {
+      commit("PRODUCT_setCurrentColor", color);
     }
     //product has to be updated etc
   }

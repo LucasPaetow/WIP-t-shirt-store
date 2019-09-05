@@ -17,6 +17,5 @@
 .icon-size {
   height: var(--2base);
   width: var(--2base);
-  transform: translateY(0.1rem);
 }
 </style>

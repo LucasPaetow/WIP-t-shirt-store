@@ -41,7 +41,14 @@ export default {
 
 <style scoped>
 .home {
-  min-height: 100%;
+  /* Positioning */
   padding: var(--padding-top) 0 0 0;
+  /* Box-model */
+  min-height: 100%;
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
 }
 </style>

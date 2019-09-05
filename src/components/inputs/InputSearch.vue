@@ -16,8 +16,9 @@
         @keydown.up="previousItem()"
         @keydown.down="nextItem()"
         @keydown.enter.prevent="searchEnterEvent()"
-        @keydown.delete="$emit('searchdeleteevent')"
         @keydown.esc="$emit('searchescevent')"
+        @keydown.delete="$emit('searchdeleteevent')"
+        autocomplete="off"
       />
       <ul class="results" id="searchResults" v-if="showSearchResults">
         <li
@@ -41,9 +42,10 @@
 
 <script>
 import arrowIcon from "@/components/icons/arrow.vue";
+import searchIcon from "@/components/icons/search.vue";
 
 export default {
-  components: { arrowIcon },
+  components: { arrowIcon, searchIcon },
   name: "inputField",
   props: {
     value: String,
@@ -72,21 +74,23 @@ export default {
       this.currentResult += 1;
     },
     previousItem() {
-      if (this.currentResult === null || this.currentResult === 0) {
+      if (this.currentResult === null) {
+        return;
+      }
+      if (this.currentResult === 0) {
+        this.currentResult = null;
         return;
       }
       this.currentResult -= 1;
     },
     highlightResult(index) {
-      let results = document.getElementById("searchResults");
-      let result = results.querySelectorAll(".result");
       return this.currentResult === index ? true : false;
     },
     searchEnterEvent() {
       let manualColor = this.results.find(color => {
         return color === this.value;
       });
-      if (manualColor) {
+      if (manualColor && this.currentResult === null) {
         console.log(manualColor);
         this.$emit("searchenterevent", manualColor);
         return;
@@ -106,7 +110,13 @@ export default {
   },
   computed: {
     showSearchResults() {
-      return this.selectedColor ? false : true;
+      if (!this.results) {
+        return false;
+      }
+      if (this.selectedColor) {
+        return false;
+      }
+      return true;
     }
   }
 };
@@ -156,22 +166,8 @@ export default {
   color: var(--grey-600);
 }
 
-.button-search {
-  grid-column: 2/3;
-  grid-row: 2/3;
-  position: relative;
-  z-index: 3;
-  background-color: white;
-  border-top-right-radius: var(--fourthbase);
-  border-bottom-right-radius: var(--fourthbase);
-  border: 1px solid var(--grey-500);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.button-search:active {
-  transform: scale(1.01);
+.searchicon-layout {
+  position: absolute;
 }
 
 /**/
@@ -196,8 +192,8 @@ export default {
 .result {
   display: grid;
   grid-template-columns: min-content 1fr min-content;
-  margin: var(--thirdbase);
-  padding: 0 var(--thirdbase);
+  padding: var(--thirdbase) var(--halfbase);
+  align-items: center;
 }
 
 .result:hover,

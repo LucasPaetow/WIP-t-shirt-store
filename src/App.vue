@@ -87,45 +87,93 @@ export default {
   --view-main: 1fr;
 }
 
+/* Positioning */
+
+/* Box-model */
+
+/* Typography */
+
+/* Visual */
+
+/* Misc */
+
 @import url("https://fonts.googleapis.com/css?family=Poppins:300,400,700&display=swap");
 
 /*Borderbox*/
 *,
 :after,
 :before {
+  /* Positioning */
   margin: 0;
   padding: 0;
+
+  /* Box-model */
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+
+  /* Typography */
   text-decoration: none;
+
+  /* Visual */
+
+  /* Misc */
 }
 
 body,
 html,
 #app {
+  /* Positioning */
+
+  /* Box-model */
   height: 100%;
+
+  /* Typography */
+  font-family: "Poppins", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "Poppins", sans-serif;
+
+  /* Visual */
   background-color: white;
+
+  /* Misc */
 }
 
 h1 {
-  font-size: var(--4base);
-  color: var(--grey-900);
-  line-height: 150%;
+  /* Positioning */
+
+  /* Box-model */
   padding-bottom: var(--1base);
+  /* Typography */
+  line-height: 150%;
+  font-size: var(--4base);
+  /* Visual */
+  color: var(--grey-900);
+
+  /* Misc */
 }
 
 h2 {
-  font-size: var(--3base);
-  color: var(--grey-900);
+  /* Positioning */
+
+  /* Box-model */
   padding-bottom: var(--halfbase);
+  /* Typography */
+  font-size: var(--3base);
+  /* Visual */
+  color: var(--grey-900);
+  /* Misc */
 }
 
 h3 {
+  /* Positioning */
+
+  /* Box-model */
+
+  /* Typography */
   font-size: var(--2base);
+  /* Visual */
   color: var(--grey-900);
+  /* Misc */
 }
 
 p,
@@ -134,17 +182,67 @@ i,
 li,
 textarea,
 select {
+  /* Positioning */
+
+  /* Box-model */
+
+  /* Typography */
   font-size: var(--1base);
   line-height: 150%;
+  /* Visual */
   color: var(--grey-800);
+  /* Misc */
 }
 
 a {
-  cursor: pointer;
+  /* Positioning */
+
+  /* Box-model */
+
+  /* Typography */
   text-decoration: underline;
+  /* Visual */
+  /* Misc */
+  cursor: pointer;
 }
 
 ul {
+  /* Positioning */
+
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+  /* Misc */
   list-style: none;
 }
+/*
+body * {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+body * * {
+  background-color: rgba(0, 255, 0, 0.2);
+}
+body * * * {
+  background-color: rgba(0, 0, 255, 0.2);
+}
+body * * * * {
+  background-color: rgba(255, 0, 255, 0.2);
+}
+body * * * * * {
+  background-color: rgba(0, 255, 255, 0.2);
+}
+body * * * * * * {
+  background-color: rgba(255, 255, 0, 0.2);
+}
+body * * * * * * * {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+body * * * * * * * * {
+  background-color: rgba(0, 255, 0, 0.2);
+}
+body * * * * * * * * * {
+  background-color: rgba(0, 0, 255, 0.2);
+}*/
 </style>

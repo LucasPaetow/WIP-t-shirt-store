@@ -38,6 +38,19 @@ export default {
     if (this.propTransitionGroup) {
       this.transitionMode = null;
     }
+    this.$router.beforeEach((to, from, next) => {
+      const targetRoute = to.name;
+      const fromRoute = from.name;
+      if (targetRoute === "store" && fromRoute === "home") {
+        this.transitionName = "slide-top";
+        next();
+      }
+      if (targetRoute === "home" && fromRoute === "store") {
+        this.transitionName = "slide-bottom";
+        next();
+      }
+      next();
+    });
   }
 };
 </script>
@@ -88,13 +101,13 @@ export default {
 .slide-top-enter,
 .slide-bottom-leave-active {
   opacity: 0;
-  transform: translate(0, 1em);
+  transform: translate(0, 2em);
 }
 
 .slide-top-leave-active,
 .slide-bottom-enter {
   opacity: 0;
-  transform: translate(0, -1em);
+  transform: translate(0, -2em);
 }
 
 /* --------slide in and out from the same side---------*/

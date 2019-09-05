@@ -41,7 +41,7 @@ export default {
           dispatch("INIT_checkForSavedColorData").then(resultColors => {
             if (resultColors) {
               console.log(resultColors);
-              dispatch("productModule/PRODUCT_setColorToStore", resultColors, {
+              dispatch("productModule/PRODUCT_setAllColors", resultColors, {
                 root: true
               });
             }

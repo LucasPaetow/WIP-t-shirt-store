@@ -1,0 +1,21 @@
+
+Store-Page
+
+1. searchelement on top
+- transition to new site
+- have a search element at the beginning of the site
+- transition to new site with scrolltop(heightOfSearch)
+  => Either in created() or with a hash
+
+2. headline with shipping date timer
+- get local date
+- if it is before 3 pm say "tomorrow", otherwise "in two days"
+- let a time run till the next 3 pm
+
+3. searchimages
+- let the getter return a random image with an aspect ration of either wide/tall
+- fill certain spots with it
+
+
+Item-Page
+- Show images in full screen

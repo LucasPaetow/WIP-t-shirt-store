@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 .template {
-  min-height: 100%;
+  /* Positioning */
   display: grid;
   padding: var(--padding-top) 0 var(--2base) 0;
   grid-auto-rows: min-content;
@@ -41,5 +41,22 @@ export default {
       --padding-main
     );
   grid-row-gap: var(--padding-rows);
+  /* Box-model */
+  min-height: 100%;
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
 }
+
+/* Positioning */
+
+/* Box-model */
+
+/* Typography */
+
+/* Visual */
+
+/* Misc */
 </style>

@@ -18,7 +18,7 @@
       class="svg"
     >
       <path :fill="svg.path1.fill" :d="svg.path1.d" />
-      <path :fill="overlay_color || 'mediumspringgreen'" :d="svg.path2.d" />
+      <path :fill="overlay_color" :d="svg.path2.d" />
     </svg>
     <picture class="picture--tshirt picture">
       <!--  <img class="image--tshirt" :src="image_min" :alt="alt_description" />

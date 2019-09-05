@@ -17,7 +17,7 @@
           :image_max="require('@/assets/images/kA9asUxmVka.png')"
           :svg="productData[11].svg"
           :alt_description="productData[11].alt_description"
-          :overlay_color="selectedColor"
+          :overlay_color="searchResultColor || 'mediumspringgreen'"
           class="overlay-layout"
         />
       </div>
@@ -39,6 +39,8 @@
           @searchresultevent="selectResult"
           @searchenterevent="selectResult"
           @searcherrorevent="clearInput"
+          @searchescevent="clearInput"
+          @searchdeleteevent="enableResultsAgain"
         />
       </header>
     </div>
@@ -77,16 +79,28 @@ export default {
       }
       this.inputSearch = result;
       this.selectedColor = result;
+
+      this.$store
+        .dispatch("productModule/PRODUCT_setCurrentColor", this.selectedColor)
+        .then(() => {
+          this.goTo("store", { color: this.selectedColor });
+          setTimeout(() => {
+            this.clearInput();
+          }, 1000);
+        });
     },
     clearInput() {
       this.inputSearch = "";
       this.selectedColor = "";
     },
-
+    enableResultsAgain() {
+      this.selectedColor = "";
+    },
     //navigation
-    goTo(locationName) {
+    goTo(locationName, paramObject) {
       this.$router.push({
-        name: locationName
+        name: locationName,
+        params: paramObject
       });
     }
   },
@@ -94,16 +108,25 @@ export default {
     ...mapGetters({
       loadingState: "initModule/getLoadingState",
       productData: "productModule/getProduct",
-      productColor: "productModule/getColor"
+      productColors: "productModule/getColorPalette"
     }),
     filteredList() {
       if (!this.inputSearch && !this.selectedColor) {
-        return;
+        return [];
       }
-
-      return Object.keys(this.productColor).filter(color => {
+      return Object.keys(this.productColors).filter(color => {
         return color.toLowerCase().includes(this.inputSearch.toLowerCase());
       });
+    },
+    searchResultColor() {
+      if (this.selectedColor) {
+        return this.selectedColor;
+      }
+
+      let manualColor = Object.keys(this.productColors).find(color => {
+        return color === this.inputSearch;
+      });
+      return manualColor ? manualColor : "";
     }
   },
   created() {},
@@ -113,84 +136,165 @@ export default {
 </script>
 
 <style scoped>
+/* Positioning */
+/* Box-model */
+/* Typography */
+/* Visual */
+/* Misc */
+
 .above-the-fold {
-  height: 100%;
+  /* Positioning */
   display: grid;
   grid-auto-rows: min-content 0.5fr 1fr 0.5fr;
   grid-template-columns: var(--padding-main) var(--view-main) var(
       --padding-main
     );
   grid-row-gap: var(--padding-rows);
+  /* Box-model */
+  height: 100%;
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 /*Images*/
 .images {
+  /* Positioning */
   grid-column: 2/3;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .coathanger {
+  /* Positioning */
+  /* Box-model */
   padding: var(--2base);
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .tshirt {
+  /* Positioning */
+  /* Box-model */
   padding: var(--2base);
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .overlay-layout {
+  /* Positioning */
+  /* Box-model */
   min-height: 8rem;
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .picture {
+  /* Positioning */
+  /* Box-model */
   height: auto;
   width: 100%;
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 .description {
-  text-align: center;
+  /* Positioning */
+  /* Box-model */
   padding-bottom: var(--2base);
+  /* Typography */
+  text-align: center;
+  /* Visual */
+  /* Misc */
 }
 
 .image--coathanger {
+  /* Positioning */
+  /* Box-model */
   height: 3rem;
   width: 100%;
   object-fit: contain;
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 /*search*/
 
 .search-color {
+  /* Positioning */
   grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .header {
+  /* Positioning */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .headline {
+  /* Positioning */
+  /* Box-model */
+  /* Typography */
   line-height: 125%;
+  /* Visual */
+  /* Misc */
 }
 
 /* previous searches*/
 
 .previous-color {
+  /* Positioning */
   grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .user-color {
+  /* Positioning */
+  /* Box-model */
   padding: var(--halfbase) 0;
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .community-color {
+  /* Positioning */
+  /* Box-model */
   padding: var(--halfbase) 0;
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 
 .scroll-down {
+  /* Positioning */
   grid-column: 2/3;
   justify-self: center;
   align-self: end;
+  /* Box-model */
+  /* Typography */
   font-weight: bold;
+  /* Visual */
+  /* Misc */
 }
 </style>
