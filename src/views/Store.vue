@@ -1,6 +1,6 @@
 <template>
   <article class="store">
-    <section class="search" id="search-store">
+    <!--  <section class="search" id="search-store">
       <search
         :input="{
           label: 'search for a different color',
@@ -11,8 +11,8 @@
         @searchresultevent="selectResult"
         @searchupdateevent="updateColor"
       />
-    </section>
-    <header class="header" id="looks-best-on-you">
+    </section> -->
+    <header class="header" id="looks-great">
       <h1 class="headline" v-if="today">
         This is how cool you will look tomorrow
       </h1>
@@ -22,10 +22,35 @@
         <span v-if="Math.floor(now / 60) > 0">
           <b>{{ Math.floor(now / 60) }}h</b> and</span
         >
-        <b> {{ Math.floor(now - now / 60) }} min</b>
+        <b> {{ Math.floor(((now / 60) % 1) * 60) }} min</b>
       </p>
     </header>
-    <section class="product-images"></section>
+    <section class="product-images" v-if="randomProductData">
+      <div class="product-info">
+        <p class="info info--price"><b>For 20$</b></p>
+        <buttonSimple
+          class="info info--wishlist"
+          buttonText="add color to wishlist"
+          buttonType="no-styling"
+        />
+      </div>
+      <div class="overlay-wrapper" v-for="product in randomProductData">
+        <image-overlay
+          :image_full="product.urls.full"
+          :image_regular="product.urls.regular"
+          :image_small="product.urls.small"
+          :image_thumb="product.urls.thumb"
+          :svg="product.svg"
+          :alt_description="product.alt_description"
+          :overlay_color="currentColor || 'white'"
+          :soundbite="product.description"
+          :minHeight="50"
+          :aspectRation="product.width / product.height"
+          @overlaybuttonevent="chooseSize(product)"
+          class="overlay-layout"
+        />
+      </div>
+    </section>
   </article>
 </template>
 
@@ -33,66 +58,41 @@
 import { mapGetters } from "vuex";
 import search from "@/components/inputs/InputSearch.vue";
 import imageOverlay from "@/components/overlay/ImageOverlay";
+import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 
 export default {
   components: {
     search,
-    imageOverlay
+    imageOverlay,
+    buttonSimple
   },
   props: [],
   name: "store",
   data() {
     return {
-      errorSearch: "",
-      selectedColor: "",
-      showTransitionMessage: "",
       date: new Date(),
       today: true
     };
   },
   methods: {
-    selectResult(result) {
-      console.log(result);
-      if (!result) {
-        setTimeout(() => {
-          this.errorSearch = "";
-        }, 5000);
-        this.errorSearch = "Sadly, we dont have this color";
-        this.clearInput();
-        return;
-      }
-      this.selectedColor = result;
+    chooseSize(product) {
+      this.goTo("product", { color: this.currentColor, data: product });
+    },
 
-      /*this.$store
-        .dispatch("productModule/PRODUCT_setCurrentColor", this.selectedColor)
-        .then(() => {
-          setTimeout(() => {
-            this.goTo(
-              "store",
-              { color: this.selectedColor },
-              "#looks-best-on-you"
-            );
-          }, 2000);
-          this.showTransitionMessage = `Well done, lets get you the best ${this.selectedColor} t-shirts there are`;
-        });*/
-    },
-    clearInput() {
-      this.selectedColor = "";
-    },
-    updateColor(color) {
-      this.selectedColor = color;
-    },
     //navigation
-    goTo(locationName, paramObject, locationHash) {
+    goTo(locationName, paramObject) {
       this.$router.push({
         name: locationName,
-        params: paramObject,
-        hash: locationHash
+        params: paramObject
       });
     }
   },
   computed: {
-    ...mapGetters({}),
+    ...mapGetters({
+      loadingState: "initModule/getLoadingState",
+      randomProductData: "productModule/getProduct_random",
+      currentColor: "productModule/getCurrentColor"
+    }),
     now() {
       let monthNames = [
         "Jan",
@@ -131,7 +131,22 @@ export default {
       this.date = new Date();
     }, 60000);
   },
-  created() {},
+  created() {
+    if (this.currentColor) {
+      return;
+    }
+
+    if (this.$route.params.color) {
+      this.$store.dispatch(
+        "productModule/COLORS_setCurrent",
+        this.$route.params.color
+      );
+      return;
+    }
+    let route = this.$route.fullPath;
+    let colorFromURL = route.split("-")[1];
+    this.$store.dispatch("productModule/COLORS_setCurrent", colorFromURL);
+  },
   //same check for route-view keep-alive
   activated() {}
 };
@@ -147,37 +162,64 @@ export default {
 .store {
   /* Positioning */
   display: grid;
-  padding: var(--padding-top) 0 var(--2base) 0;
   grid-auto-rows: min-content;
-  grid-template-rows: 7rem;
+  grid-template-rows: min-content min-content 1fr;
   grid-template-columns: var(--padding-main) var(--view-main) var(
       --padding-main
     );
   grid-row-gap: var(--padding-rows);
   /* Box-model */
+  padding: var(--padding-top) 0 var(--2base) 0;
+  min-height: 200%;
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
+}
+
+.search,
+.header,
+.product-images {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.product-images {
+  /* Positioning */
+  display: grid;
+  grid-auto-flow: row;
+
+  /* Box-model */
   min-height: 100%;
   /* Typography */
-
   /* Visual */
-
   /* Misc */
 }
 
-.search {
+.product-info {
   /* Positioning */
-  grid-column: 2/3;
+  display: flex;
+  flex-direction: row;
   /* Box-model */
+  justify-content: space-between;
   /* Typography */
   /* Visual */
   /* Misc */
 }
 
-.header {
+.overlay-layout {
   /* Positioning */
-  grid-column: 2/3;
+
   /* Box-model */
+  margin-bottom: var(--halfbase);
   /* Typography */
   /* Visual */
+  border-radius: var(--fourthbase);
   /* Misc */
 }
 </style>

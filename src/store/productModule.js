@@ -6,47 +6,76 @@ export default {
   namespaced: true,
   // -----------------------------------------------------------------
   state: {
-    productDataSet: null,
-    ProductColorPalette: null,
+    productData: null,
+    supportData: null,
+    productColorPalette: null,
     currentColor: null
   },
   // -----------------------------------------------------------------
   getters: {
     getProduct: state => {
-      return state.productDataSet;
+      return state.productData;
     },
+    getSupport: state => {
+      return state.supportData;
+    },
+    getProduct_random: state => {
+      let shuffled = state.productData
+        .map(a => ({ sort: Math.random(), value: a }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(a => a.value);
+
+      return shuffled;
+    },
+    /*getProductData_horizontal: state => {
+      let horizontal = this.productData.filter(image => {
+        let aspectRation = image.height / image.width;
+        if (aspectRation < 1) {
+          return image;
+        }
+      });
+
+      return horizontal;
+    },*/
     getColorPalette: state => {
-      return state.ProductColorPalette;
+      return state.productColorPalette;
     },
-    getcurrentColor: state => {
+    getCurrentColor: state => {
       return state.currentColor;
     }
   },
   // -----------------------------------------------------------------
   mutations: {
-    PRODUCT_setDataToStore(state, product) {
+    PRODUCT_setData(state, product) {
       //set the current state to that of the index
-      state.productDataSet = product;
+      state.productData = product;
     },
-    PRODUCT_setAllColors(state, colors) {
+    SUPPORT_setData(state, support) {
       //set the current state to that of the index
-      state.ProductColorPalette = colors;
+      state.supportData = support;
     },
-    PRODUCT_setCurrentColor(state, color) {
+    COLORS_setData(state, colors) {
+      //set the current state to that of the index
+      state.productColorPalette = colors;
+    },
+    COLORS_setCurrent(state, color) {
       //set the current state to that of the index
       state.currentColor = color;
     }
   },
   // -----------------------------------------------------------------
   actions: {
-    PRODUCT_setDataToStore: ({ commit }, product) => {
-      commit("PRODUCT_setDataToStore", product);
+    PRODUCT_setData: ({ commit }, product) => {
+      commit("PRODUCT_setData", product);
     },
-    PRODUCT_setAllColors: ({ commit }, colors) => {
-      commit("PRODUCT_setAllColors", colors);
+    SUPPORT_setData: ({ commit }, product) => {
+      commit("SUPPORT_setData", product);
     },
-    PRODUCT_setCurrentColor: ({ commit }, color) => {
-      commit("PRODUCT_setCurrentColor", color);
+    COLORS_setData: ({ commit }, colors) => {
+      commit("COLORS_setData", colors);
+    },
+    COLORS_setCurrent: ({ commit }, color) => {
+      commit("COLORS_setCurrent", color);
     }
     //product has to be updated etc
   }

@@ -1,5 +1,5 @@
 <template>
-  <section class="above-the-fold">
+  <section class="above-the-fold" v-if="!loadingState">
     <div class="images">
       <div class="coathanger">
         <p class="description--coathanger description">This is what you have</p>
@@ -14,9 +14,12 @@
       <div class="tshirt">
         <p class="description--tshirt description">This is what you want</p>
         <image-overlay
-          :image_max="require('@/assets/images/kA9asUxmVka.png')"
-          :svg="productData[11].svg"
-          :alt_description="productData[11].alt_description"
+          :image_full="require('@/assets/images/kA9asUxmVka.png')"
+          :image_regular="require('@/assets/images/kA9asUxmVka.png')"
+          :image_small="require('@/assets/images/kA9asUxmVka.png')"
+          :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
+          :svg="supportData[3].svg"
+          :alt_description="supportData[3].alt_description"
           :overlay_color="selectedColor || 'mediumspringgreen'"
           class="overlay-layout"
         />
@@ -33,7 +36,6 @@
             id: 'home'
           }"
           :error="errorSearch"
-          :clearSearchInput="clearSearchInput"
           @searchresultevent="selectResult"
           @searchupdateevent="updateColor"
         />
@@ -76,14 +78,10 @@ export default {
       this.selectedColor = result;
 
       this.$store
-        .dispatch("productModule/PRODUCT_setCurrentColor", this.selectedColor)
+        .dispatch("productModule/COLORS_setCurrent", this.selectedColor)
         .then(() => {
           setTimeout(() => {
-            this.goTo(
-              "store",
-              { color: this.selectedColor },
-              "#looks-best-on-you"
-            );
+            this.goTo("store", { color: this.selectedColor });
           }, 2000);
           this.showTransitionMessage = `Well done, lets get you the best ${this.selectedColor} t-shirts there are`;
         });
@@ -95,18 +93,17 @@ export default {
       this.selectedColor = color;
     },
     //navigation
-    goTo(locationName, paramObject, locationHash) {
+    goTo(locationName, paramObject) {
       this.$router.push({
         name: locationName,
-        params: paramObject,
-        hash: locationHash
+        params: paramObject
       });
     }
   },
   computed: {
     ...mapGetters({
       loadingState: "initModule/getLoadingState",
-      productData: "productModule/getProduct"
+      supportData: "productModule/getSupport"
     })
   },
   beforeRouteLeave(to, from, next) {

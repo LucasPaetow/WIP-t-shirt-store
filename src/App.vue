@@ -79,7 +79,7 @@ export default {
 
   /*spacing*/
   /*padding*/
-  --padding-top: var(--7base);
+  --padding-top: var(--8base);
   --padding-main: var(--1base);
   --padding-rows: var(--5base);
 

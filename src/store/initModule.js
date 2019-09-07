@@ -1,8 +1,9 @@
 /** VUEX init module**/
 
-import { pictures } from "@/assets/pictureData.js";
+import { pictures, support } from "@/assets/pictureData.js";
 import { colors } from "@/assets/colors.js";
 import { colors_simple } from "@/assets/colors_simple.js";
+const fb = require("@/api/firebaseConfig.js");
 
 export default {
   namespaced: true,
@@ -25,41 +26,71 @@ export default {
   },
   // -----------------------------------------------------------------
   actions: {
-    INIT_store: ({ dispatch, commit }) => {
+    INIT_store: async ({ dispatch, commit }) => {
       console.log("init store");
       commit("INIT_loading", true);
-      dispatch("INIT_checkForSavedStoreData")
-        .then(resultData => {
-          if (resultData) {
-            console.log(resultData);
-            dispatch("productModule/PRODUCT_setDataToStore", resultData, {
-              root: true
-            });
-          }
-        })
-        .then(() => {
-          dispatch("INIT_checkForSavedColorData").then(resultColors => {
-            if (resultColors) {
-              console.log(resultColors);
-              dispatch("productModule/PRODUCT_setAllColors", resultColors, {
-                root: true
-              });
-            }
-          });
-        })
 
-        .then(() => {
-          commit("INIT_loading", false);
+      let loadSupportData = await dispatch("INIT_restoreData", "support");
+      let setSupportData = await dispatch(
+        "productModule/SUPPORT_setData",
+        loadSupportData,
+        {
+          root: true
+        }
+      );
+
+      let loadColorData = await dispatch("INIT_restoreData", "colors");
+      let setColorData = await dispatch(
+        "productModule/COLORS_setData",
+        loadColorData,
+        {
+          root: true
+        }
+      );
+
+      let finishSave = await commit("INIT_loading", false);
+
+      let loadProductData = await dispatch("INIT_restoreData", "product");
+      let setProductData = await dispatch(
+        "productModule/PRODUCT_setData",
+        loadProductData,
+        {
+          root: true
+        }
+      );
+
+      return finishSave;
+    },
+
+    INIT_restoreData: async ({ dispatch }, section) => {
+      let localSave = localStorage.getItem(`t-shirt-store_${section}`);
+      if (localSave) {
+        console.log(`restored ${section} data from local save`);
+        return JSON.parse(localSave);
+      }
+      let remoteSave = await dispatch("INIT_queryFirebase", section);
+      let saveLocaly = dispatch("INIT_saveLocaly", {
+        type: section,
+        data: remoteSave
+      });
+
+      return remoteSave;
+    },
+    INIT_queryFirebase: ({}, section) => {
+      console.log(`retrieving ${section} remotly`);
+      return fb.storeCollection
+        .doc(section)
+        .get()
+        .then(result => {
+          return result.data()[section];
         });
     },
-    INIT_checkForSavedStoreData: () => {
-      let localSave = localStorage.getItem("storeData");
-      return localSave ? JSON.parse(localSave) : false;
-    },
-    INIT_checkForSavedColorData: () => {
-      let localSaveColors = localStorage.getItem("storeColors");
-      /*let localSaveColors = localStorage.getItem("storeColors_simple");*/
-      return localSaveColors ? JSON.parse(localSaveColors) : false;
+    INIT_saveLocaly: ({}, section) => {
+      console.log(`saving ${section.type} localy`);
+      localStorage.setItem(
+        `t-shirt-store_${section.type}`,
+        JSON.stringify(section.data)
+      );
     }
   }
 };

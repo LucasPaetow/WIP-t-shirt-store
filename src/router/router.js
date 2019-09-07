@@ -24,6 +24,12 @@ const router = new Router({
       path: "/your-:color-t-shirt",
       name: "store",
       component: () => import("@/views/Store.vue")
+    },
+    {
+      path: "/your-:color-t-shirt/choose-size",
+      name: "product",
+      props: true,
+      component: () => import("@/views/Product.vue")
     }
     /*{
       path: "/legal",
