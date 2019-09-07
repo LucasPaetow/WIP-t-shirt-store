@@ -1,0 +1,10 @@
+
+Store-page
+- make wishlist-button functional
+  -- toast notification?
+  -- Heart-Icon, which gets filled?
+
+Item-Page
+- Show selected image in full screen
+- Show supporting images
+- Show Menu (collapsed, extended)

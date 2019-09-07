@@ -9,11 +9,7 @@
   <button
     v-else
     class="button"
-    :class="[
-      !secondary && !tertiary ? 'primary' : '',
-      secondary ? 'secondary' : '',
-      tertiary ? 'tertiary' : ''
-    ]"
+    :class="buttonType"
     @click="$emit('simplebuttonevent')"
   >
     {{ buttonText }}
@@ -23,38 +19,23 @@
 <script>
 export default {
   name: "buttonSimple",
-  props: ["buttonText", "error", "secondary", "tertiary"]
+  props: {
+    buttonText: String,
+    error: String,
+    buttonType: {
+      type: String,
+      default: "primary"
+    }
+  }
+  /*props: ["buttonText", "error", "secondary", "tertiary"]*/
 };
 </script>
 
 <style scoped>
 /*layout*/
-
-.primary {
-  color: white;
-  background-color: var(--grey-800);
-  box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
-}
-
-.secondary {
-  color: var(--grey-800);
-  background-color: var(--grey-300);
-  box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
-}
-
-.tertiary {
-  color: var(--grey-800);
-  background-color: transparent;
-}
-
-.button-error {
-  color: white;
-  background-color: var(--red-700);
-}
-
 .button {
   width: 100%;
-  min-width: 8rem;
+  min-width: 6rem;
   height: 100%;
   padding: var(--halfbase) var(--1base);
   margin: var(--halfbase) 0;
@@ -93,5 +74,54 @@ export default {
 
 .button:active {
   transform: translateY(0.1rem);
+}
+
+.primary {
+  color: white;
+  background-color: var(--grey-800);
+  box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.secondary {
+  color: var(--grey-800);
+  background-color: var(--grey-300);
+  box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
+}
+
+.tertiary {
+  color: var(--grey-800);
+  background-color: transparent;
+}
+
+.choose-size {
+  color: white;
+  background-color: var(--grey-800);
+  box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
+  border-radius: 0;
+  max-width: 8rem;
+  margin: var(--2base) 0 var(--halfbase) 0;
+  height: var(--5base);
+}
+
+.no-styling {
+  color: var(--grey-800);
+  background-color: transparent;
+  width: inherit;
+  min-width: 0;
+  height: inherit;
+  padding: 0;
+  margin: 0;
+  border-radius: var(--fourthbase);
+  position: static;
+  cursor: pointer;
+  font-size: var(--1base);
+  text-transform: none;
+  font-family: "Poppins", sans-serif;
+  font-weight: normal;
+}
+
+.button-error {
+  color: white;
+  background-color: var(--red-700);
 }
 </style>

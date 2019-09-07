@@ -15,8 +15,7 @@
 
 <style scoped>
 .icon-size {
-  height: var(--halfbase);
-  width: var(--halfbase);
-  transform: translateY(0.1rem);
+  height: var(--2base);
+  width: var(--2base);
 }
 </style>

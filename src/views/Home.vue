@@ -1,6 +1,9 @@
 <template>
-  <article class="home">
+  <article class="home" v-if="!loadingState">
     <above-the-fold></above-the-fold>
+  </article>
+  <article class="home" v-else>
+    <h1>loading</h1>
   </article>
 </template>
 
@@ -26,7 +29,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      loadingState: "initModule/getLoadingState"
+    })
   },
   created() {},
   //same check for route-view keep-alive
@@ -36,7 +41,14 @@ export default {
 
 <style scoped>
 .home {
-  min-height: 100%;
+  /* Positioning */
   padding: var(--padding-top) 0 0 0;
+  /* Box-model */
+  min-height: 100%;
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
 }
 </style>
