@@ -26,7 +26,7 @@
       :style="{ minHeight: minHeight + 'vh' }"
     >
       <path :fill="svg.path1.fill" :d="svg.path1.d" />
-      <path :fill="overlay_color" :d="svg.path2.d" class="fill--tshirt" />
+      <path :fill="overlay_color[1]" :d="svg.path2.d" class="fill--tshirt" />
     </svg>
 
     <v-lazy-image
@@ -57,7 +57,7 @@ export default {
     image_full: String,
     alt_description: String,
     soundbite: Object,
-    overlay_color: String,
+    overlay_color: Array,
     minHeight: { type: Number, default: 2 },
     aspectRation: Number
   },

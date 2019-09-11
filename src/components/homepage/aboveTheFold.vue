@@ -20,7 +20,7 @@
           :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
           :svg="supportData[3].svg"
           :alt_description="supportData[3].alt_description"
-          :overlay_color="selectedColor || 'mediumspringgreen'"
+          :overlay_color="selectedColor || ['mediumspringgreen', '#00FA9A']"
           class="overlay-layout"
         />
       </div>
@@ -78,12 +78,19 @@ export default {
       this.selectedColor = result;
 
       this.$store
-        .dispatch("productModule/COLORS_setCurrent", this.selectedColor)
+        .dispatch("productModule/COLORS_setCurrent", {
+          color: this.selectedColor
+        })
         .then(() => {
           setTimeout(() => {
-            this.goTo("store", { color: this.selectedColor });
+            this.goTo("store", {
+              color: this.selectedColor[0],
+              colorArray: this.selectedColor
+            });
           }, 2000);
-          this.showTransitionMessage = `Well done, lets get you the best ${this.selectedColor} t-shirts there are`;
+          this.showTransitionMessage = `Well done, lets get you the best ${
+            this.selectedColor[0]
+          } t-shirts there are`;
         });
     },
     clearInput() {

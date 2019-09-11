@@ -25,8 +25,11 @@
           @click="addResultFromFilteredList(result)"
           :class="[highlightResult(index) ? 'active-element' : '']"
         >
-          <div class="colored-dot" :style="`background-color: ${result}`"></div>
-          <p>{{ result }}</p>
+          <div
+            class="colored-dot"
+            :style="`background-color: ${result[1]}`"
+          ></div>
+          <p>{{ result[0] }}</p>
           <arrow-icon></arrow-icon>
         </li>
       </ul>
@@ -116,7 +119,8 @@ export default {
       this.addResultFromFilteredList(this.filteredList[this.highlightedResult]);
     },
     addResultFromFilteredList(result) {
-      this.searchInput = this.searchResult = result;
+      this.searchInput = result[0];
+      this.searchResult = result;
       console.log(result);
       this.$emit("searchresultevent", result);
     },
@@ -143,9 +147,11 @@ export default {
       if (!this.searchInput) {
         return [];
       }
-      return Object.keys(this.productColors).filter(color => {
-        return color.toLowerCase().includes(this.searchInput.toLowerCase());
+      let searchColors = Object.entries(this.productColors).filter(color => {
+        //return color.toLowerCase().includes(this.searchInput.toLowerCase());
+        return color[0].toLowerCase().includes(this.searchInput.toLowerCase());
       });
+      return searchColors;
     },
 
     showSearchResults() {

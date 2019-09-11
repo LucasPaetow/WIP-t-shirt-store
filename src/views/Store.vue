@@ -42,7 +42,7 @@
           :image_thumb="product.urls.thumb"
           :svg="product.svg"
           :alt_description="product.alt_description"
-          :overlay_color="currentColor || 'white'"
+          :overlay_color="currentColor.color || ['white', '#ffffff']"
           :soundbite="product.description"
           :minHeight="50"
           :aspectRation="product.width / product.height"
@@ -91,7 +91,8 @@ export default {
     ...mapGetters({
       loadingState: "initModule/getLoadingState",
       randomProductData: "productModule/getProduct_random",
-      currentColor: "productModule/getCurrentColor"
+      currentColor: "productModule/getCurrentColor",
+      productColors: "productModule/getColorPalette"
     }),
     now() {
       let monthNames = [
@@ -136,16 +137,18 @@ export default {
       return;
     }
 
-    if (this.$route.params.color) {
+    if (this.$route.params.colorArray) {
       this.$store.dispatch(
         "productModule/COLORS_setCurrent",
-        this.$route.params.color
+        this.$route.params.colorArray
       );
       return;
     }
     let route = this.$route.fullPath;
-    let colorFromURL = route.split("-")[1];
-    this.$store.dispatch("productModule/COLORS_setCurrent", colorFromURL);
+    let colorName = route.split("-")[1];
+    let colorHex = this.productColors[colorName];
+    let colorArray = [colorName, colorHex];
+    this.$store.dispatch("productModule/COLORS_setCurrent", colorArray);
   },
   //same check for route-view keep-alive
   activated() {}

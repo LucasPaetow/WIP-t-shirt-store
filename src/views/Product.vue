@@ -9,7 +9,7 @@
           :image_thumb="product.urls.thumb"
           :svg="product.svg"
           :alt_description="product.alt_description"
-          :overlay_color="currentColor || 'white'"
+          :overlay_color="currentColor.color || ['white', '#ffffff']"
           :soundbite="product.description"
           :minHeight="75"
           :aspectRation="product.width / product.height"

@@ -7,7 +7,10 @@ export default {
   // -----------------------------------------------------------------
   state: {
     wishlist: [],
-    shoppingCart: []
+    shoppingCart: [],
+    addresses: [],
+    payment: [],
+    orderHistory: []
   },
   // -----------------------------------------------------------------
   getters: {},
