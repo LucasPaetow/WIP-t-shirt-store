@@ -8,3 +8,8 @@ Item-Page
 - Show selected image in full screen
 - Show supporting images
 - Show Menu (collapsed, extended)
+
+
+Misc:
+- Input elements = Inline error/success/delete input
+- Use the hex-color, not the color name
