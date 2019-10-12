@@ -42,7 +42,7 @@
           :image_thumb="product.urls.thumb"
           :svg="product.svg"
           :alt_description="product.alt_description"
-          :overlay_color="currentColor.color || ['white', '#ffffff']"
+          :overlay_color="currentColor || ['white', '#ffffff']"
           :soundbite="product.description"
           :minHeight="50"
           :aspectRation="product.width / product.height"
@@ -76,7 +76,10 @@ export default {
   },
   methods: {
     chooseSize(product) {
-      this.goTo("product", { color: this.currentColor, data: product });
+      this.goTo("product", {
+        color: this.currentColor[0],
+        data: product
+      });
     },
 
     //navigation

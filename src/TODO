@@ -1,15 +1,12 @@
 
 Store-page
 - make wishlist-button functional
-  -- toast notification?
   -- Heart-Icon, which gets filled?
 
 Item-Page
 - Show selected image in full screen
 - Show supporting images
-- Show Menu (collapsed, extended)
-
+- Add to card Modal
 
 Misc:
 - Input elements = Inline error/success/delete input
-- Use the hex-color, not the color name

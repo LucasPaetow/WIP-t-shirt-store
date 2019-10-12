@@ -21,7 +21,7 @@
           :svg="supportData[3].svg"
           :alt_description="supportData[3].alt_description"
           :overlay_color="selectedColor || ['mediumspringgreen', '#00FA9A']"
-          class="overlay-layout"
+          class="image-overlay"
         />
       </div>
     </div>
@@ -78,9 +78,7 @@ export default {
       this.selectedColor = result;
 
       this.$store
-        .dispatch("productModule/COLORS_setCurrent", {
-          color: this.selectedColor
-        })
+        .dispatch("productModule/COLORS_setCurrent", this.selectedColor)
         .then(() => {
           setTimeout(() => {
             this.goTo("store", {

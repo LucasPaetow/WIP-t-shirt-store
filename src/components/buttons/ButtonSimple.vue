@@ -35,10 +35,10 @@ export default {
 /*layout*/
 .button {
   width: 100%;
-  min-width: 6rem;
+  min-width: 4rem;
+  max-width: 14rem;
   height: 100%;
-  padding: var(--halfbase) var(--1base);
-  margin: var(--halfbase) 0;
+  padding: var(--1base) var(--1base);
   border-radius: var(--fourthbase);
   position: relative;
   cursor: pointer;
@@ -46,6 +46,24 @@ export default {
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
   font-weight: bold;
+}
+
+@media (min-width: 22.5em) {
+  .button {
+    min-width: 6rem;
+    max-width: 16rem;
+    padding: var(--1base) var(--2base);
+    font-size: var(--halfbase);
+  }
+}
+
+@media (min-width: 37.5em) {
+  .button {
+    min-width: 6rem;
+    max-width: 20rem;
+    padding: var(--2base);
+    font-size: calc(var(--halfbase) * 1.25);
+  }
 }
 
 .button::before {

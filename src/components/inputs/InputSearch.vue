@@ -180,7 +180,8 @@ export default {
   grid-template-columns: 1fr var(--6base);
   width: 100%;
   position: relative;
-  background-color: white;
+  background-color: inherit;
+  border-radius: var(--fourthbase);
 }
 
 .label--form {
@@ -190,6 +191,7 @@ export default {
   grid-column: 1/2;
   grid-row: 1/2;
   color: var(--grey-800);
+  border-radius: var(--fourthbase);
 }
 
 .input-wrapper {
@@ -198,6 +200,7 @@ export default {
   position: relative;
   border: 1px solid var(--grey-500);
   border-radius: var(--fourthbase);
+  background-color: inherit;
 }
 
 .input--form {
@@ -211,11 +214,12 @@ export default {
   position: relative;
   z-index: 2;
   transition: all 0.2s ease-in;
+  background-color: var(--grey-800);
 }
 
 .input--form::placeholder {
   font-size: var(--2base);
-  color: var(--grey-600);
+  color: var(--grey-300);
 }
 
 .searchicon-layout {
@@ -277,7 +281,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.3s;
   border-radius: var(--fourthbase);

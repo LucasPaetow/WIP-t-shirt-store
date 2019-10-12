@@ -9,7 +9,7 @@
           :image_thumb="product.urls.thumb"
           :svg="product.svg"
           :alt_description="product.alt_description"
-          :overlay_color="currentColor.color || ['white', '#ffffff']"
+          :overlay_color="currentColor || ['white', '#ffffff']"
           :soundbite="product.description"
           :minHeight="75"
           :aspectRation="product.width / product.height"
@@ -19,20 +19,6 @@
       </div>
     </section>
 
-    <section
-      class="hidden-menu menu"
-      :class="[hiddenMenuVisible ? 'show-menu' : 'hide-menu']"
-    >
-      <div class="add-tshirts"></div>
-      <ul class="material">
-        <h3>Material</h3>
-        <li>10% luck, 20% skill</li>
-        <li>15% concentrated power of will</li>
-        <li>5% pleasure, 50% pain</li>
-        <li>& a 100% reason to remember the tshirt</li>
-        <li>(actually 100% cotton)</li>
-      </ul>
-    </section>
     <section class="visible-menu menu">
       <div class="input-wrapper">
         <p class="description--input">Your size</p>
@@ -66,6 +52,17 @@
         />
       </div>
     </section>
+    <section class="hidden-menu menu" id="bottom-menu">
+      <div class="add-tshirts"></div>
+      <ul class="material">
+        <h3>Material</h3>
+        <li>10% luck, 20% skill</li>
+        <li>15% concentrated power of will</li>
+        <li>5% pleasure, 50% pain</li>
+        <li>& a 100% reason to remember the tshirt</li>
+        <li>(actually 100% cotton)</li>
+      </ul>
+    </section>
   </article>
 </template>
 
@@ -94,7 +91,7 @@ export default {
       orderAmount: 1,
       size: "M",
       sizes: ["S", "M", "L", "XL"],
-      hiddenMenuVisible: false
+      hiddenMenuVisible: true
     };
   },
   methods: {
@@ -108,7 +105,8 @@ export default {
       this.goTo("store");
     },
     toggleHiddenMenu() {
-      this.hiddenMenuVisible = !this.hiddenMenuVisible;
+      let hiddenMenu = document.getElementById("bottom-menu");
+      hiddenMenu.scrollIntoView();
     }
   },
   computed: {
@@ -141,7 +139,7 @@ export default {
   /* Positioning */
   display: grid;
   padding: var(--padding-top) 0 0 0;
-  grid-template-rows: 70vh calc(30vh - var(--padding-top));
+  grid-template-rows: 70vh calc(30vh - var(--padding-top)) 1fr;
   grid-template-columns: var(--padding-main) var(--view-main) var(
       --padding-main
     );
@@ -217,8 +215,6 @@ export default {
   /* Typography */
 
   /* Visual */
-  border-top-left-radius: var(--1base);
-  border-top-right-radius: var(--1base);
   background-color: white;
   /* Misc */
 }
@@ -235,7 +231,7 @@ export default {
   /* Visual */
 
   /* Misc */
-  z-index: 25;
+  z-index: 10;
 }
 .input-wrapper {
   /* Positioning */
@@ -333,21 +329,15 @@ export default {
 
 .hidden-menu {
   /* Positioning */
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+
+  grid-column: 1/4;
   display: grid;
   grid-template-columns: var(--3base) 1fr var(--3base);
   /* Box-model */
-  height: calc(30vh - var(--padding-top) + 20rem);
-  width: 100%;
   /* Typography */
 
   /* Visual */
-  background-color: white;
   /* Misc */
-  z-index: 24;
 }
 
 .hide-menu {

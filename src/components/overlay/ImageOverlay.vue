@@ -23,7 +23,7 @@
       :viewBox="svg.viewBox"
       class="svg--tshirt"
       preserveAspectRatio="xMidYMid slice"
-      :style="{ minHeight: minHeight + 'vh' }"
+      :style="{ minHeight: minHeight + 'vh', objectPosition: objectPosition }"
     >
       <path :fill="svg.path1.fill" :d="svg.path1.d" />
       <path :fill="overlay_color[1]" :d="svg.path2.d" class="fill--tshirt" />
@@ -33,7 +33,7 @@
       :src="responsiveWidth"
       :src-placeholder="image_thumb"
       class="image--tshirt"
-      :style="{ minHeight: minHeight + 'vh' }"
+      :style="{ minHeight: minHeight + 'vh', objectPosition: objectPosition }"
     />
   </section>
 </template>
@@ -59,7 +59,8 @@ export default {
     soundbite: Object,
     overlay_color: Array,
     minHeight: { type: Number, default: 2 },
-    aspectRation: Number
+    aspectRation: Number,
+    objectPosition: { type: String, default: "50% 50%" }
   },
   name: "colorOverlay",
   data() {
@@ -86,11 +87,8 @@ export default {
       if (width > 340 && this.aspectRation > 0) {
         return this.image_regular;
       }
-      if (width > 340) {
-        return this.image_small;
-      }
 
-      return this.image_thumb;
+      return this.image_small;
     }
   },
   created() {},

@@ -217,32 +217,52 @@ ul {
   /* Misc */
   list-style: none;
 }
-/*
-body * {
-  background-color: rgba(255, 0, 0, 0.2);
+
+.z-index-1 {
+  /* Positioning */
+  display: relative;
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+  /* Misc */
+  z-index: 1;
 }
-body * * {
-  background-color: rgba(0, 255, 0, 0.2);
+
+.z-index-2 {
+  /* Positioning */
+  display: relative;
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+  /* Misc */
+  z-index: 2;
 }
-body * * * {
-  background-color: rgba(0, 0, 255, 0.2);
+
+.z-index-3 {
+  /* Positioning */
+  display: relative;
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+  /* Misc */
+  z-index: 3;
 }
-body * * * * {
-  background-color: rgba(255, 0, 255, 0.2);
+
+.z-index-4 {
+  /* Positioning */
+  display: relative;
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+  /* Misc */
+  z-index: 4;
 }
-body * * * * * {
-  background-color: rgba(0, 255, 255, 0.2);
-}
-body * * * * * * {
-  background-color: rgba(255, 255, 0, 0.2);
-}
-body * * * * * * * {
-  background-color: rgba(255, 0, 0, 0.2);
-}
-body * * * * * * * * {
-  background-color: rgba(0, 255, 0, 0.2);
-}
-body * * * * * * * * * {
-  background-color: rgba(0, 0, 255, 0.2);
-}*/
 </style>
