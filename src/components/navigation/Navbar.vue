@@ -1,16 +1,6 @@
 <template>
-  <nav
-    class="navbar"
-    id="nav"
-    v-if="$route.name !== 'login' && $route.name !== 'signup'"
-  >
-    <navbar-basic
-      v-if="
-        $route.name === 'start' ||
-          $route.name === 'legal' ||
-          $route.name === 'about'
-      "
-    />
+  <nav class="navbar" id="nav" v-if="hideNavbar">
+    <navbar-basic v-if="showBasicNavbar" />
     <navbar-full v-else />
   </nav>
 </template>
@@ -22,7 +12,25 @@ import navbarFull from "@/components/navigation/NavbarFull.vue";
 
 export default {
   components: { navbarFull, navbarBasic },
-  name: "navBar"
+  name: "navBar",
+  computed: {
+    hideNavbar() {
+      let routes = ["login", "signup", "sizeOptions"];
+
+      if (routes.includes(this.$route.name)) {
+        return false;
+      }
+      return true;
+    },
+    showBasicNavbar() {
+      let routes = ["start", "legal", "about"];
+
+      if (routes.includes(this.$route.name)) {
+        return true;
+      }
+      return false;
+    }
+  }
 };
 </script>
 
@@ -36,5 +44,7 @@ export default {
   height: var(--7base);
   background-color: white;
   box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
+  width: 100vw;
+  overflow: hidden;
 }
 </style>

@@ -9,8 +9,7 @@
           :image_thumb="product.urls.thumb"
           :svg="product.svg"
           :alt_description="product.alt_description"
-          :overlay_color="currentColor.color || ['white', '#ffffff']"
-          :soundbite="product.description"
+          :overlay_color="currentColor || ['white', '#ffffff']"
           :minHeight="75"
           :aspectRation="product.width / product.height"
           class="overlay-layout"
@@ -19,23 +18,20 @@
       </div>
     </section>
 
-    <section
-      class="hidden-menu menu"
-      :class="[hiddenMenuVisible ? 'show-menu' : 'hide-menu']"
-    >
-      <div class="add-tshirts"></div>
-      <ul class="material">
-        <h3>Material</h3>
-        <li>10% luck, 20% skill</li>
-        <li>15% concentrated power of will</li>
-        <li>5% pleasure, 50% pain</li>
-        <li>& a 100% reason to remember the tshirt</li>
-        <li>(actually 100% cotton)</li>
-      </ul>
-    </section>
     <section class="visible-menu menu">
+      <div class="visible-menu--preview-wrapper">
+        <button
+          class="preview-container"
+          :class="[index === activeImage ? 'active' : '']"
+          v-for="(product, index) in productArray"
+          @click="nextImage(index)"
+        ></button>
+      </div>
+      <h3 class="visible-menu--headline">
+        Your perferct {{ currentColor[0] }} t-shirt
+      </h3>
       <div class="input-wrapper">
-        <p class="description--input">Your size</p>
+        <p class="description--input"><b>Your size:</b></p>
         <div class="inputs">
           <input
             v-for="clothingSize in sizes"
@@ -66,6 +62,17 @@
         />
       </div>
     </section>
+    <!--<section class="hidden-menu menu" id="bottom-menu">
+      <div class="add-tshirts"></div>
+      <ul class="material">
+        <h3>Material</h3>
+        <li>10% luck, 20% skill</li>
+        <li>15% concentrated power of will</li>
+        <li>5% pleasure, 50% pain</li>
+        <li>& a 100% reason to remember the tshirt</li>
+        <li>(actually 100% cotton)</li>
+      </ul>
+  </section> -->
   </article>
 </template>
 
@@ -94,7 +101,8 @@ export default {
       orderAmount: 1,
       size: "M",
       sizes: ["S", "M", "L", "XL"],
-      hiddenMenuVisible: false
+      hiddenMenuVisible: false,
+      productArray: false
     };
   },
   methods: {
@@ -108,30 +116,46 @@ export default {
       this.goTo("store");
     },
     toggleHiddenMenu() {
-      this.hiddenMenuVisible = !this.hiddenMenuVisible;
+      let hiddenMenu = document.getElementById("bottom-menu");
+      console.log(this.productArray);
+    },
+    combineProductData() {
+      if (this.productArray) {
+        return;
+      }
+      let combinedArray = this.supportData;
+
+      combinedArray.unshift(this.data);
+      this.productArray = combinedArray;
+    },
+    nextImage(index) {
+      this.activeImage = index;
     }
   },
   computed: {
     ...mapGetters({
       supportData: "productModule/getSupport",
       currentColor: "productModule/getCurrentColor"
-    }),
-    productArray() {
-      let combinedArray = this.supportData;
-      combinedArray.unshift(this.data);
-      return combinedArray;
-    }
+    })
   },
   created() {
     if (!this.$route.params.data) {
       this.goTo("store");
     }
+    if (this.productArray) {
+      return;
+    }
+    this.combineProductData();
   },
   //same check for route-view keep-alive
   activated() {
     if (!this.$route.params.data) {
       this.goTo("store");
     }
+    if (this.productArray) {
+      return;
+    }
+    this.combineProductData();
   }
 };
 </script>
@@ -140,11 +164,9 @@ export default {
 .product {
   /* Positioning */
   display: grid;
-  padding: var(--padding-top) 0 0 0;
-  grid-template-rows: 70vh calc(30vh - var(--padding-top));
-  grid-template-columns: var(--padding-main) var(--view-main) var(
-      --padding-main
-    );
+  padding: 0 0 0 0;
+  grid-template-rows: 70vh minmax(30vh, auto) 1fr;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
   position: relative;
   /* Box-model */
   height: 100vh;
@@ -217,8 +239,6 @@ export default {
   /* Typography */
 
   /* Visual */
-  border-top-left-radius: var(--1base);
-  border-top-right-radius: var(--1base);
   background-color: white;
   /* Misc */
 }
@@ -226,25 +246,91 @@ export default {
 .visible-menu {
   /* Positioning */
   grid-column: 1/4;
+  grid-row: 2/3;
   display: grid;
-  grid-template-columns: var(--3base) 1fr var(--3base);
-  grid-template-rows: 0.8fr 1fr;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
+  grid-auto-rows: min-content;
+  grid-template-rows: 1.5rem;
+  grid-row-gap: 4vh;
   /* Box-model */
   /* Typography */
 
   /* Visual */
 
   /* Misc */
-  z-index: 25;
+  z-index: 10;
 }
+
+.visible-menu--preview-wrapper {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  transform: translateY(-100%);
+}
+
+.preview-container {
+  content: " ";
+  height: 3rem;
+  width: 3rem;
+  background-color: grey;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.25);
+  color: var(--grey-800);
+  border: none;
+  min-width: 0;
+  cursor: pointer;
+  font-size: var(--1base);
+  text-transform: none;
+  font-family: "Poppins", sans-serif;
+  font-weight: normal;
+}
+
+.preview-container::after {
+  /* Positioning */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* Box-model */
+  content: " ";
+  height: 3rem;
+  width: 3rem;
+  /* Typography */
+
+  /* Visual */
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.5);
+  background-color: transparent;
+
+  /* Misc */
+  opacity: 0;
+  transition: opacity 500ms;
+}
+.active.preview-container::after {
+  opacity: 1;
+}
+
+.visible-menu--headline {
+  /* Positioning */
+  grid-column: 2/3;
+  grid-row: 2/3;
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
+}
+
 .input-wrapper {
   /* Positioning */
   grid-column: 2/3;
-  grid-row: 1/2;
   display: grid;
   grid-template-columns: 6rem 1fr;
   grid-column-gap: var(--1base);
-  align-self: center;
+
   /* Box-model */
 
   /* Typography */
@@ -270,7 +356,7 @@ export default {
   /* Positioning */
   position: relative;
   /* Box-model */
-  padding: var(--thirdbase) var(--1base);
+  padding: var(--halfbase) var(--1base);
   margin: 0 var(--fourthbase);
   /* Typography */
 
@@ -311,13 +397,11 @@ export default {
 }
 
 .description--input {
-  justify-self: center;
 }
 
 .button-wrapper {
   /* Positioning */
   grid-column: 2/3;
-  grid-row: 2/3;
   display: grid;
   grid-template-columns: 6rem 1fr;
   grid-column-gap: var(--1base);
@@ -333,21 +417,15 @@ export default {
 
 .hidden-menu {
   /* Positioning */
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  grid-row: 2/3;
+  grid-column: 1/4;
   display: grid;
   grid-template-columns: var(--3base) 1fr var(--3base);
   /* Box-model */
-  height: calc(30vh - var(--padding-top) + 20rem);
-  width: 100%;
   /* Typography */
 
   /* Visual */
-  background-color: white;
   /* Misc */
-  z-index: 24;
 }
 
 .hide-menu {

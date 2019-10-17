@@ -7,6 +7,7 @@
       <input
         class="input--form"
         :class="[error || searchError.length ? 'error' : '']"
+        :style="{ textAlign: align }"
         :placeholder="input.placeholder"
         :id="'search' + input.id"
         v-model="searchInput"
@@ -51,7 +52,11 @@ export default {
   name: "inputField",
   props: {
     input: Object,
-    error: String
+    error: String,
+    align: {
+      type: String,
+      default: "left"
+    }
   },
   data() {
     return {
@@ -180,7 +185,7 @@ export default {
   grid-template-columns: 1fr var(--6base);
   width: 100%;
   position: relative;
-  background-color: white;
+  background-color: inherit;
 }
 
 .label--form {
@@ -197,7 +202,7 @@ export default {
   grid-row: 2/3;
   position: relative;
   border: 1px solid var(--grey-500);
-  border-radius: var(--fourthbase);
+  background-color: inherit;
 }
 
 .input--form {
@@ -205,12 +210,12 @@ export default {
   padding: var(--1base);
   line-height: 150%;
   font-size: var(--2base);
-  border-radius: var(--fourthbase);
   border: 1px solid transparent;
   color: var(--grey-800);
   position: relative;
   z-index: 2;
   transition: all 0.2s ease-in;
+  background-color: white;
 }
 
 .input--form::placeholder {
@@ -222,15 +227,40 @@ export default {
   position: absolute;
 }
 
+@media (min-width: 90em) {
+  .input--form {
+    padding: var(--2base);
+    height: 5rem;
+  }
+
+  .input--form::placeholder {
+    /* Positioning */
+
+    /* Box-model */
+
+    /* Typography */
+    font-size: 1.75vw;
+    font-weight: bold;
+    /* Visual */
+    /* Misc */
+  }
+}
+
 /**/
 
 .results {
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
   z-index: 5;
   max-height: 15rem;
   overflow-y: scroll;
+  background-color: var(--grey-0);
+  border: 1px solid var(--grey-500);
+  border-top-color: transparent;
 }
 
 .colored-dot {
@@ -277,10 +307,9 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transition: opacity 0.3s;
-  border-radius: var(--fourthbase);
 }
 
 .input--shadow:hover::before {

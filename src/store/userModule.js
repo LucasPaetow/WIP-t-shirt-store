@@ -15,7 +15,17 @@ export default {
   // -----------------------------------------------------------------
   getters: {},
   // -----------------------------------------------------------------
-  mutations: {},
+  mutations: {
+    PRODUCT_addToShoppingCart(state, product) {
+      //add product to shopping cart
+      state.shoppingCart.push(product);
+    }
+  },
   // -----------------------------------------------------------------
-  actions: {}
+  actions: {
+    PRODUCT_addToShoppingCart: ({ commit }, product) => {
+      commit("PRODUCT_addToShoppingCart", product);
+      console.log(product);
+    }
+  }
 };

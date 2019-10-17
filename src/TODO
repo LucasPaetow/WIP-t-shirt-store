@@ -1,15 +1,16 @@
 
 Store-page
 - make wishlist-button functional
-  -- toast notification?
   -- Heart-Icon, which gets filled?
 
-Item-Page
-- Show selected image in full screen
-- Show supporting images
-- Show Menu (collapsed, extended)
+- Save cart locally
 
+Cart
+- empty state (maybe some color suggestions?)
+- Edit Store
+
+Navbar
+- Create basic and full navbar
 
 Misc:
 - Input elements = Inline error/success/delete input
-- Use the hex-color, not the color name

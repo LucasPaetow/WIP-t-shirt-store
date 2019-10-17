@@ -67,6 +67,7 @@ export default {
   actions: {
     PRODUCT_setData: ({ commit }, product) => {
       commit("PRODUCT_setData", product);
+      console.log(product);
     },
     SUPPORT_setData: ({ commit }, product) => {
       commit("SUPPORT_setData", product);

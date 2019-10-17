@@ -1,18 +1,24 @@
 <template>
   <section class="overlay">
-    <div class="text" v-if="soundbite !== undefined">
-      <h2 class="soundbite headline" v-if="soundbite.headline">
-        <span class="background--soundbite">{{ soundbite.headline }}</span>
+    <div
+      class="soundbite"
+      v-if="soundbite !== undefined"
+      :style="{
+        left: textPosition[0],
+        top: textPosition[1],
+        transform: `translate(-${textPosition[0]}, -${textPosition[1]})`
+      }"
+    >
+      <h1 class="soundbite--headline" v-if="soundbite.headline">
+        <span class="soundbite--headline__background">{{
+          soundbite.headline
+        }}</span>
+      </h1>
+      <h2 class="soundbite--subline" v-if="soundbite.subline">
+        <span class="soundbite--subline__background">{{
+          soundbite.subline
+        }}</span>
       </h2>
-      <p class="soundbite subline" v-if="soundbite.subline">
-        <span class="background--soundbite">{{ soundbite.subline }}</span>
-      </p>
-      <buttonSimple
-        :class="[$route.name === 'product' ? 'hidden' : '']"
-        buttonText="Choose size"
-        buttonType="choose-size"
-        @simplebuttonevent="$emit('overlaybuttonevent')"
-      />
     </div>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +29,10 @@
       :viewBox="svg.viewBox"
       class="svg--tshirt"
       preserveAspectRatio="xMidYMid slice"
-      :style="{ minHeight: minHeight + 'vh' }"
+      :style="{
+        minHeight: minHeight + 'vh',
+        height: fullHeight + 'vh'
+      }"
     >
       <path :fill="svg.path1.fill" :d="svg.path1.d" />
       <path :fill="overlay_color[1]" :d="svg.path2.d" class="fill--tshirt" />
@@ -33,7 +42,10 @@
       :src="responsiveWidth"
       :src-placeholder="image_thumb"
       class="image--tshirt"
-      :style="{ minHeight: minHeight + 'vh' }"
+      :style="{
+        minHeight: minHeight + 'vh',
+        height: fullHeight + 'vh'
+      }"
     />
   </section>
 </template>
@@ -41,12 +53,10 @@
 <script>
 import VLazyImage from "v-lazy-image";
 import { mapGetters } from "vuex";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 
 export default {
   components: {
-    VLazyImage,
-    buttonSimple
+    VLazyImage
   },
   //if the basics are being edited, this array contains existing basic information
   props: {
@@ -59,7 +69,9 @@ export default {
     soundbite: Object,
     overlay_color: Array,
     minHeight: { type: Number, default: 2 },
-    aspectRation: Number
+    fullHeight: Number,
+    aspectRatio: Number,
+    textPosition: { type: Array, default: () => ["0%", "100%"] }
   },
   name: "colorOverlay",
   data() {
@@ -83,14 +95,11 @@ export default {
       if (width > 700) {
         return this.image_regular;
       }
-      if (width > 340 && this.aspectRation > 0) {
+      if (width > 340 && this.aspectRatio > 1) {
         return this.image_regular;
       }
-      if (width > 340) {
-        return this.image_small;
-      }
 
-      return this.image_thumb;
+      return this.image_small;
     }
   },
   created() {},
@@ -103,15 +112,11 @@ export default {
 .overlay {
   /* Positioning */
   display: grid;
-  grid-template-rows: 1fr min-content;
-  grid-template-columns: var(--padding-main) var(--view-main) var(
-      --padding-main
-    );
-  grid-row-gap: var(--padding-rows);
   /* Box-model */
   height: auto;
   width: 100%;
   position: relative;
+  overflow: hidden;
   /* Typography */
 
   /* Visual */
@@ -119,24 +124,61 @@ export default {
   /* Misc */
 }
 
-.text {
-  position: relative;
-  z-index: 4;
-  grid-column: 2/3;
-  grid-row: 2/3;
-}
-
 .soundbite {
-  font-weight: bold;
+  position: absolute;
+  z-index: 4;
+  padding: var(--column-spacing);
 }
 
-.headline {
-  padding-bottom: var(--1base);
+.soundbite--headline {
+  /* Positioning */
+  /* Box-model */
+  padding: var(--h1__padding) 0;
+  /* Typography */
+  line-height: var(--h1__lineHeight);
+  font-size: 4vw;
+
+  /* Visual */
+
+  /* Misc */
 }
 
-.background--soundbite {
-  background-color: white;
-  padding: var(--fourthbase);
+.soundbite--subline {
+  /* Positioning */
+
+  /* Box-model */
+  padding: 0;
+  /* Typography */
+  font-size: 3vw;
+  line-height: 190%;
+  /* Visual */
+  /* Misc */
+}
+
+.soundbite--headline__background,
+.soundbite--subline__background {
+  /* Positioning */
+
+  /* Box-model */
+  padding: var(--fourthbase) var(--halfbase);
+  /* Typography */
+
+  /* Visual */
+  background-color: var(--grey-0);
+
+  /* Misc */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.soundbite--subline__background {
+  /* Positioning */
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  background-color: var(--grey-800);
+  color: var(--grey-0);
+  /* Misc */
 }
 
 .svg--tshirt,
@@ -144,17 +186,13 @@ export default {
   height: auto;
   width: 100%;
   object-fit: cover;
-  grid-column: 1/4;
-  grid-row: 1/3;
+  grid-column: 1/2;
+  grid-row: 1/2;
 }
 
 .svg--tshirt {
   position: absolute;
   z-index: 3;
   mix-blend-mode: multiply;
-}
-
-.hidden {
-  visibility: hidden;
 }
 </style>

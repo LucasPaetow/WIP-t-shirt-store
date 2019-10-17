@@ -1,23 +1,13 @@
 <template>
-  <article class="store">
-    <!--  <section class="search" id="search-store">
-      <search
-        :input="{
-          label: 'search for a different color',
-          placeholder: 'lightgoldenrodyellow?',
-          id: 'store'
-        }"
-        :error="errorSearch"
-        @searchresultevent="selectResult"
-        @searchupdateevent="updateColor"
-      />
-    </section> -->
+  <article class="store" id="store">
     <header class="header" id="looks-great">
-      <h1 class="headline" v-if="today">
+      <h1 class="header--headline" v-if="today">
         This is how cool you will look tomorrow
       </h1>
-      <h1 class="headline" v-else>This is how cool you will look in 2 days</h1>
-      <p class="subline">
+      <h1 class="header--headline" v-else>
+        This is how cool you will look in 2 days
+      </h1>
+      <p class="header--subline">
         If you order in the next
         <span v-if="Math.floor(now / 60) > 0">
           <b>{{ Math.floor(now / 60) }}h</b> and</span
@@ -25,60 +15,91 @@
         <b> {{ Math.floor(((now / 60) % 1) * 60) }} min</b>
       </p>
     </header>
-    <section class="product-images" v-if="randomProductData">
-      <div class="product-info">
-        <p class="info info--price"><b>For 20$</b></p>
-        <buttonSimple
-          class="info info--wishlist"
-          buttonText="add color to wishlist"
-          buttonType="no-styling"
-        />
-      </div>
-      <div class="overlay-wrapper" v-for="product in randomProductData">
-        <image-overlay
-          :image_full="product.urls.full"
-          :image_regular="product.urls.regular"
-          :image_small="product.urls.small"
-          :image_thumb="product.urls.thumb"
-          :svg="product.svg"
-          :alt_description="product.alt_description"
-          :overlay_color="currentColor.color || ['white', '#ffffff']"
-          :soundbite="product.description"
-          :minHeight="50"
-          :aspectRation="product.width / product.height"
-          @overlaybuttonevent="chooseSize(product)"
-          class="overlay-layout"
-        />
-      </div>
+    <section class="product-info">
+      <p class="info info--price">
+        <span class="headline__background ">For 20$</span>
+      </p>
+      <buttonSimple
+        class="info info--wishlist"
+        buttonText="add color to wishlist"
+        buttonType="no-styling"
+      />
     </section>
+    <section class="product-images" v-if="randomProductData">
+      <productImage
+        v-for="(product, index) in randomProductData"
+        :key="'randomProductImage' + index"
+        :product="product"
+        :index="index"
+        :features="features"
+        :currentColor="currentColor"
+        @productimageevent="chooseSize()"
+      >
+      </productImage>
+    </section>
+
+    <storeFooter />
+
+    <router-link
+      :to="{
+        name: 'sizeOptions',
+        params: {}
+      }"
+      class="size-options z-index-3"
+    >
+      <p class="size-options--text">Choose Size</p>
+    </router-link>
+    <page-transition><router-view /></page-transition>
   </article>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import search from "@/components/inputs/InputSearch.vue";
-import imageOverlay from "@/components/overlay/ImageOverlay";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
+import storeFooter from "@/components/footer/footer.vue";
+import pageTransition from "@/components/transitions/transition.vue";
+import productImage from "@/components/homepage/productImage.vue";
 
 export default {
   components: {
-    search,
-    imageOverlay,
-    buttonSimple
+    buttonSimple,
+    storeFooter,
+    pageTransition,
+    productImage
   },
   props: [],
   name: "store",
   data() {
     return {
       date: new Date(),
-      today: true
+      today: true,
+      features: [
+        {
+          headline: " ",
+          body: " "
+        },
+        {
+          headline: "Shipping",
+          body:
+            "Ordering takes only 5 minutes of your precious time and you can always return it for 90 days. But we both know you wont. We dedicated our whole life to crafting the perfect t-shirt"
+        },
+        {
+          headline: "Materials",
+          body: [
+            "10% luck, 20% skill",
+            "15% concentrated power of will",
+            "5%pleasure, 50% percent cotton",
+            "And a 100% reason to remember the tshirt (actually 100% cotton, too)"
+          ]
+        }
+      ],
+      scrollPosition: 0
     };
   },
   methods: {
-    chooseSize(product) {
-      this.goTo("product", { color: this.currentColor, data: product });
+    chooseSize() {
+      this.goTo("sizeOptions");
     },
-
     //navigation
     goTo(locationName, paramObject) {
       this.$router.push({
@@ -151,7 +172,24 @@ export default {
     this.$store.dispatch("productModule/COLORS_setCurrent", colorArray);
   },
   //same check for route-view keep-alive
-  activated() {}
+  activated() {},
+  beforeRouteUpdate(to, from, next) {
+    let store = document.getElementById("store");
+    if (to.name === "sizeOptions") {
+      this.scrollPosition = window.pageYOffset;
+      store.style.top = -this.scrollPosition + "px";
+      store.classList.add("fixed-scroll");
+    }
+    if (to.name === "store") {
+      store.classList.remove("fixed-scroll");
+      store.style.top = "";
+      setTimeout(() => {
+        window.scrollTo(0, this.scrollPosition);
+      }, 10);
+    }
+
+    next();
+  }
 };
 </script>
 
@@ -164,16 +202,23 @@ export default {
 
 .store {
   /* Positioning */
+  /* Box-model */
+  padding: var(--7base) 0 0 0;
+  min-height: 100%;
+  /* Typography */
+
+  /* Visual */
+  background-color: var(--grey-100);
+  /* Misc */
+}
+
+.header {
+  /* Positioning */
   display: grid;
   grid-auto-rows: min-content;
-  grid-template-rows: min-content min-content 1fr;
-  grid-template-columns: var(--padding-main) var(--view-main) var(
-      --padding-main
-    );
-  grid-row-gap: var(--padding-rows);
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
   /* Box-model */
-  padding: var(--padding-top) 0 var(--2base) 0;
-  min-height: 200%;
+  padding: 3vh 0 5vh 0;
   /* Typography */
 
   /* Visual */
@@ -181,26 +226,29 @@ export default {
   /* Misc */
 }
 
-.search,
-.header,
-.product-images {
+.header--headline {
   /* Positioning */
   grid-column: 2/3;
   /* Box-model */
+  padding: var(--h1__padding) 0;
   /* Typography */
+  line-height: 125%;
+  font-size: calc(var(--h1__fontSize) * 1.25);
+
   /* Visual */
+
   /* Misc */
 }
 
-.product-images {
+.header--subline {
   /* Positioning */
-  display: grid;
-  grid-auto-flow: row;
-
+  grid-column: 2/3;
   /* Box-model */
-  min-height: 100%;
+
   /* Typography */
+
   /* Visual */
+
   /* Misc */
 }
 
@@ -209,20 +257,30 @@ export default {
   display: flex;
   flex-direction: row;
   /* Box-model */
+  padding: 1vh var(--column-spacing);
   justify-content: space-between;
   /* Typography */
   /* Visual */
   /* Misc */
 }
 
-.overlay-layout {
+.product-images {
   /* Positioning */
-
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
+  grid-row-gap: 2vh;
   /* Box-model */
-  margin-bottom: var(--halfbase);
+  min-height: 100%;
   /* Typography */
   /* Visual */
-  border-radius: var(--fourthbase);
   /* Misc */
+}
+
+.fixed-scroll {
+  position: fixed;
+  left: 0;
+  right: 0;
+  overflow-y: scroll; /* render disabled scroll bar to keep the same width */
 }
 </style>
