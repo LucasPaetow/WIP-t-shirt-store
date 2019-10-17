@@ -3,10 +3,14 @@ Store-page
 - make wishlist-button functional
   -- Heart-Icon, which gets filled?
 
-Item-Page
-- Show selected image in full screen
-- Show supporting images
-- Add to card Modal
+- Save cart locally
+
+Cart
+- empty state (maybe some color suggestions?)
+- Edit Store
+
+Navbar
+- Create basic and full navbar
 
 Misc:
 - Input elements = Inline error/success/delete input

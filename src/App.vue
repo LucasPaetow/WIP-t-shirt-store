@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <main id="app">
     <navbar />
     <page-transition propTransitionRouter="true">
       <keep-alive>
@@ -7,7 +7,7 @@
         <router-view />
       </keep-alive>
     </page-transition>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -63,28 +63,80 @@ export default {
 
   /*colors*/
   /*greys*/
-  --grey-100: #f7fafc;
-  --grey-200: #edf2f7;
-  --grey-300: #e2e8f0;
-  --grey-400: #cbd5e0;
-  --grey-500: #a0aec0;
-  --grey-600: #718096;
-  --grey-700: #4a5568;
-  --grey-800: #2d3748;
-  --grey-900: #1a202c;
+  --grey-0: hsla(0, 0%, 100%, 1);
+  --grey-100: hsla(0, 0%, 97%, 1);
+  --grey-200: hsla(0, 0%, 95%, 1);
+  --grey-300: hsla(0, 0%, 70%, 1);
+  --grey-400: hsla(0, 0%, 50%, 1);
+  --grey-500: hsla(0, 0%, 35%, 1);
+  --grey-600: hsla(0, 0%, 25%, 1);
+  --grey-700: hsla(0, 0%, 10%, 1);
+  --grey-800: hsla(0, 0%, 8%, 1);
+  --grey-900: hsla(0, 0%, 5%, 1);
+  --grey-1000: hsla(0, 0%, 3%, 1);
 
   /*signaling*/
   --red-700: #c53030;
   --green-700: #2f855a;
 
-  /*spacing*/
   /*padding*/
-  --padding-top: var(--8base);
-  --padding-main: var(--1base);
-  --padding-rows: var(--5base);
 
-  /*views*/
-  --view-main: 1fr;
+  /*spacing*/
+  --column-spacing: 5vw;
+
+  /*main headline*/
+  --h1__fontSize: 7vw;
+  --h2__fontSize: 6vw;
+  --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 3.5vw);
+  --h1__padding: var(--fourthbase);
+}
+
+@media (min-width: 22.5em) {
+}
+
+@media (min-width: 26em) {
+  :root {
+    --h1__fontSize: 6vw;
+    --h2__fontSize: 5vw;
+    --h1__padding: var(--thirdbase);
+    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2vw);
+  }
+}
+
+@media (min-width: 37.5em) {
+  :root {
+    --column-spacing: 10vw;
+    --h1__fontSize: 5.5vw;
+    --h2__fontSize: 4vw;
+    --h1__padding: var(--fourthbase);
+  }
+}
+@media (min-width: 45em) {
+  :root {
+    --column-spacing: 6vw;
+    --h1__fontSize: 5vw;
+    --h2__fontSize: 3vw;
+  }
+}
+
+@media (min-width: 70em) {
+  :root {
+    --column-spacing: 12.5vw;
+    --h1__fontSize: 4vw;
+    --h2__fontSize: 2vw;
+  }
+}
+
+@media (min-width: 90em) {
+  :root {
+    --column-spacing: 15vw;
+    --h1__fontSize: 3.25vw;
+    --h2__fontSize: 1.75vw;
+    --h1__padding: var(--halfbase);
+    --h1__lineHeight: calc(
+      var(--h1__fontSize) + var(--h1__padding) * 2 + 1.5vw
+    );
+  }
 }
 
 /* Positioning */
@@ -145,7 +197,7 @@ h1 {
   padding-bottom: var(--1base);
   /* Typography */
   line-height: 150%;
-  font-size: var(--4base);
+  font-size: var(--h1__fontSize);
   /* Visual */
   color: var(--grey-900);
 
@@ -158,7 +210,7 @@ h2 {
   /* Box-model */
   padding-bottom: var(--halfbase);
   /* Typography */
-  font-size: var(--3base);
+  font-size: var(--h2__fontSize);
   /* Visual */
   color: var(--grey-900);
   /* Misc */

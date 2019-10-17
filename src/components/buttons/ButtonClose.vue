@@ -13,9 +13,9 @@
 }
 
 .button-close {
-  color: var(--grey-600);
+  color: var(--grey-200);
   background-color: transparent;
-  border: 0.1rem solid var(--grey-600);
+  border: 0.1rem solid var(--grey-200);
   border-radius: 50%;
   position: absolute;
   width: 3rem;
@@ -33,7 +33,7 @@
   content: " ";
   height: 2rem;
   width: 0.1rem;
-  background-color: var(--grey-600);
+  background-color: var(--grey-200);
 }
 .button-close:before {
   transform: rotate(45deg);

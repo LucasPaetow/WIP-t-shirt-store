@@ -49,6 +49,14 @@ export default {
         this.transitionName = "slide-bottom";
         next();
       }
+      if (targetRoute === "sizeOptions" && fromRoute === "store") {
+        this.transitionName = "full-slide";
+        next();
+      }
+      if (targetRoute === "store" && fromRoute === "sizeOptions") {
+        this.transitionName = "full-slide";
+        next();
+      }
       next();
     });
   }
@@ -81,7 +89,7 @@ export default {
 .slide-bottom-enter-active,
 .slide-bottom-leave-active {
   transition-duration: 0.25s;
-  transition-property: height, opacity, transform;
+  transition-property: opacity, transform;
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
   overflow: hidden;
 }
@@ -108,6 +116,18 @@ export default {
 .slide-bottom-enter {
   opacity: 0;
   transform: translate(0, -2em);
+}
+
+/* --------slide in and out from the same side---------*/
+.full-slide-enter-active {
+  transition: transform 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+}
+.full-slide-leave-active {
+  transition: transform 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.full-slide-enter, .full-slide-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translate(0, 100%);
 }
 
 /* --------slide in and out from the same side---------*/

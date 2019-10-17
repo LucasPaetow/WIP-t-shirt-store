@@ -10,50 +10,56 @@
         :alt_description="productData[2].alt_description"
         :overlay_color="selectedColor || ['white', '#ffffff']"
         :minHeight="90"
-        :aspectRation="productData[2].width / productData[2].height"
+        :aspectRatio="productData[2].width / productData[2].height"
         :objectPosition="productPosition"
         class="image-overlay z-index-1"
       />
       <header class="header z-index-2">
-        <p class="header--topline">
-          <span class="header--headline__background background__inverted">
+        <h2 class="header--topline">
+          <span
+            class="header--headline__background background__inverted headline__background"
+          >
             So you want a
           </span>
-        </p>
-        <h1 class="header--headline">
-          <span class="header--headline__background"
+        </h2>
+        <h1 class="header--headline  ">
+          <span class="header--headline__background headline__background"
             >good-looking,<br />
             incredible-feeling,<br />
             hussle-free</span
           >
         </h1>
 
-        <p class="header--subline">
-          <span class="header--headline__background background__inverted">
+        <h2 class="header--subline">
+          <span
+            class="header--headline__background background__inverted headline__background"
+          >
             t-shirt?
           </span>
-        </p>
+        </h2>
       </header>
-      <button-simple
-        class="button-simple z-index-2"
-        buttonText="Choose your dream color"
-        @simplebuttonevent="goTo('login')"
-      />
       <div class="supporting-information z-index-2">
         <p class="supporting-information--text">
           To lighten your heart only the greatest t-shirt ever made can? <br />
           <b>We got that.</b>
         </p>
       </div>
-      <div class="search">
+
+      <div class="search z-index-2">
+        <h1 class="search--headline  ">
+          <span class="search--headline__background headline__background">
+            In what color do you want to leave others breathless?</span
+          >
+        </h1>
+
         <search
           class="search--input"
           :input="{
             label: null,
             placeholder: 'mediumspringgreen?',
-            id: 'home',
-            label: 'In what color do you want to leave others breathless?'
+            id: 'home'
           }"
+          align="right"
           :error="errorSearch"
           @searchresultevent="selectResult"
           @searchupdateevent="updateColor"
@@ -71,12 +77,12 @@
         :alt_description="productData[0].alt_description"
         :overlay_color="selectedColor || ['white', '#ffffff']"
         :minHeight="90"
-        :aspectRation="productData[0].width / productData[0].height"
+        :aspectRatio="productData[0].width / productData[0].height"
         class="image-overlay z-index-1"
       />
       <header class="header z-index-2">
-        <h1 class="header--headline">
-          <span class="header--headline__background">
+        <h1 class="header--headline  ">
+          <span class="header--headline__background headline__background">
             Without wasting half a day?
           </span>
         </h1>
@@ -84,19 +90,25 @@
       <div class="supporting-information z-index-2">
         <p class="supporting-information--text text-border">
           We get it, you are important and have to be somewhere else to show
-          them how its done. This is why we sell only this one, perfect t-shirt
-          in that color you like so much.
+          them how its done. <br />This is why
+          <b>we only sell this one, perfect t-shirt</b> in that color you like
+          so much.
         </p>
       </div>
       <div class="search">
+        <h1 class="search--headline  ">
+          <span class="search--headline__background headline__background">
+            Name your color and experience how awesome you can look like</span
+          >
+        </h1>
         <search
           class="search--input"
           :input="{
             label: null,
             placeholder: 'mediumspringgreen?',
-            id: 'home',
-            label: 'Name your color and experience how cool you will look'
+            id: 'home'
           }"
+          :align="searchAlignment"
           :error="errorSearch"
           @searchresultevent="selectResult"
           @searchupdateevent="updateColor"
@@ -114,38 +126,45 @@
         :alt_description="productData[6].alt_description"
         :overlay_color="selectedColor || ['white', '#ffffff']"
         :minHeight="90"
-        :aspectRation="productData[6].width / productData[6].height"
+        :aspectRatio="productData[6].width / productData[6].height"
         class="image-overlay z-index-1"
       />
       <header class="header z-index-2">
-        <h1 class="header--headline">
-          <span class="header--headline__background ">
+        <h1 class="header--headline  ">
+          <span class="header--headline__background headline__background">
             A T-shirt that has astonishing stamina
           </span>
         </h1>
-        <p class="header--subline">
-          <span class="header--headline__background background__inverted">
+        <h2 class="header--subline">
+          <span
+            class="header--headline__background background__inverted headline__background"
+          >
             - just like you?
           </span>
-        </p>
+        </h2>
       </header>
       <div class="supporting-information z-index-2">
         <p class="supporting-information--text text-border">
           We dont just make perfect t-shirts. We train them to become the worlds
           greatest. At the end of their training they could partake in the
-          olympics. But that wouldn't be fair to the other athletes. This is why
-          they last so long.
+          olympics. <br />But that wouldn't be fair to the other athletes. This
+          is why they last so long.
         </p>
       </div>
       <div class="search">
+        <h1 class="search--headline  ">
+          <span class="search--headline__background headline__background">
+            Choose a color that will baffle future archaeologists</span
+          >
+        </h1>
         <search
           class="search--input"
           :input="{
             label: null,
             placeholder: 'mediumspringgreen?',
-            id: 'home',
-            label: 'Choose a color that will baffle future archaeologists'
+            id: 'home'
           }"
+          align="right"
           :error="errorSearch"
           @searchresultevent="selectResult"
           @searchupdateevent="updateColor"
@@ -155,8 +174,8 @@
     <section class="lp-section lp-section4">
       <div class="image-overlay z-index-1"></div>
       <header class="header z-index-2">
-        <h1 class="header--headline">
-          <span class="header--headline__background ">
+        <h1 class="header--headline  ">
+          <span class="header--headline__background headline__background">
             You could return it for 90 days, but you won’t give this t-shirt
             away - ever
           </span>
@@ -170,42 +189,7 @@
         </p>
       </div>
     </section>
-    <footer class="footer">
-      <h2 class="footer--headline">About</h2>
-      <div class="footer--section">
-        <h3 class="footer--section__headline">About the shirt</h3>
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Sizes</router-link
-        >
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Quality</router-link
-        >
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Wash and care instructions</router-link
-        >
-      </div>
-      <div class="footer--section">
-        <h3 class="footer--section__headline">About shipping</h3>
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Shipping and returns</router-link
-        >
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Order Tracking</router-link
-        >
-      </div>
-      <div class="footer--section">
-        <h3 class="footer--section__headline">About us</h3>
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Our Story</router-link
-        >
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Impressum</router-link
-        >
-        <router-link :to="{ name: '' }" class="footer--section__link"
-          >Privacy</router-link
-        >
-      </div>
-    </footer>
+    <storeFooter></storeFooter>
   </article>
   <article class="home" v-else>
     <h1>loading</h1>
@@ -217,12 +201,14 @@ import { mapGetters } from "vuex";
 import search from "@/components/inputs/InputSearch.vue";
 import imageOverlay from "@/components/overlay/ImageOverlay";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
+import storeFooter from "@/components/footer/footer.vue";
 
 export default {
   components: {
     search,
     imageOverlay,
-    buttonSimple
+    buttonSimple,
+    storeFooter
   },
   props: [],
   name: "home",
@@ -286,13 +272,20 @@ export default {
         return "50% 50%";
       }
       if (width > 700) {
-        return "50% 50%";
+        return "35% 50%";
       }
       if (width > 340) {
         return "30% 50%";
       }
 
       return "20% 50%";
+    },
+    searchAlignment() {
+      let width = window.innerWidth;
+      if (width > 700) {
+        return "left";
+      }
+      return "right";
     }
   },
   beforeRouteLeave(to, from, next) {
@@ -314,7 +307,7 @@ export default {
   /* Typography */
 
   /* Visual */
-  background-color: #f6f6f6;
+  background-color: var(--grey-100);
   /* Misc */
 }
 
@@ -335,7 +328,7 @@ export default {
 .lp-section {
   /* Positioning */
   display: grid;
-  grid-template-columns: 5vw 1fr 5vw;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
   grid-template-rows: 1fr;
   grid-auto-rows: min-content;
   grid-row-gap: 5vh;
@@ -354,7 +347,7 @@ export default {
   /* Box-model */
 
   /* Typography */
-  background-color: var(--grey-100);
+  background-color: var(--grey-200);
   /* Visual */
 
   /* Misc */
@@ -363,9 +356,6 @@ export default {
 @media (min-width: 37.5em) {
   .lp-section {
     /* Positioning */
-    display: grid;
-    grid-template-columns: 1fr 8fr 1fr;
-    grid-row-gap: 5vh;
     /* Box-model */
     padding: 0 0 15vh 0;
     /* Typography */
@@ -378,27 +368,11 @@ export default {
 @media (min-width: 45em) {
   .lp-section {
     /* Positioning */
-    display: grid;
-    grid-template-columns: 0.25fr repeat(4, 1fr) 0.25fr;
+    grid-template-columns: var(--column-spacing) repeat(4, 1fr) var(
+        --column-spacing
+      );
     grid-row-gap: 0vh;
-    grid-template-rows: min-content;
-    /* Box-model */
-    padding: 0 0 10vh 0;
-    /* Typography */
-
-    /* Visual */
-
-    /* Misc */
-  }
-}
-
-@media (min-width: 70em) {
-  .lp-section {
-    /* Positioning */
-    display: grid;
-    grid-template-columns: 0.66fr repeat(4, 1fr) 0.66fr;
-    grid-row-gap: 0vh;
-    grid-template-rows: min-content;
+    grid-template-rows: 8rem repeat(4, min-content);
     /* Box-model */
     padding: 0 0 10vh 0;
     /* Typography */
@@ -409,39 +383,14 @@ export default {
   }
   .lp-section:nth-of-type(even) {
     /* Positioning */
-    grid-template-columns: 0.66fr 1.5fr 0.5fr 0.5fr 1.5fr 0.66fr;
+    grid-template-columns: var(--column-spacing) 1.5fr 0.5fr 0.5fr 1.5fr var(
+        --column-spacing
+      );
+
     /* Box-model */
 
     /* Typography */
-    background-color: var(--grey-100);
-    /* Visual */
 
-    /* Misc */
-  }
-}
-
-@media (min-width: 90em) {
-  .lp-section {
-    /* Positioning */
-    display: grid;
-    grid-template-columns: 1fr repeat(4, 1fr) 1fr;
-    grid-row-gap: 0vh;
-    grid-template-rows: min-content;
-    /* Box-model */
-    padding: 0 0 10vh 0;
-    /* Typography */
-
-    /* Visual */
-
-    /* Misc */
-  }
-  .lp-section:nth-of-type(even) {
-    /* Positioning */
-    grid-template-columns: 1fr 1.5fr 0.5fr 0.5fr 1.5fr 1fr;
-    /* Box-model */
-
-    /* Typography */
-    background-color: var(--grey-100);
     /* Visual */
 
     /* Misc */
@@ -482,7 +431,7 @@ export default {
     grid-column: 4/6;
     grid-row: 1/5;
     /* Box-model */
-    padding: 5vh 0;
+    padding: 5vh 0 0 0;
     /* Typography */
 
     /* Visual */
@@ -519,7 +468,7 @@ export default {
   grid-column: 2/3;
   grid-row: 2/3;
   /* Box-model */
-
+  padding-bottom: 5vh;
   /* Typography */
 
   /* Visual */
@@ -530,10 +479,10 @@ export default {
 .header--headline {
   /* Positioning */
   /* Box-model */
-  padding: var(--fourthbase) 0;
+  padding: var(--h1__padding) 0;
   /* Typography */
-  line-height: calc(7vw + var(--fourthbase) * 2 + 2.5vw);
-  font-size: 7vw;
+  line-height: var(--h1__lineHeight);
+  font-size: var(--h1__fontSize);
 
   /* Visual */
 
@@ -545,14 +494,14 @@ export default {
   /* Positioning */
 
   /* Box-model */
-
+  padding: 0;
   /* Typography */
-  font-size: 6vw;
+  font-size: var(--h2__fontSize);
   /* Visual */
   /* Misc */
 }
 
-.header--headline__background {
+.headline__background {
   /* Positioning */
 
   /* Box-model */
@@ -560,7 +509,7 @@ export default {
   /* Typography */
 
   /* Visual */
-  background-color: white;
+  background-color: var(--grey-0);
 
   /* Misc */
   -webkit-box-decoration-break: clone;
@@ -569,88 +518,12 @@ export default {
 
 .background__inverted {
   /* Positioning */
-
   /* Box-model */
-
   /* Typography */
-  font-weight: bold;
   /* Visual */
   background-color: var(--grey-800);
-  color: white;
+  color: var(--grey-0);
   /* Misc */
-}
-
-@media (min-width: 22.5em) {
-  .header--headline {
-    /* Positioning */
-    /* Box-model */
-    padding: var(--thirdbase) 0;
-    /* Typography */
-    line-height: calc(7vw + var(--thirdbase) * 2 + 2.5vw);
-
-    /* Visual */
-
-    /* Misc */
-  }
-}
-
-@media (min-width: 26em) {
-  .header--headline {
-    /* Positioning */
-    /* Box-model */
-    /* Typography */
-    font-size: 6vw;
-    line-height: calc(6vw + var(--thirdbase) * 2 + 2.5vw);
-    /* Visual */
-
-    /* Misc */
-  }
-
-  .header--topline,
-  .header--subline {
-    /* Positioning */
-    /* Box-model */
-    /* Typography */
-    font-size: 5vw;
-    /* Visual */
-    /* Misc */
-  }
-}
-
-@media (min-width: 37.5em) {
-  .lp-section2 .header,
-  .lp-section3 .header {
-    /* Positioning */
-
-    /* Box-model */
-    padding-bottom: 5vh;
-    /* Typography */
-
-    /* Visual */
-
-    /* Misc */
-  }
-
-  .header--headline {
-    /* Positioning */
-    /* Box-model */
-    /* Typography */
-    font-size: 5.5vw;
-    line-height: calc(5vw + var(--fourthbase) * 2 + 2.5vw);
-    /* Visual */
-
-    /* Misc */
-  }
-
-  .header--topline,
-  .header--subline {
-    /* Positioning */
-    /* Box-model */
-    /* Typography */
-    font-size: 4vw;
-    /* Visual */
-    /* Misc */
-  }
 }
 
 @media (min-width: 45em) {
@@ -677,38 +550,12 @@ export default {
 
     /* Misc */
   }
-
-  .header--headline {
-    /* Positioning */
-    /* Box-model */
-    padding: var(--fourthbase) 0;
-    /* Typography */
-    line-height: calc(5vw + var(--fourthbase) * 2 + 2.5vw);
-    font-size: 5vw;
-
-    /* Visual */
-
-    /* Misc */
-  }
-
-  .header--topline,
-  .header--subline {
-    /* Positioning */
-
-    /* Box-model */
-
-    /* Typography */
-    font-size: 3vw;
-    /* Visual */
-    /* Misc */
-  }
 }
 
 @media (min-width: 70em) {
   .header {
     /* Positioning */
-    grid-column: 2/5;
-    grid-row: 2/3;
+
     /* Box-model */
     width: 100%;
     /* Typography */
@@ -716,93 +563,14 @@ export default {
     /* Visual */
     /* Misc */
   }
-  .header--headline {
-    /* Positioning */
-    /* Box-model */
-    padding: var(--fourthbase) 0;
-
-    /* Typography */
-    line-height: calc(4vw + var(--fourthbase) * 2 + 2vw);
-    font-size: 4vw;
-
-    /* Visual */
-
-    /* Misc */
-  }
-
-  .header--topline,
-  .header--subline {
-    /* Positioning */
-
-    /* Box-model */
-
-    /* Typography */
-    font-size: 2vw;
-    /* Visual */
-    /* Misc */
-  }
 }
 
 @media (min-width: 90em) {
-  .header--headline {
-    /* Positioning */
-    /* Box-model */
-    padding: var(--halfbase) 0;
-    /* Typography */
-    line-height: calc(3.25vw + var(--halfbase) * 2 + 1.5vw);
-    font-size: 3.25vw;
-
-    /* Visual */
-
-    /* Misc */
-  }
-
-  .header--topline,
-  .header--subline {
-    /* Positioning */
-
-    /* Box-model */
-
-    /* Typography */
-    font-size: 1.5vw;
-    /* Visual */
-    /* Misc */
-  }
-
-  .header--headline__background {
+  .headline__background {
     /* Positioning */
 
     /* Box-model */
     padding: var(--halfbase) var(--4base);
-    /* Typography */
-
-    /* Visual */
-
-    /* Misc */
-  }
-}
-
-.button-simple {
-  /* Positioning */
-  grid-column: 2/3;
-  grid-row: 3/4;
-  justify-self: center;
-  transform: translateY(50%);
-  /* Box-model */
-
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-@media (min-width: 45em) {
-  .button-simple {
-    /* Positioning */
-    display: none;
-    /* Box-model */
-
     /* Typography */
 
     /* Visual */
@@ -816,21 +584,19 @@ export default {
   grid-column: 2/3;
   grid-row: 4/5;
   /* Box-model */
-  max-width: 35rem;
+  max-width: 25rem;
   /* Typography */
-
   /* Visual */
-
   /* Misc */
 }
 
-.lp-section1 .supporting-information {
+.supporting-information--text {
   /* Positioning */
 
   /* Box-model */
-  margin-top: 5vh;
-  /* Typography */
 
+  /* Typography */
+  font-size: var(--2base);
   /* Visual */
 
   /* Misc */
@@ -860,7 +626,7 @@ export default {
     /* Typography */
 
     /* Visual */
-    background-color: white;
+    background-color: var(--grey-0);
     /* Misc */
   }
   .lp-section:nth-of-type(even) .supporting-information {
@@ -935,22 +701,88 @@ export default {
   /* Positioning */
   grid-column: 2/3;
   grid-row: 5/6;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  /* Box-model */
+  margin: 5vh 0;
+  /* Typography */
+  text-align: right;
+  /* Visual */
+  /* Misc */
+}
+
+.search--headline {
+  /* Positioning */
+  transform: translateX(calc(var(--halfbase) * -1));
+  /* Box-model */
+
+  padding: var(--h1__padding) 0;
+  /* Typography */
+  line-height: var(--h1__lineHeight);
+  font-size: var(--h1__fontSize);
+  /* Visual */
+  color: var(--grey-0);
+  /* Misc */
+}
+
+.search--headline__background {
+  /* Positioning */
+
   /* Box-model */
 
   /* Typography */
 
   /* Visual */
+  background-color: var(--grey-800);
 
   /* Misc */
+}
+
+.search--input {
+  width: 100%;
+}
+
+@media (min-width: 26em) {
+  .search--input {
+    width: 80%;
+  }
+}
+
+@media (min-width: 37.5em) {
+  .search--input {
+    width: 50%;
+  }
 }
 
 @media (min-width: 45em) {
   .search {
     /* Positioning */
-    grid-column: 2/4;
+    grid-column: 2/6;
     grid-row: 5/6;
+
     /* Box-model */
-    margin: var(--4base) 5vh 0 5vh;
+
+    /* Typography */
+
+    /* Visual */
+    /* Misc */
+  }
+
+  .lp-section:nth-of-type(even) .search {
+    /* Positioning */
+    align-items: flex-start;
+    /* Box-model */
+    /* Typography */
+    text-align: left;
+    /* Visual */
+    /* Misc */
+  }
+  .lp-section:nth-of-type(even) .search--headline {
+    /* Positioning */
+    transform: translateX(0);
+    /* Box-model */
+
     /* Typography */
 
     /* Visual */
@@ -959,74 +791,30 @@ export default {
   }
 }
 
+@media (min-width: 90em) {
+  .search {
+    /* Positioning */
+    /* Box-model */
+    margin: 5vh 0 20vh 0;
+    /* Typography */
+
+    /* Visual */
+    /* Misc */
+  }
+
+  .search--headline {
+    /* Positioning */
+    transform: translateX(calc(var(--4base) * -1));
+    /* Box-model */
+    width: 80%;
+    /* Visual */
+    /* Misc */
+  }
+}
+
 .lp-section4 .image-overlay {
+  margin-top: 5vh;
   height: 90vh;
   background-color: grey;
-}
-
-.footer {
-  /* Positioning */
-  display: grid;
-  grid-template-columns: var(--1base) 1fr var(--1base);
-  grid-template-rows: 1fr;
-  grid-auto-rows: min-content;
-  grid-row-gap: var(--4base);
-  /* Box-model */
-  padding: 10vh 0;
-  /* Typography */
-
-  /* Visual */
-  background-color: grey;
-  /* Misc */
-}
-
-.footer--headline {
-  /* Positioning */
-  grid-column: 2/3;
-  /* Box-model */
-
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.footer--section {
-  /* Positioning */
-  grid-column: 2/3;
-  display: flex;
-  flex-direction: column;
-  /* Box-model */
-
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.footer--section__headline {
-  /* Positioning */
-
-  /* Box-model */
-  margin-bottom: var(--halfbase);
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.footer--section__link {
-  /* Positioning */
-
-  /* Box-model */
-  margin-bottom: var(--fourthbase);
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
 }
 </style>

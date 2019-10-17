@@ -61,8 +61,20 @@ export default {
   .button {
     min-width: 6rem;
     max-width: 20rem;
-    padding: var(--2base);
-    font-size: calc(var(--halfbase) * 1.25);
+  }
+}
+
+@media (min-width: 45em) {
+  .button {
+    min-width: 12rem;
+    max-width: 30rem;
+  }
+}
+
+@media (min-width: 45em) {
+  .button {
+    min-width: 17rem;
+    max-width: 40rem;
   }
 }
 
@@ -113,12 +125,11 @@ export default {
 
 .choose-size {
   color: white;
-  background-color: var(--grey-800);
+  background-color: var(--grey-700);
   box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
   border-radius: 0;
   max-width: 8rem;
-  margin: var(--2base) 0 var(--halfbase) 0;
-  height: var(--5base);
+  height: var(--6base);
 }
 
 .no-styling {
