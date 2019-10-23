@@ -27,15 +27,21 @@
       :stroke-miterlimit="svg.strokeMiterlimit"
       :clip-rule="svg.clipRule"
       :viewBox="svg.viewBox"
+      x="30%"
       class="svg--tshirt"
-      preserveAspectRatio="xMidYMid slice"
+      :preserveAspectRatio="svgPosition"
       :style="{
         minHeight: minHeight + 'vh',
         height: fullHeight + 'vh'
       }"
     >
-      <path :fill="svg.path1.fill" :d="svg.path1.d" />
-      <path :fill="overlay_color[1]" :d="svg.path2.d" class="fill--tshirt" />
+      <path :fill="svg.path1.fill" :d="svg.path1.d" x="30rem" />
+      <path
+        :fill="overlay_color[1]"
+        :d="svg.path2.d"
+        class="fill--tshirt"
+        x="30rem"
+      />
     </svg>
 
     <v-lazy-image
@@ -44,7 +50,8 @@
       class="image--tshirt"
       :style="{
         minHeight: minHeight + 'vh',
-        height: fullHeight + 'vh'
+        height: fullHeight + 'vh',
+        objectPosition: overlayPosition
       }"
     />
   </section>
@@ -71,7 +78,8 @@ export default {
     minHeight: { type: Number, default: 2 },
     fullHeight: Number,
     aspectRatio: Number,
-    textPosition: { type: Array, default: () => ["0%", "100%"] }
+    textPosition: { type: Array, default: () => ["0%", "100%"] },
+    overlayPosition: { type: String, default: "center center" }
   },
   name: "colorOverlay",
   data() {
@@ -100,9 +108,27 @@ export default {
       }
 
       return this.image_small;
+    },
+    svgPosition() {
+      let positions = this.overlayPosition.split(" ");
+      let transformedPosition = positions.map(position => {
+        //right/left/center top/bottom/center
+        //mid/min/max
+        if (position === "center") {
+          return "Mid";
+        } else if (position === "right" || position === "bottom") {
+          return "Max";
+        } else if (position === "left" || position === "top") {
+          return "Min";
+        }
+      });
+
+      return `x${transformedPosition[0]}Y${transformedPosition[1]} slice`;
+
+      return "xMidYMid slice";
     }
   },
-  created() {},
+  mounted() {},
   //same check for route-view keep-alive
   activated() {}
 };
@@ -113,7 +139,6 @@ export default {
   /* Positioning */
   display: grid;
   /* Box-model */
-  height: auto;
   width: 100%;
   position: relative;
   overflow: hidden;
