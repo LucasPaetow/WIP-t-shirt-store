@@ -1,16 +1,14 @@
 <template>
   <section class="product-image overlay-wrapper">
     <div class="soundbite z-index-2">
-      <h1 class="soundbite--headline" v-if="product.description.headline">
-        <span class="soundbite--headline__background">{{
-          product.description.headline
-        }}</span>
-      </h1>
-      <h2 class="soundbite--subline" v-if="product.description.subline">
-        <span class="soundbite--subline__background">{{
-          product.description.subline
-        }}</span>
-      </h2>
+      <styled-headline :headlineText="product.description.headline" />
+
+      <styled-headline
+        v-if="product.description.subline"
+        :headlineText="product.description.subline"
+        headlineType="h2"
+        :invertedColor="true"
+      />
     </div>
 
     <div class="supporting-information" v-if="index >= 1">
@@ -61,11 +59,13 @@
 <script>
 import imageOverlay from "@/components/overlay/ImageOverlay";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
+import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
     imageOverlay,
-    buttonSimple
+    buttonSimple,
+    styledHeadline
   },
   //if the basics are being edited, this array contains existing basic information
   props: {
@@ -133,70 +133,6 @@ export default {
   /* Misc */
 }
 
-.soundbite--headline {
-  /* Positioning */
-  /* Box-model */
-  padding: var(--h1__padding) 0;
-  /* Typography */
-  line-height: var(--h1__lineHeight);
-  font-size: var(--h1__fontSize);
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.soundbite--subline {
-  /* Positioning */
-
-  /* Box-model */
-  padding: 0;
-  /* Typography */
-  font-size: var(--h2__fontSize);
-  line-height: 190%;
-  /* Visual */
-  /* Misc */
-}
-
-.soundbite--headline__background,
-.soundbite--subline__background {
-  /* Positioning */
-
-  /* Box-model */
-  padding: var(--fourthbase) var(--halfbase);
-  /* Typography */
-
-  /* Visual */
-  background-color: var(--grey-0);
-
-  /* Misc */
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-}
-.soundbite--subline__background {
-  /* Positioning */
-  /* Box-model */
-  /* Typography */
-  /* Visual */
-  background-color: var(--grey-800);
-  color: var(--grey-0);
-  /* Misc */
-}
-
-@media (min-width: 90em) {
-  .soundbite--headline__background {
-    /* Positioning */
-
-    /* Box-model */
-    padding: var(--halfbase) var(--2base);
-    /* Typography */
-
-    /* Visual */
-
-    /* Misc */
-  }
-}
-
 .supporting-information {
   /* Positioning */
   display: none;
@@ -224,18 +160,7 @@ export default {
     grid-template-columns: 1fr 1.5fr 1fr;
     grid-auto-rows: min-content;
     /* Box-model */
-
-    /* Typography */
-
-    /* Visual */
-
-    /* Misc */
-  }
-
-  .overlay-wrapper:last-of-type {
-    /* Positioning */
-    /* Box-model */
-    margin-bottom: 2vh;
+    margin-bottom: 10vw;
     /* Typography */
 
     /* Visual */
@@ -272,7 +197,7 @@ export default {
     /* Positioning */
 
     /* Box-model */
-    overflow-x: hidden;
+
     /* Typography */
     /* Visual */
 
@@ -362,48 +287,6 @@ export default {
 
     /* Typography */
     /* Visual */
-    /* Misc */
-  }
-}
-
-.size-options {
-  /* Positioning */
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  display: grid;
-  /* Box-model */
-  height: 5rem;
-  width: 100%;
-  /* Typography */
-  /* Visual */
-  background-color: hsla(0, 0%, 30%, 0.75);
-  text-decoration-color: var(--grey-0);
-  /* Misc */
-}
-.size-options--text {
-  /* Positioning */
-  justify-self: center;
-  align-self: center;
-  /* Box-model */
-  /* Typography */
-  font-size: var(--2base);
-  font-weight: bold;
-  /* Visual */
-  color: var(--grey-0);
-
-  /* Misc */
-}
-
-@media (min-width: 45em) {
-  .size-options {
-    /* Positioning */
-    display: none;
-    /* Box-model */
-
-    /* Typography */
-    /* Visual */
-
     /* Misc */
   }
 }

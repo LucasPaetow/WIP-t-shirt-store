@@ -1,16 +1,37 @@
 
+Home page
+- Change Picture Sections into scroll container, where colors scroll through and change the t-shirts color.
+- Either go to another container with a new image or have the image change to a new one
+- After 2-3 colors show the CTA by scrolling in like the colors
+- On focus everything else fades away, so there is no distraction
+
+
 Store-page
 - make wishlist-button functional
   -- Heart-Icon, which gets filled?
 
-- Save cart locally
+Image-Overlay:
+- Positioning des overlays (wie objectPosition)
 
 Cart
 - empty state (maybe some color suggestions?)
-- Edit Store
+- component for the price
+- Edit Entries
+- Save cart locally
+
+Checkout
+- Create Checkout Layout
+-- Base view with progression
+-- sub pages
+
 
 Navbar
-- Create basic and full navbar
+- Create full navbar
 
-Misc:
-- Input elements = Inline error/success/delete input
+
+Modal Problems
+- There is no separation of animations for the background and forground
+- Only a very basic transition animation without full animation duration and cubicBezier control
+- Top closebutton has to be hidden during transition because its not part of the transition but affected
+- Headline is sometimes not very well sized because only the headline
+- A secondary button is missing (maybe "choose another color")?

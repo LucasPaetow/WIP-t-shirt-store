@@ -1,17 +1,22 @@
 <template>
-  <nav class="navbar" id="nav" v-if="hideNavbar">
-    <navbar-basic v-if="showBasicNavbar" />
-    <navbar-full v-else />
-  </nav>
+  <pageTransition propTransitionName="navigation">
+    <nav class="navbar" id="nav" v-if="hideNavbar">
+      <pageTransition propTransitionName="navigation">
+        <navbar-basic key="basic-navbar" v-if="showBasicNavbar" />
+        <navbar-full key="full-navbar" v-else />
+      </pageTransition>
+    </nav>
+  </pageTransition>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import navbarBasic from "@/components/navigation/NavbarBasic.vue";
 import navbarFull from "@/components/navigation/NavbarFull.vue";
+import pageTransition from "@/components/transitions/transition.vue";
 
 export default {
-  components: { navbarFull, navbarBasic },
+  components: { navbarFull, navbarBasic, pageTransition },
   name: "navBar",
   computed: {
     hideNavbar() {
@@ -23,7 +28,7 @@ export default {
       return true;
     },
     showBasicNavbar() {
-      let routes = ["start", "legal", "about"];
+      let routes = ["home", "legal", "about"];
 
       if (routes.includes(this.$route.name)) {
         return true;
@@ -45,6 +50,11 @@ export default {
   background-color: white;
   box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
   width: 100vw;
-  overflow: hidden;
+}
+
+@media (min-width: 30em) {
+  .navbar {
+    height: var(--8base);
+  }
 }
 </style>

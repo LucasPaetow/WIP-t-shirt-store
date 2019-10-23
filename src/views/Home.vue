@@ -45,7 +45,7 @@
         </p>
       </div>
 
-      <div class="search z-index-2">
+      <div class="search z-index-2" id="search-wrapper-1">
         <h1 class="search--headline  ">
           <span class="search--headline__background headline__background">
             In what color do you want to leave others breathless?</span
@@ -95,7 +95,7 @@
           so much.
         </p>
       </div>
-      <div class="search">
+      <div class="search" id="search-wrapper-2">
         <h1 class="search--headline  ">
           <span class="search--headline__background headline__background">
             Name your color and experience how awesome you can look like</span
@@ -151,7 +151,7 @@
           is why they last so long.
         </p>
       </div>
-      <div class="search">
+      <div class="search" id="search-wrapper-3">
         <h1 class="search--headline  ">
           <span class="search--headline__background headline__background">
             Choose a color that will baffle future archaeologists</span

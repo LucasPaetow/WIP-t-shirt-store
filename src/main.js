@@ -3,7 +3,9 @@ import App from "./App.vue";
 import router from "@/router/router.js";
 import store from "@/store/store.js";
 import "@/misc/registerServiceWorker.js";
+var VueScrollTo = require("vue-scrollto");
 
+Vue.use(VueScrollTo);
 Vue.config.productionTip = false;
 
 new Vue({

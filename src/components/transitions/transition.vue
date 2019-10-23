@@ -2,14 +2,33 @@
 <template>
   <!--transition group-->
   <transition-group
-    :name="transitionName"
-    :mode="transitionMode"
+    :name="transitionName || propTransitionName"
+    :mode="transitionMode || propTransitionMode"
     v-if="propTransitionGroup"
   >
     <slot />
   </transition-group>
+
+  <!--custom transition-->
+  <transition
+    @before-enter="beforeEnter"
+    @enter="enter"
+    @after-enter="afterEnter"
+    @before-leave="beforeLeave"
+    @leave="leave"
+    @after-leave="afterLeave"
+    :css="false"
+    v-else-if="propTransitionCustom.custom"
+  >
+    <slot />
+  </transition>
+
   <!--single transition-->
-  <transition :name="transitionName" :mode="transitionMode" v-else>
+  <transition
+    :name="transitionName || propTransitionName"
+    :mode="transitionMode || propTransitionMode"
+    v-else
+  >
     <slot />
   </transition>
 </template>
@@ -19,25 +38,134 @@ export default {
   name: "TransitionPage",
 
   //recieved options
-  props: ["propTransitionName", "propTransitionMode", "propTransitionGroup"],
+  props: {
+    propTransitionName: {
+      type: String,
+      default: "fade"
+    },
+    propTransitionMode: {
+      type: String,
+      default: "out-in"
+    },
+    propTransitionGroup: {
+      type: Boolean,
+      default: false
+    },
+    propTransitionCustom: {
+      type: Object,
+      default: () => ({
+        custom: false,
+        animationTarget: null,
+        firstStep: null,
+        lastStep: null,
+        extraTarget: null
+      })
+    }
+  },
   data() {
     return {
       //defaults
-      transitionName: "fade",
-      transitionMode: "out-in"
+      transitionName: null,
+      transitionMode: null,
+      transitionRect: null,
+      customTransiton: {
+        transitionRect: null,
+        direction: null,
+        transitionIn: {
+          time: 300,
+          cubicBezier: "0.55, 0, 0.1, 1"
+        },
+        transitionOut: {
+          time: 300,
+          cubicBezier: "0,0,0.58,1"
+        }
+      }
     };
   },
 
+  methods: {
+    beforeLeave(el) {
+      if (!this.customTransiton.transitionRect) {
+        console.log("there are no numbers for the first stepp");
+        this.customTransiton.transitionRect = el.getBoundingClientRect();
+        return;
+      }
+    },
+    leave(el) {},
+    afterLeave(el) {},
+    beforeEnter(el) {
+      el.style.opacity = 0;
+      el.style.transition = `all 0.3s cubic-bezier(0,0,0.58,1)`;
+
+      if (this.propTransitionCustom.extraTarget) {
+        let extraTarget = document.getElementById(
+          this.propTransitionCustom.extraTarget
+        );
+        extraTarget.style.opacity = 0;
+      }
+
+      let firstStep = document.getElementById(
+        this.propTransitionCustom.firstStep
+      );
+      let lastStep = document.getElementById(
+        this.propTransitionCustom.lastStep
+      );
+
+      if (firstStep && !lastStep) {
+        //forwards direction
+        this.customTransiton.direction = "forwards";
+        this.customTransiton.transitionRect = firstStep.getBoundingClientRect();
+      } else if (!firstStep && lastStep) {
+        //backwards direction
+        this.customTransiton.direction = "backwards";
+        this.customTransiton.transitionRect = lastStep.getBoundingClientRect();
+      } else {
+        this.customTransiton.transitionRect = el.getBoundingClientRect();
+      }
+    },
+    enter(el) {
+      let target = document.getElementById(
+        `${this.propTransitionCustom.animationTarget}`
+      );
+
+      let first = this.customTransiton.transitionRect;
+      let last = el.getBoundingClientRect();
+      let deltaW = first.width / last.width;
+      let deltaH = first.height / last.height;
+
+      target.animate(
+        [{ transform: `scale(${deltaW}, ${deltaH})` }, { transform: "none" }],
+        {
+          duration: this.customTransiton.transitionIn.time,
+          easing: "ease-out"
+        }
+      );
+    },
+    afterEnter(el) {
+      setTimeout(() => {
+        requestAnimationFrame(function() {
+          el.style.opacity = 1;
+          el.style.transform = "translate(0, 0)";
+        });
+
+        el.style.opacity = 1;
+        el.style.transform = "translate(0, 0)";
+
+        if (this.propTransitionCustom.extraTarget) {
+          let extraTarget = document.getElementById(
+            this.propTransitionCustom.extraTarget
+          );
+          extraTarget.style.transition = `all 0.1s cubic-bezier(0,0,0.58,1)`;
+          extraTarget.style.opacity = 1;
+          requestAnimationFrame(function() {
+            extraTarget.style.opacity = 1;
+          });
+        }
+      }, this.customTransiton.transitionIn.time);
+    }
+  },
+
   created() {
-    if (this.propTransitionName) {
-      this.transitionName = this.propTransitionName;
-    }
-    if (this.propTransitionMode) {
-      this.transitionMode = this.propTransitionMode;
-    }
-    if (this.propTransitionGroup) {
-      this.transitionMode = null;
-    }
     this.$router.beforeEach((to, from, next) => {
       const targetRoute = to.name;
       const fromRoute = from.name;
@@ -49,14 +177,6 @@ export default {
         this.transitionName = "slide-bottom";
         next();
       }
-      if (targetRoute === "sizeOptions" && fromRoute === "store") {
-        this.transitionName = "full-slide";
-        next();
-      }
-      if (targetRoute === "store" && fromRoute === "sizeOptions") {
-        this.transitionName = "full-slide";
-        next();
-      }
       next();
     });
   }
@@ -66,12 +186,13 @@ export default {
 <style scoped>
 /* --------fade---------*/
 .fade-enter-active {
-  transition: all 0.2s cubic-bezier(0.55, 0, 0.1, 1);
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  opacity: 1;
 }
 
 .fade-leave-active {
-  transition: all 0.2s cubic-bezier(0.55, 0, 0.1, 1);
-  position: absolute;
+  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  opacity: 1;
 }
 
 .fade-enter,
@@ -132,14 +253,14 @@ export default {
 
 /* --------slide in and out from the same side---------*/
 .navigation-enter-active {
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease;
 }
 .navigation-leave-active {
-  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+  transition: transform 0.3s cubic-bezier(1, 0.5, 0.8, 1);
 }
 .navigation-enter, .navigation-leave-to
 /* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(-100%);
+  transform: translate(0, -100%);
 }
 
 /* --------group transitions---------*/

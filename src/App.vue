@@ -86,9 +86,12 @@ export default {
 
   /*main headline*/
   --h1__fontSize: 7vw;
-  --h2__fontSize: 6vw;
-  --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 3.5vw);
   --h1__padding: var(--fourthbase);
+  --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 3.5vw);
+
+  --h2__fontSize: calc(var(--h1__fontSize) * 0.66);
+  --h2__padding: calc(var(--h2__padding) * 0.66);
+  --h2__lineHeight: calc(var(--h1__lineHeight) * 0.66);
 }
 
 @media (min-width: 22.5em) {
@@ -97,9 +100,8 @@ export default {
 @media (min-width: 26em) {
   :root {
     --h1__fontSize: 6vw;
-    --h2__fontSize: 5vw;
     --h1__padding: var(--thirdbase);
-    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2vw);
+    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 3vw);
   }
 }
 
@@ -107,7 +109,6 @@ export default {
   :root {
     --column-spacing: 10vw;
     --h1__fontSize: 5.5vw;
-    --h2__fontSize: 4vw;
     --h1__padding: var(--fourthbase);
   }
 }
@@ -115,7 +116,9 @@ export default {
   :root {
     --column-spacing: 6vw;
     --h1__fontSize: 5vw;
-    --h2__fontSize: 3vw;
+    --h1__lineHeight: calc(
+      var(--h1__fontSize) + var(--h1__padding) * 2 + 2.5vw
+    );
   }
 }
 
@@ -123,7 +126,10 @@ export default {
   :root {
     --column-spacing: 12.5vw;
     --h1__fontSize: 4vw;
-    --h2__fontSize: 2vw;
+    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2vw);
+
+    --h2__fontSize: calc(var(--h1__fontSize) * 0.5);
+    --h2__lineHeight: calc(var(--h1__lineHeight) * 0.6);
   }
 }
 
@@ -131,11 +137,19 @@ export default {
   :root {
     --column-spacing: 15vw;
     --h1__fontSize: 3.25vw;
-    --h2__fontSize: 1.75vw;
     --h1__padding: var(--halfbase);
     --h1__lineHeight: calc(
       var(--h1__fontSize) + var(--h1__padding) * 2 + 1.5vw
     );
+    --h2__fontSize: calc(var(--h1__fontSize) * 0.4);
+    --h2__lineHeight: calc(var(--h1__lineHeight) * 0.55);
+  }
+}
+
+@media (min-width: 110em) {
+  :root {
+    --h1__fontSize: 4.5rem;
+    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2rem);
   }
 }
 
@@ -196,8 +210,7 @@ h1 {
   /* Box-model */
   padding-bottom: var(--1base);
   /* Typography */
-  line-height: 150%;
-  font-size: var(--h1__fontSize);
+  font-size: var(--5base);
   /* Visual */
   color: var(--grey-900);
 
@@ -210,7 +223,7 @@ h2 {
   /* Box-model */
   padding-bottom: var(--halfbase);
   /* Typography */
-  font-size: var(--h2__fontSize);
+  font-size: var(--3base);
   /* Visual */
   color: var(--grey-900);
   /* Misc */
@@ -220,7 +233,7 @@ h3 {
   /* Positioning */
 
   /* Box-model */
-
+  padding-bottom: var(--thirdbase);
   /* Typography */
   font-size: var(--2base);
   /* Visual */
@@ -316,5 +329,13 @@ ul {
   /* Visual */
   /* Misc */
   z-index: 4;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-scroll {
+  overflow-y: scroll;
 }
 </style>

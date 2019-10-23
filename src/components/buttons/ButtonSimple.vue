@@ -34,11 +34,8 @@ export default {
 <style scoped>
 /*layout*/
 .button {
-  width: 100%;
-  min-width: 4rem;
-  max-width: 14rem;
   height: 100%;
-  padding: var(--1base) var(--1base);
+  padding: var(--1base);
   border-radius: var(--fourthbase);
   position: relative;
   cursor: pointer;
@@ -50,8 +47,6 @@ export default {
 
 @media (min-width: 22.5em) {
   .button {
-    min-width: 6rem;
-    max-width: 16rem;
     padding: var(--1base) var(--2base);
     font-size: var(--halfbase);
   }
@@ -59,22 +54,19 @@ export default {
 
 @media (min-width: 37.5em) {
   .button {
-    min-width: 6rem;
-    max-width: 20rem;
+    padding: var(--1base) var(--3base);
   }
 }
 
 @media (min-width: 45em) {
   .button {
-    min-width: 12rem;
-    max-width: 30rem;
+    padding: var(--1base) var(--5base);
   }
 }
 
-@media (min-width: 45em) {
+@media (min-width: 70em) {
   .button {
-    min-width: 17rem;
-    max-width: 40rem;
+    padding: var(--1base) var(--6base);
   }
 }
 
@@ -135,9 +127,8 @@ export default {
 .no-styling {
   color: var(--grey-800);
   background-color: transparent;
-  width: inherit;
   min-width: 0;
-  height: inherit;
+  max-width: 10rem;
   padding: 0;
   margin: 0;
   border-radius: var(--fourthbase);

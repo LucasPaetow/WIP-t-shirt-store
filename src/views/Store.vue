@@ -49,7 +49,10 @@
     >
       <p class="size-options--text">Choose Size</p>
     </router-link>
-    <page-transition><router-view /></page-transition>
+
+    <page-transition propTransitionName="full-slide">
+      <router-view />
+    </page-transition>
   </article>
 </template>
 
@@ -172,24 +175,7 @@ export default {
     this.$store.dispatch("productModule/COLORS_setCurrent", colorArray);
   },
   //same check for route-view keep-alive
-  activated() {},
-  beforeRouteUpdate(to, from, next) {
-    let store = document.getElementById("store");
-    if (to.name === "sizeOptions") {
-      this.scrollPosition = window.pageYOffset;
-      store.style.top = -this.scrollPosition + "px";
-      store.classList.add("fixed-scroll");
-    }
-    if (to.name === "store") {
-      store.classList.remove("fixed-scroll");
-      store.style.top = "";
-      setTimeout(() => {
-        window.scrollTo(0, this.scrollPosition);
-      }, 10);
-    }
-
-    next();
-  }
+  activated() {}
 };
 </script>
 
@@ -277,10 +263,45 @@ export default {
   /* Misc */
 }
 
-.fixed-scroll {
+.size-options {
+  /* Positioning */
   position: fixed;
+  bottom: 0;
   left: 0;
-  right: 0;
-  overflow-y: scroll; /* render disabled scroll bar to keep the same width */
+  display: grid;
+  /* Box-model */
+  height: 5rem;
+  width: 100%;
+  /* Typography */
+  /* Visual */
+  background-color: hsla(0, 0%, 30%, 0.75);
+  text-decoration-color: var(--grey-0);
+  /* Misc */
+}
+.size-options--text {
+  /* Positioning */
+  justify-self: center;
+  align-self: center;
+  /* Box-model */
+  /* Typography */
+  font-size: var(--2base);
+  font-weight: bold;
+  /* Visual */
+  color: var(--grey-0);
+
+  /* Misc */
+}
+
+@media (min-width: 45em) {
+  .size-options {
+    /* Positioning */
+    display: none;
+    /* Box-model */
+
+    /* Typography */
+    /* Visual */
+
+    /* Misc */
+  }
 }
 </style>
