@@ -37,6 +37,32 @@ const router = new Router({
           component: () => import("@/components/homepage/sizeOptions.vue")
         }
       ]
+    },
+    {
+      path: "/checkout",
+      name: "checkout",
+      redirect: { name: "address" },
+      component: () => import("@/views/Checkout.vue"),
+      children: [
+        {
+          path: "/checkout/address",
+          name: "address",
+          props: true,
+          component: () => import("@/components/checkout/address.vue")
+        },
+        {
+          path: "/checkout/shipping",
+          name: "shipping",
+          props: true,
+          component: () => import("@/components/checkout/shipping.vue")
+        },
+        {
+          path: "/checkout/payment",
+          name: "payment",
+          props: true,
+          component: () => import("@/components/checkout/payment.vue")
+        }
+      ]
     }
 
     /*{

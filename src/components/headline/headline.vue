@@ -2,7 +2,7 @@
   <component
     class="styled-headline"
     :is="headlineType"
-    :class="`styled-headline__${headlineType}`"
+    :class="[`styled-headline__${headlineType}`]"
   >
     <span
       class="styled-headline--background"
@@ -74,7 +74,7 @@ export default {
   /* Typography */
 
   /* Visual */
-  background-color: var(--grey-100);
+  background-color: var(--grey-0);
 
   /* Misc */
   -webkit-box-decoration-break: clone;

@@ -35,13 +35,8 @@
         height: fullHeight + 'vh'
       }"
     >
-      <path :fill="svg.path1.fill" :d="svg.path1.d" x="30rem" />
-      <path
-        :fill="overlay_color[1]"
-        :d="svg.path2.d"
-        class="fill--tshirt"
-        x="30rem"
-      />
+      <path :fill="svg.path1.fill" :d="svg.path1.d" />
+      <path :fill="overlay_color[1]" :d="svg.path2.d" class="fill--tshirt" />
     </svg>
 
     <v-lazy-image
@@ -124,8 +119,6 @@ export default {
       });
 
       return `x${transformedPosition[0]}Y${transformedPosition[1]} slice`;
-
-      return "xMidYMid slice";
     }
   },
   mounted() {},
@@ -219,5 +212,8 @@ export default {
   position: absolute;
   z-index: 3;
   mix-blend-mode: multiply;
+}
+path {
+  transition: fill 0.3s cubic-bezier(0.55, 0, 0.1, 1);
 }
 </style>

@@ -11,7 +11,7 @@
         el: `#${idToScrollTo}`,
         duration: 200,
         easing: 'ease-in-out',
-        offset: -100
+        offset: responsiveOffset
       }"
       >Pick a color</a
     >
@@ -108,7 +108,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({}),
+    responsiveOffset() {
+      return -window.innerHeight / 2;
+    }
   }
 };
 </script>

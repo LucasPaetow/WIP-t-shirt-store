@@ -1,5 +1,5 @@
 <template>
-  <article class="template"></article>
+  <section class="payment"></section>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ export default {
   components: {},
   //if the basics are being edited, this array contains existing basic information
   props: [],
-  name: "componentTemplate",
+  name: "checkoutPayment",
   data() {
     return {};
   },
@@ -31,7 +31,7 @@ export default {
 </script>
 
 <style scoped>
-.template {
+.payment {
   /* Positioning */
   display: grid;
   grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
@@ -40,10 +40,12 @@ export default {
   grid-row-gap: 5vh;
   /* Box-model */
   padding: var(--7base) 0 10vh 0;
+  height: 100vh;
+  width: 100vw;
   /* Typography */
 
   /* Visual */
-
+  background-color: var(--grey-500);
   /* Misc */
 }
 

@@ -47,8 +47,8 @@ export default {
 .modal-layout {
   display: grid;
   grid-template-columns: var(--1base) 1fr var(--1base);
-  grid-row-gap: 5vh;
-  padding: 5vh 0;
+  grid-row-gap: 3vh;
+  padding: 3vh 0;
 }
 
 @media (min-width: 30em) {

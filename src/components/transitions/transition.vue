@@ -58,7 +58,8 @@ export default {
         animationTarget: null,
         firstStep: null,
         lastStep: null,
-        extraTarget: null
+        extraTarget: null,
+        transformOrigin: "center center"
       })
     }
   },
@@ -96,6 +97,8 @@ export default {
     beforeEnter(el) {
       el.style.opacity = 0;
       el.style.transition = `all 0.3s cubic-bezier(0,0,0.58,1)`;
+      el.style.transformOrigin = this.propTransitionCustom.transformOrigin;
+      console.log(el.style);
 
       if (this.propTransitionCustom.extraTarget) {
         let extraTarget = document.getElementById(
@@ -177,6 +180,28 @@ export default {
         this.transitionName = "slide-bottom";
         next();
       }
+      if (targetRoute === "shipping" && fromRoute === "address") {
+        this.transitionName = "slide-right";
+        next();
+      }
+      if (targetRoute === "shipping" && fromRoute === "payment") {
+        this.transitionName = "slide-left";
+        next();
+      }
+      if (
+        targetRoute === "address" &&
+        (fromRoute === "payment" || fromRoute === "shipping")
+      ) {
+        this.transitionName = "slide-left";
+        next();
+      }
+      if (
+        targetRoute === "payment" &&
+        (fromRoute === "address" || fromRoute === "shipping")
+      ) {
+        this.transitionName = "slide-right";
+        next();
+      }
       next();
     });
   }
@@ -209,7 +234,7 @@ export default {
 .slide-top-leave-active,
 .slide-bottom-enter-active,
 .slide-bottom-leave-active {
-  transition-duration: 0.25s;
+  transition-duration: 0.5s;
   transition-property: opacity, transform;
   transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
   overflow: hidden;

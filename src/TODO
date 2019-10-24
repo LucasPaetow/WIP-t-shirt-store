@@ -1,28 +1,21 @@
 
 Home page
-- Change Picture Sections into scroll container, where colors scroll through and change the t-shirts color.
-- Either go to another container with a new image or have the image change to a new one
-- After 2-3 colors show the CTA by scrolling in like the colors
-- On focus everything else fades away, so there is no distraction
-
+- add more images with 2-3 colors each (3 images in total?)
+- maybe additional reasons besides color?
 
 Store-page
 - make wishlist-button functional
   -- Heart-Icon, which gets filled?
 
 Image-Overlay:
-- Positioning des overlays (wie objectPosition)
+- Positioning des overlays (wie objectPosition) => difficult, maybe with the viewbox ? preserveAspectRatio only for very basic changes
+
 
 Cart
-- empty state (maybe some color suggestions?)
-- component for the price
-- Edit Entries
 - Save cart locally
 
 Checkout
-- Create Checkout Layout
 -- Base view with progression
--- sub pages
 
 
 Navbar
