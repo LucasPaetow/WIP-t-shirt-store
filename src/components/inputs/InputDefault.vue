@@ -29,7 +29,13 @@
 <script>
 export default {
   name: "inputField",
-  props: ["value", "input", "error", "index", "invalidAuth"],
+  props: {
+    value: String,
+    input: Object,
+    error: Object,
+    index: Number,
+    invalidAuth: String
+  },
   methods: {
     togglePassword() {
       let input = document.getElementById(`${this.input.id}`);
@@ -47,7 +53,7 @@ export default {
 .form {
   display: grid;
   grid-auto-rows: min-content;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   width: 100%;
   position: relative;
 }

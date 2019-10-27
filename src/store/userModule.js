@@ -7,15 +7,36 @@ export default {
   // -----------------------------------------------------------------
   state: {
     wishlist: [],
-    shoppingCart: [],
+    shoppingCart: [{ amount: 3, size: "M", color: ["white", "#FFFFFF"] }],
     addresses: [],
     payment: [],
-    orderHistory: []
+    orderHistory: [],
+    price: 20
   },
   // -----------------------------------------------------------------
   getters: {
     getShoppingCart: state => {
       return state.shoppingCart;
+    },
+    getShoppingCartCalulations: state => {
+      let total = { amount: 0, price: 0, freeShipping: false };
+
+      if (!state.shoppingCart.length) {
+        return total;
+      }
+
+      let amount = state.shoppingCart.map(item => {
+        return item.amount;
+      });
+      let totalAmount = amount.reduce((acc, cur) => {
+        return acc + cur;
+      });
+
+      total.amount = totalAmount;
+      total.price = totalAmount * state.price;
+      total.freeShipping = totalAmount >= 3 ? true : false;
+
+      return total;
     }
   },
   // -----------------------------------------------------------------

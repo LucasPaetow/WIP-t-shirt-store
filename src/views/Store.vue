@@ -1,12 +1,18 @@
 <template>
-  <article class="store" id="store">
-    <header class="header" id="looks-great">
-      <h1 class="header--headline" v-if="today">
-        This is how cool you will look tomorrow
-      </h1>
-      <h1 class="header--headline" v-else>
-        This is how cool you will look in 2 days
-      </h1>
+  <article class="store main" id="store">
+    <header class="store--header main--header" id="looks-great">
+      <styledHeadline
+        v-if="today"
+        class="header--headline__layout"
+        headlineText="This is how cool you will look tomorrow"
+      ></styledHeadline>
+
+      <styledHeadline
+        v-else
+        class="header--headline__layout"
+        headlineText="This is how cool you will look in 2 days"
+      ></styledHeadline>
+
       <p class="header--subline">
         If you order in the next
         <span v-if="Math.floor(now / 60) > 0">
@@ -15,17 +21,49 @@
         <b> {{ Math.floor(((now / 60) % 1) * 60) }} min</b>
       </p>
     </header>
-    <section class="product-info">
-      <p class="info info--price">
-        <span class="headline__background ">For 20$</span>
-      </p>
-      <buttonSimple
-        class="info info--wishlist"
-        buttonText="add color to wishlist"
-        buttonType="no-styling"
-      />
+    <aside class="store--background main--background"></aside>
+    <section class="product-info main--sidebar">
+      <div class="product-info__sticky main--sidebar__sticky">
+        <div class="product-info--color">
+          <h4>Color name</h4>
+          <p>{{ currentColor[0] }}</p>
+          <p>add to wishlist</p>
+        </div>
+
+        <div class="product-info--Material">
+          <h4>Materials</h4>
+          <ul>
+            <li>- 10% luck, 20% skill</li>
+            <li>- 15% concentrated power of will</li>
+            <li>- 5%pleasure, 50% percent cotton</li>
+            <li>
+              And a 100% reason to remember the tshirt (actually 100% cotton,
+              too)
+            </li>
+          </ul>
+        </div>
+
+        <div class="product-info--sizes">
+          <h4>Available Sizes</h4>
+          <p>S, M, L, XL</p>
+          <p>see size chart</p>
+        </div>
+
+        <div class="product-info--price">
+          <h4>Price for every t-shirt</h4>
+          <p class="price--wrapper">
+            <span class="headline__background ">For 20$</span>
+          </p>
+        </div>
+
+        <button-simple
+          class="product-info--cta"
+          :buttonText="'choose your size'"
+          @simplebuttonevent="goTo('sizeOptions')"
+        />
+      </div>
     </section>
-    <section class="product-images" v-if="randomProductData">
+    <section class="product-images main--content" v-if="randomProductData">
       <productImage
         v-for="(product, index) in randomProductData"
         :key="'randomProductImage' + index"
@@ -38,7 +76,7 @@
       </productImage>
     </section>
 
-    <storeFooter />
+    <storeFooter class="footer__layout main--footer" />
 
     <router-link
       :to="{
@@ -62,13 +100,15 @@ import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import storeFooter from "@/components/footer/footer.vue";
 import pageTransition from "@/components/transitions/transition.vue";
 import productImage from "@/components/homepage/productImage.vue";
+import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
     buttonSimple,
     storeFooter,
     pageTransition,
-    productImage
+    productImage,
+    styledHeadline
   },
   props: [],
   name: "store",
@@ -180,71 +220,10 @@ export default {
 </script>
 
 <style scoped>
-/* Positioning */
-/* Box-model */
-/* Typography */
-/* Visual */
-/* Misc */
-
-.store {
+.main {
   /* Positioning */
+  grid-template-columns: var(--column-spacing) 1.5fr 1fr var(--column-spacing);
   /* Box-model */
-  padding: var(--7base) 0 0 0;
-  min-height: 100%;
-  /* Typography */
-
-  /* Visual */
-  background-color: var(--grey-100);
-  /* Misc */
-}
-
-.header {
-  /* Positioning */
-  display: grid;
-  grid-auto-rows: min-content;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  /* Box-model */
-  padding: 3vh 0 5vh 0;
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.header--headline {
-  /* Positioning */
-  grid-column: 2/3;
-  /* Box-model */
-  padding: var(--h1__padding) 0;
-  /* Typography */
-  line-height: 125%;
-  font-size: calc(var(--h1__fontSize) * 1.25);
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.header--subline {
-  /* Positioning */
-  grid-column: 2/3;
-  /* Box-model */
-
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.product-info {
-  /* Positioning */
-  display: flex;
-  flex-direction: row;
-  /* Box-model */
-  padding: 1vh var(--column-spacing);
-  justify-content: space-between;
   /* Typography */
   /* Visual */
   /* Misc */
@@ -253,14 +232,25 @@ export default {
 .product-images {
   /* Positioning */
   display: grid;
-  grid-auto-rows: min-content;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-row-gap: 2vh;
+  grid-auto-flow: row;
+  grid-row-gap: 5vh;
   /* Box-model */
   min-height: 100%;
   /* Typography */
   /* Visual */
   /* Misc */
+}
+
+@media (min-width: 45em) {
+  .product-images {
+    /* Positioning */
+    display: grid;
+    grid-auto-flow: row;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
 }
 
 .size-options {

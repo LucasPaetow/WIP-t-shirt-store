@@ -49,7 +49,7 @@ export default {};
   grid-auto-rows: min-content;
   grid-row-gap: var(--4base);
   /* Box-model */
-  padding: 10vh 0;
+  padding-bottom: 10vh;
   /* Typography */
 
   /* Visual */

@@ -1,18 +1,5 @@
 <template>
-  <article class="store main">
-    <header class="store--header main--header">
-      <styledHeadline headlineText="Header"></styledHeadline>
-    </header>
-
-    <aside class="store--background main--background"></aside>
-
-    <section class="main--sidebar">
-      <div class="main--sidebar__sticky"></div>
-    </section>
-    <section class="product-images main--content"></section>
-
-    <storeFooter class="footer__layout main--footer" />
-  </article>
+  <article class="template"></article>
 </template>
 
 <script>
@@ -46,9 +33,27 @@ export default {
 <style scoped>
 .template {
   /* Positioning */
+  display: grid;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
+  grid-template-rows: 1fr;
+  grid-auto-rows: min-content;
+  grid-row-gap: 5vh;
   /* Box-model */
+  padding: var(--7base) 0 10vh 0;
   /* Typography */
+
   /* Visual */
+
   /* Misc */
 }
+
+/* Positioning */
+
+/* Box-model */
+
+/* Typography */
+
+/* Visual */
+
+/* Misc */
 </style>

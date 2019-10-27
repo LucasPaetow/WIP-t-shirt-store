@@ -21,6 +21,16 @@ const router = new Router({
       component: () => import("@/views/About.vue")
     },
     {
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/Login.vue")
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      component: () => import("@/views/Signup.vue")
+    },
+    {
       path: "/cart",
       name: "cart",
       component: () => import("@/views/Cart.vue")
@@ -61,6 +71,18 @@ const router = new Router({
           name: "payment",
           props: true,
           component: () => import("@/components/checkout/payment.vue")
+        },
+        {
+          path: "/checkout/confirmation",
+          name: "confirmation",
+          props: true,
+          component: () => import("@/components/checkout/confirmation.vue")
+        },
+        {
+          path: "/checkout/status",
+          name: "status",
+          props: true,
+          component: () => import("@/components/checkout/status.vue")
         }
       ]
     }

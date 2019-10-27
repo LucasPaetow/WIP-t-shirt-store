@@ -1,5 +1,29 @@
 <template>
-  <section class="total-amount"></section>
+  <table class="total-amount">
+    <thead class="header">
+      <td class="header--headline"><b>Subtotal:</b></td>
+    </thead>
+    <tbody class="body">
+      <tr>
+        <td>{{ shoppingCartCalulations.amount }}x T-shirts for 20$ each</td>
+        <td>{{ shoppingCartCalulations.price }}$</td>
+      </tr>
+      <tr :class="[shoppingCartCalulations.freeShipping ? 'crossed-out' : '']">
+        <td>Regular Shipping*</td>
+        <td>{{ shipping }}$</td>
+      </tr>
+    </tbody>
+    <div class="horizontal-line" />
+    <tfoot>
+      <tr>
+        <td><b>Total:</b></td>
+        <td v-if="!shoppingCartCalulations.freeShipping">
+          {{ shoppingCartCalulations.price + shipping }}$
+        </td>
+        <td v-else>{{ shoppingCartCalulations.price }}$</td>
+      </tr>
+    </tfoot>
+  </table>
 </template>
 
 <script>
@@ -11,7 +35,9 @@ export default {
   props: [],
   name: "componentTemplate",
   data() {
-    return {};
+    return {
+      shipping: 5
+    };
   },
   methods: {
     //navigation
@@ -22,9 +48,12 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      shoppingCart: "userModule/getShoppingCart",
+      shoppingCartCalulations: "userModule/getShoppingCartCalulations"
+    })
   },
-  created() {},
+  mounted() {},
   //same check for route-view keep-alive
   activated() {}
 };
@@ -33,27 +62,27 @@ export default {
 <style scoped>
 .total-amount {
   /* Positioning */
-  display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-template-rows: 1fr;
-  grid-auto-rows: min-content;
-  grid-row-gap: 5vh;
+
   /* Box-model */
-  padding: var(--7base) 0 10vh 0;
+  padding: var(--1base) 0;
   /* Typography */
 
+  /* Visual */
+  background-color: var(--grey-0);
+  /* Misc */
+}
+
+.horizontal-line {
+  /* Positioning */
+
+  /* Box-model */
+  margin: var(--1base) 0;
+  width: 115%;
+  height: 0.1rem;
+  /* Typography */
+  background-color: var(--grey-400);
   /* Visual */
 
   /* Misc */
 }
-
-/* Positioning */
-
-/* Box-model */
-
-/* Typography */
-
-/* Visual */
-
-/* Misc */
 </style>

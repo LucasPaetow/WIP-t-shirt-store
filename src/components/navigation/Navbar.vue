@@ -46,15 +46,9 @@ export default {
   right: 0;
   left: 0;
   z-index: 10;
-  height: var(--7base);
+  height: var(--navbar__height);
   background-color: white;
   box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
   width: 100vw;
-}
-
-@media (min-width: 30em) {
-  .navbar {
-    height: var(--8base);
-  }
 }
 </style>

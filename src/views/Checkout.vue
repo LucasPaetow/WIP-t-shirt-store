@@ -26,6 +26,13 @@
         <router-view />
       </page-transition>
     </section>
+    <footer class="footer main--footer">
+      <h4 class="footer--headline">This is only a mockup</h4>
+      <p class="footer--body">
+        You can not order a real product so please don't input your real
+        information
+      </p>
+    </footer>
   </article>
 </template>
 
@@ -176,6 +183,48 @@ export default {
 .checkout--view {
   /* Positioning */
   grid-column: 1/4;
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
+}
+
+.footer {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
+  grid-template-rows: 1fr;
+  grid-auto-rows: min-content;
+  grid-row-gap: var(--4base);
+  /* Box-model */
+  padding-bottom: 5vh;
+  /* Typography */
+
+  /* Visual */
+  background-color: grey;
+  /* Misc */
+}
+
+.footer--headline {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  margin-bottom: var(--halfbase);
+  /* Typography */
+  font-size: var(--h2__fontSize);
+  /* Visual */
+
+  /* Misc */
+}
+
+.footer--body {
+  /* Positioning */
+  grid-column: 2/3;
+  display: flex;
+  flex-direction: column;
   /* Box-model */
 
   /* Typography */

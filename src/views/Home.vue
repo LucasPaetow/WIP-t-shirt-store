@@ -1,6 +1,8 @@
 <template>
-  <article class="home" v-if="!loadingState">
-    <header class="header js-hide-on-search">
+  <article class="home hero" v-if="!loadingState">
+    <aside class="home--background hero--header__background"></aside>
+
+    <header class="header js-hide-on-search hero--header">
       <styledHeadline
         class="header--headline__layout"
         headlineText="Your perfect t-shirt now comes in your perfect color"
@@ -13,7 +15,8 @@
         ></styledHeadline>
       </div>
     </header>
-    <section class="sticky-wrapper">
+
+    <section class="home--product sticky-wrapper hero__center">
       <div class="sticky-content js-hide-on-search">
         <image-overlay
           :image_full="productData[2].urls.full"
@@ -23,7 +26,7 @@
           :svg="productData[2].svg"
           :alt_description="productData[2].alt_description"
           :overlay_color="currentColor || ['white', '#ffffff']"
-          :fullHeight="100"
+          :fullHeight="responsiveImageHeight"
           :aspectRatio="productData[2].width / productData[2].height"
           class="image-overlay z-index-1"
         />
@@ -78,9 +81,92 @@
       </div>
     </section>
 
-    <storeFooter></storeFooter>
+    <section class="home--feature hero__center">
+      <styledHeadline
+        class="feature--headline__layout"
+        headlineText="A T-shirt that has astonishing stamina"
+      ></styledHeadline>
+      <styledHeadline
+        class="feature--headline__layout"
+        headlineText="just like you?"
+        :invertedColor="true"
+      ></styledHeadline>
+      <p class="feature--body">
+        We dont just make perfect t-shirts. We train them to become the worlds
+        greatest. At the end of their training they could partake in the
+        olympics. But that would be fair to the other athletes. This is why they
+        last so long.
+      </p>
+    </section>
+
+    <section class="home--product sticky-wrapper hero__center">
+      <div class="sticky-content js-hide-on-search">
+        <image-overlay
+          :image_full="productData[3].urls.full"
+          :image_regular="productData[3].urls.regular"
+          :image_small="productData[3].urls.small"
+          :image_thumb="productData[3].urls.thumb"
+          :svg="productData[3].svg"
+          :alt_description="productData[3].alt_description"
+          :overlay_color="currentColor || ['white', '#ffffff']"
+          :fullHeight="responsiveImageHeight"
+          :aspectRatio="productData[3].width / productData[3].height"
+          class="image-overlay z-index-1"
+        />
+      </div>
+      <div
+        class="no-sticky observe js-hide-on-search"
+        v-for="(color, index) in colors"
+        :key="'colorsection1' + index"
+      >
+        <a @click="changeToPreviewColor(color)"
+          ><styledHeadline
+            class="sticky-content--headline__layout "
+            :headlineText="
+              index === 0 ? `is it ${color[0]}?` : `or ${color[0]}?`
+            "
+            :invertedColor="true"
+            :id="`preview1-${index}`"
+          ></styledHeadline
+        ></a>
+      </div>
+      <div class="search-container">
+        <styledHeadline
+          class="search--headline__layout"
+          headlineText="In what color do you want to leave others breathless?"
+          :invertedColor="true"
+        ></styledHeadline>
+
+        <styledHeadline
+          class="search--headline__layout"
+          headlineText="just start typing"
+          headlineType="h2"
+          :invertedColor="true"
+        ></styledHeadline>
+        <search
+          id="search-wrapper-1"
+          class="search--input search__layout"
+          :input="{
+            label: null,
+            placeholder: 'mediumspringgreen?',
+            id: 'home'
+          }"
+          align="right"
+          :error="errorSearch"
+          @searchresultevent="selectResult"
+          @searchupdateevent="updateColor"
+          @searchfocusevent="hideNonSearch"
+          @searchblurevent="restoreNonSearch"
+        />
+        <p class="search--continue__layout js-show-on-search">
+          or scroll down for more inspiration
+        </p>
+      </div>
+    </section>
+
+    <storeFooter class="footer__layout hero--footer"></storeFooter>
   </article>
-  <article class="home" v-else>
+  <article class="home hero" v-else>
     <h1>loading</h1>
   </article>
 </template>
@@ -198,7 +284,13 @@ export default {
       loadingState: "initModule/getLoadingState",
       supportData: "productModule/getSupport",
       productData: "productModule/getProduct"
-    })
+    }),
+    responsiveImageHeight() {
+      if (window.innerHeight > 700) {
+        return 90;
+      }
+      return 100;
+    }
   },
   mounted() {
     const observeColors = document.querySelectorAll(".observe");
@@ -217,11 +309,9 @@ export default {
       });
     }, options);
 
-    if (window.innerWidth < 600) {
-      observeColors.forEach(color => {
-        observer.observe(color);
-      });
-    }
+    observeColors.forEach(color => {
+      observer.observe(color);
+    });
   },
   destroyed() {
     //observer.unobserve;
@@ -230,60 +320,11 @@ export default {
 </script>
 
 <style scoped>
-.home {
-  /* Positioning */
-
-  /* Box-model */
-  min-height: 100%;
-  padding-top: var(--7base);
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.header {
-  /* Positioning */
-  display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-template-rows: 1fr;
-  grid-auto-rows: min-content;
-  /* Box-model */
-  padding: 5vh 0;
-  /* Typography */
-
-  /* Visual */
-  background-color: var(--grey-100);
-  /* Misc */
-}
-
-.header--rotating-headline,
-.header--headline__layout {
-  grid-column: 2/3;
-}
-
 .sticky-wrapper {
   /* Positioning */
   position: relative;
-  display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-auto-rows: min-content;
   /* Box-model */
   min-height: 300vh;
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.no-sticky--header {
-  /* Positioning */
-
-  grid-column: 2/3;
-  /* Box-model */
-
   /* Typography */
 
   /* Visual */
@@ -294,17 +335,15 @@ export default {
 .sticky-content {
   /* Positioning */
   position: sticky;
-  top: var(--7base);
-  grid-column: 1/4;
+  top: var(--navbar__height);
   /* Box-model */
   overflow: hidden;
   z-index: 5;
-  height: 100vh;
+
   width: 100%;
   /* Typography */
 
   /* Visual */
-  background-color: var(--grey-100);
 
   /* Misc */
 }
@@ -313,13 +352,12 @@ export default {
   /* Positioning */
   position: relative;
 
-  grid-column: 2/3;
   /* Box-model */
   width: 100%;
   height: 75vh;
   z-index: 6;
   overflow: hidden;
-  padding: var(--4base) 0;
+  padding: var(--4base) var(--paddingX);
   /* Typography */
 
   /* Visual */
@@ -329,28 +367,27 @@ export default {
 
 .search-container {
   /* Positioning */
-  grid-column: 1/4;
+  position: relative;
   display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
   grid-template-rows: min-content min-content 20rem min-content;
   grid-row-gap: 3vh;
   /* Box-model */
   width: 100%;
-  height: 100vh;
+  height: calc(100vh - var(--navbar__height));
   z-index: 6;
   overflow: hidden;
+  padding: 0 5vw;
   /* Typography */
 
   /* Visual */
   /* Misc */
 }
 
-.search__layout,
-.search--headline__layout,
-.search--continue__layout {
+.home--feature {
   /* Positioning */
-  grid-column: 2/3;
+
   /* Box-model */
+  padding: var(--4base) var(--paddingX);
   /* Typography */
 
   /* Visual */
@@ -358,6 +395,7 @@ export default {
   /* Misc */
 }
 
+/*Utility*/
 .search--continue__layout {
   opacity: 0;
 }

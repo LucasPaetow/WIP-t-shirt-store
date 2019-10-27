@@ -1,12 +1,13 @@
 <template>
-  <article class="cart" v-if="shoppingCart.length">
-    <header class="cart--header">
+  <article class="cart main" v-if="shoppingCart.length">
+    <header class="cart--header main--header">
       <h2 class="header--headline">
         You have {{ shoppingCart.length }}
         {{ shoppingCart.length > 1 ? "items" : "item" }} in your cart
       </h2>
     </header>
-    <section class="cart--entries">
+    <aside class="cart--background main--background"></aside>
+    <section class="cart--entries main--content">
       <cartEntry
         v-for="(entry, index) in shoppingCart"
         :key="'shoppingEntry' + index"
@@ -14,20 +15,25 @@
         :index="index"
       />
     </section>
-    <section class="cart--total-amount"></section>
-    <section class="cart--button-wrapper">
-      <button-simple
-        class="cart--button-cta"
-        :buttonText="'checkout and login'"
-        @simplebuttonevent="goTo('login')"
-      />
-      <button-simple
-        class="cart--button-cta"
-        :buttonText="'checkout as guest'"
-        buttonType="secondary"
-        @simplebuttonevent="goTo('login')"
-      />
+    <section class="cart-sidebar main--sidebar">
+      <div class="product-info main--sidebar__sticky">
+        <totalAmount class="payment--amount__layout" />
+        <div class="cart--button-wrapper">
+          <button-simple
+            class="cart--button-cta"
+            :buttonText="'checkout and login'"
+            @simplebuttonevent="goTo('address')"
+          />
+          <button-simple
+            class="cart--button-cta"
+            :buttonText="'checkout as guest'"
+            buttonType="secondary"
+            @simplebuttonevent="goTo('address')"
+          />
+        </div>
+      </div>
     </section>
+    <section class="cart--total-amount"></section>
   </article>
   <article class="cart-empty" v-else>
     <header class="cart--header">
@@ -85,6 +91,7 @@ import imageOverlay from "@/components/overlay/ImageOverlay.vue";
 import modalLayout from "@/components/modal/modalLayout.vue";
 import styledHeadline from "@/components/headline/headline.vue";
 import cartEntry from "@/components/cart/cartEntry.vue";
+import totalAmount from "@/components/cart/totalAmount.vue";
 
 export default {
   components: {
@@ -92,7 +99,8 @@ export default {
     imageOverlay,
     modalLayout,
     styledHeadline,
-    cartEntry
+    cartEntry,
+    totalAmount
   },
   //if the basics are being edited, this array contains existing basic information
   props: [],
@@ -144,42 +152,9 @@ export default {
 </script>
 
 <style scoped>
-.cart,
-.cart-empty {
-  /* Positioning */
-  display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-template-rows: min-content min-content 1fr;
-
-  grid-row-gap: 3vh;
-  /* Box-model */
-  min-height: 100%;
-  padding: var(--7base) 0 0 0;
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.cart-empty .cart--header,
-.cart--header {
-  /* Positioning */
-  grid-column: 2/3;
-  grid-row: 1/2;
-  /* Box-model */
-  padding: 3vh 0 3vh 0;
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
 .cart--entries {
   /* Positioning */
-  grid-column: 2/3;
-  grid-row: 2/3;
+
   /* Box-model */
   padding: 0 0 3vh 0;
   /* Typography */
@@ -191,8 +166,6 @@ export default {
 
 .cart--button-wrapper {
   /* Positioning */
-  grid-column: 2/3;
-  grid-row: 3/4;
   display: grid;
   grid-auto-flow: row;
   grid-row-gap: var(--1base);
@@ -205,21 +178,6 @@ export default {
   /* Misc */
 }
 
-.cart-empty .cart--button-wrapper {
-  /* Positioning */
-  grid-column: 2/3;
-  grid-row: 2/3;
-  display: grid;
-  grid-auto-flow: row;
-  grid-row-gap: var(--1base);
-  /* Box-model */
-
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
 .cart-empty .cart--upsell {
   /* Positioning */
   grid-column: 2/3;

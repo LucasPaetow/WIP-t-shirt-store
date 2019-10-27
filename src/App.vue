@@ -80,9 +80,13 @@ export default {
   --green-700: #2f855a;
 
   /*padding*/
+  --paddingX: 5vw;
 
   /*spacing*/
-  --column-spacing: 5vw;
+  --column-spacing: 2.5vw;
+
+  /*Navbar*/
+  --navbar__height: var(--7base);
 
   /*main headline*/
   --h1__fontSize: 7vw;
@@ -105,6 +109,12 @@ export default {
   }
 }
 
+@media (min-width: 30em) {
+  :root {
+    --navbar__height: var(--8base);
+  }
+}
+
 @media (min-width: 37.5em) {
   :root {
     --column-spacing: 10vw;
@@ -114,11 +124,9 @@ export default {
 }
 @media (min-width: 45em) {
   :root {
-    --column-spacing: 6vw;
-    --h1__fontSize: 5vw;
-    --h1__lineHeight: calc(
-      var(--h1__fontSize) + var(--h1__padding) * 2 + 2.5vw
-    );
+    --column-spacing: 2vw;
+    --h1__fontSize: 4vw;
+    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2vw);
   }
 }
 
@@ -199,8 +207,7 @@ html,
   -moz-osx-font-smoothing: grayscale;
 
   /* Visual */
-  background-color: white;
-
+  background-color: var(--grey-100);
   /* Misc */
 }
 
@@ -337,5 +344,181 @@ ul {
 
 .overflow-scroll {
   overflow-y: scroll;
+}
+
+/*Site layout*/
+
+/*hero has one main column and side padding*/
+/*main has one main column, a sidebar and side padding*/
+
+.hero,
+.main {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
+  grid-auto-rows: min-content;
+  grid-row-gap: 5vh;
+  /* Box-model */
+  min-height: 100%;
+  padding-top: var(--navbar__height);
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
+}
+
+.main--background,
+.hero--background {
+  /* Positioning */
+  position: relative;
+  grid-column: 1/4;
+  grid-row: 1/2;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  background-color: var(--grey-200);
+  /* Misc */
+}
+
+.main--header,
+.hero--header {
+  /* Positioning */
+  position: relative;
+  z-index: 2;
+  grid-column: 2/3;
+  grid-row: 1/2;
+  /* Box-model */
+  padding: 7.5vh var(--paddingX) 5vh var(--paddingX);
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--sidebar {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--sidebar__sticky {
+  /* Positioning */
+  display: grid;
+  grid-auto-flow: row;
+  /* Box-model */
+  grid-row-gap: 3vh;
+  padding: 0 var(--paddingX);
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--content {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--footer,
+.hero--footer {
+  /* Positioning */
+  grid-column: 1/4;
+  /* Box-model */
+  padding: 7.5vh var(--paddingX) 5vh var(--paddingX);
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.hero__center,
+.main__center-sidebar,
+.main__center-content {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+@media (min-width: 45em) {
+  .main {
+    grid-template-columns: var(--column-spacing) 1.66fr 1fr var(
+        --column-spacing
+      );
+    grid-column-gap: var(--2base);
+  }
+
+  .main--header {
+    /* Positioning */
+    grid-column: 2/4;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main--background,
+  .main--footer {
+    /* Positioning */
+    grid-column: 1/5;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main--sidebar {
+    /* Positioning */
+    grid-column: 3/4;
+    grid-row: 2/3;
+    /* Box-model */
+    min-height: 100%;
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main--sidebar__sticky {
+    position: sticky;
+    top: var(--navbar__height);
+    padding: 5vh var(--1base) 0 var(--1base);
+  }
+
+  .main--content {
+    /* Positioning */
+    grid-column: 2/3;
+    grid-row: 2/3;
+    /* Box-model */
+    min-height: 100%;
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main__center-sidebar {
+    /* Positioning */
+    grid-column: 3/4;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+}
+
+@media (min-width: 70em) {
+  .main {
+    grid-template-columns: var(--column-spacing) 1.5fr 1fr var(--column-spacing);
+  }
+
+  .product-info--sticky {
+    padding: 5vh var(--2base) 0 var(--2base);
+  }
 }
 </style>

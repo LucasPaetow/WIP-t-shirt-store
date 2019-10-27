@@ -181,25 +181,25 @@ export default {
         next();
       }
       if (targetRoute === "shipping" && fromRoute === "address") {
-        this.transitionName = "slide-right";
+        this.transitionName = "slide-left";
         next();
       }
       if (targetRoute === "shipping" && fromRoute === "payment") {
-        this.transitionName = "slide-left";
+        this.transitionName = "slide-right";
         next();
       }
       if (
         targetRoute === "address" &&
         (fromRoute === "payment" || fromRoute === "shipping")
       ) {
-        this.transitionName = "slide-left";
+        this.transitionName = "slide-right";
         next();
       }
       if (
         targetRoute === "payment" &&
         (fromRoute === "address" || fromRoute === "shipping")
       ) {
-        this.transitionName = "slide-right";
+        this.transitionName = "slide-left";
         next();
       }
       next();
@@ -211,13 +211,12 @@ export default {
 <style scoped>
 /* --------fade---------*/
 .fade-enter-active {
-  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
-  opacity: 1;
+  transition: all 0.2s cubic-bezier(0.55, 0, 0.1, 1);
 }
 
 .fade-leave-active {
-  transition: all 0.3s cubic-bezier(0.55, 0, 0.1, 1);
-  opacity: 1;
+  transition: all 0.2s cubic-bezier(0.55, 0, 0.1, 1);
+  position: absolute;
 }
 
 .fade-enter,
