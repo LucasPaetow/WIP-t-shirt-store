@@ -85,24 +85,28 @@ const router = new Router({
           component: () => import("@/components/checkout/status.vue")
         }
       ]
-    }
+    },
 
-    /*{
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("@/views/Profile.vue")
+    },
+    {
       path: "/legal",
       name: "legal",
       component: () => import("@/views/Legal.vue")
     },
-
     {
-      path: "/signup",
-      name: "signup",
-      component: () => import("@/views/Signup.vue")
+      path: "/yikes",
+      name: "yikes",
+      component: () => import("@/views/Yikes.vue")
     },
     {
-      path: "/login",
-      name: "login",
-      component: () => import("@/views/Login.vue")
-    }*/
+      path: "*",
+      name: "404",
+      redirect: { name: "yikes" }
+    }
   ],
   //saves the scroll position if the user uses the back button
   scrollBehavior(to, from, savedPosition) {

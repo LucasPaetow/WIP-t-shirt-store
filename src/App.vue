@@ -89,23 +89,41 @@ export default {
   --navbar__height: var(--7base);
 
   /*main headline*/
-  --h1__fontSize: 7vw;
-  --h1__padding: var(--fourthbase);
-  --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 3.5vw);
 
-  --h2__fontSize: calc(var(--h1__fontSize) * 0.66);
-  --h2__padding: calc(var(--h2__padding) * 0.66);
-  --h2__lineHeight: calc(var(--h1__lineHeight) * 0.66);
+  --h1--fontsize__fixed: var(--3base);
+  --h1--padding__fixed: var(--fourthbase);
+  --h1--lineHeight-factor__fixed: 0.9rem;
+  --h1--lineHeight__fixed: calc(
+    var(--h1--fontsize__fixed) + var(--h1--padding__fixed) * 2 +
+      var(--h1--lineHeight-factor__fixed)
+  );
+
+  --h2--fontsize__fixed: var(--2base);
+  --h2--padding__fixed: var(--fourthbase);
+  --h2--lineHeight-factor__fixed: 0.75rem;
+  --h2--lineHeight__fixed: calc(
+    var(--h2--fontsize__fixed) + var(--h2--padding__fixed) * 2 +
+      var(--h2--lineHeight-factor__fixed)
+  );
+
+  --h3--fontsize__fixed: calc(var(--1base) * 1.1);
+  --h3--padding__fixed: var(--fourthbase);
+  --h3--lineHeight-factor__fixed: 0.6rem;
+  --h3--lineHeight__fixed: calc(
+    var(--h3--fontsize__fixed) + var(--h3--padding__fixed) * 2 +
+      var(--h3--lineHeight-factor__fixed)
+  );
 }
 
 @media (min-width: 22.5em) {
+  :root {
+    --h1--fontsize__fixed: var(--4base);
+    --h1--lineHeight-factor__fixed: 1.1rem;
+  }
 }
 
 @media (min-width: 26em) {
   :root {
-    --h1__fontSize: 6vw;
-    --h1__padding: var(--thirdbase);
-    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 3vw);
   }
 }
 
@@ -117,47 +135,50 @@ export default {
 
 @media (min-width: 37.5em) {
   :root {
-    --column-spacing: 10vw;
-    --h1__fontSize: 5.5vw;
-    --h1__padding: var(--fourthbase);
   }
 }
 @media (min-width: 45em) {
   :root {
     --column-spacing: 2vw;
-    --h1__fontSize: 4vw;
-    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2vw);
+    --h1--fontsize__fixed: var(--5base);
+    --h1--lineHeight-factor__fixed: 1.35rem;
+    --h2--fontsize__fixed: var(--3base);
+    --h2--lineHeight-factor__fixed: 0.9rem;
+    --h3--fontsize__fixed: var(--2base);
+    --h3--lineHeight-factor__fixed: 0.75rem;
   }
 }
 
-@media (min-width: 70em) {
+@media (min-width: 56em) {
   :root {
-    --column-spacing: 12.5vw;
-    --h1__fontSize: 4vw;
-    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2vw);
+    --column-spacing: 5vw;
+  }
+}
 
-    --h2__fontSize: calc(var(--h1__fontSize) * 0.5);
-    --h2__lineHeight: calc(var(--h1__lineHeight) * 0.6);
+@media (min-width: 64em) {
+  :root {
+    --column-spacing: 10vw;
+    --h1--fontsize__fixed: var(--6base);
+    --h1--lineHeight-factor__fixed: 1.5rem;
+    --h2--fontsize__fixed: var(--4base);
+    --h2--lineHeight-factor__fixed: 1.1rem;
+    --h3--fontsize__fixed: var(--3base);
+    --h3--lineHeight-factor__fixed: 0.9rem;
   }
 }
 
 @media (min-width: 90em) {
   :root {
-    --column-spacing: 15vw;
-    --h1__fontSize: 3.25vw;
-    --h1__padding: var(--halfbase);
-    --h1__lineHeight: calc(
-      var(--h1__fontSize) + var(--h1__padding) * 2 + 1.5vw
-    );
-    --h2__fontSize: calc(var(--h1__fontSize) * 0.4);
-    --h2__lineHeight: calc(var(--h1__lineHeight) * 0.55);
+    --column-spacing: 12.5vw;
+    --h1--padding__fixed: var(--halfbase);
+    --h1--lineHeight-factor__fixed: 1.6rem;
+    --h2--padding__fixed: var(--halfbase);
   }
 }
 
 @media (min-width: 110em) {
   :root {
-    --h1__fontSize: 4.5rem;
-    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2rem);
+    --column-spacing: 20vw;
   }
 }
 
@@ -207,7 +228,7 @@ html,
   -moz-osx-font-smoothing: grayscale;
 
   /* Visual */
-  background-color: var(--grey-100);
+  background-color: var(--grey-0);
   /* Misc */
 }
 
@@ -217,7 +238,8 @@ h1 {
   /* Box-model */
   padding-bottom: var(--1base);
   /* Typography */
-  font-size: var(--5base);
+  font-size: var(--h1--fontsize__fixed);
+
   /* Visual */
   color: var(--grey-900);
 
@@ -230,7 +252,7 @@ h2 {
   /* Box-model */
   padding-bottom: var(--halfbase);
   /* Typography */
-  font-size: var(--3base);
+  font-size: var(--h2--fontsize__fixed);
   /* Visual */
   color: var(--grey-900);
   /* Misc */
@@ -240,9 +262,9 @@ h3 {
   /* Positioning */
 
   /* Box-model */
-  padding-bottom: var(--thirdbase);
+  padding-bottom: var(--halfbase);
   /* Typography */
-  font-size: var(--2base);
+  font-size: var(--h3--fontsize__fixed);
   /* Visual */
   color: var(--grey-900);
   /* Misc */
@@ -283,6 +305,19 @@ ul {
 
   /* Box-model */
 
+  /* Typography */
+
+  /* Visual */
+  /* Misc */
+  list-style: none;
+}
+
+form,
+input {
+  /* Positioning */
+
+  /* Box-model */
+  max-width: 30rem;
   /* Typography */
 
   /* Visual */
@@ -346,6 +381,12 @@ ul {
   overflow-y: scroll;
 }
 
+@media (min-width: 45em) {
+  .big-text {
+    font-size: var(--2base);
+  }
+}
+
 /*Site layout*/
 
 /*hero has one main column and side padding*/
@@ -361,6 +402,7 @@ ul {
   /* Box-model */
   min-height: 100%;
   padding-top: var(--navbar__height);
+
   /* Typography */
 
   /* Visual */
@@ -395,10 +437,33 @@ ul {
   /* Misc */
 }
 
+.main__small .main--header {
+  /* Positioning */
+  /* Box-model */
+  padding: 7.5vh 0 5vh 0;
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
 .main--sidebar {
   /* Positioning */
   grid-column: 2/3;
   /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.recap-wrapper {
+  /* Positioning */
+  display: grid;
+  grid-auto-rows: min-content;
+  /* Box-model */
+
+  width: 100%;
+  border: 2px solid var(--grey-600);
+
   /* Typography */
   /* Visual */
   /* Misc */
@@ -410,7 +475,6 @@ ul {
   grid-auto-flow: row;
   /* Box-model */
   grid-row-gap: 3vh;
-  padding: 0 var(--paddingX);
   /* Typography */
   /* Visual */
   /* Misc */
@@ -420,6 +484,15 @@ ul {
   /* Positioning */
   grid-column: 2/3;
   /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main__small .main--content {
+  /* Positioning */
+  /* Box-model */
+  max-width: 30rem;
   /* Typography */
   /* Visual */
   /* Misc */
@@ -449,10 +522,16 @@ ul {
 
 @media (min-width: 45em) {
   .main {
+    /* Positioning */
     grid-template-columns: var(--column-spacing) 1.66fr 1fr var(
         --column-spacing
       );
     grid-column-gap: var(--2base);
+    grid-template-rows: min-content min-content 1fr;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
   }
 
   .main--header {
@@ -488,7 +567,6 @@ ul {
   .main--sidebar__sticky {
     position: sticky;
     top: var(--navbar__height);
-    padding: 5vh var(--1base) 0 var(--1base);
   }
 
   .main--content {
@@ -497,6 +575,7 @@ ul {
     grid-row: 2/3;
     /* Box-model */
     min-height: 100%;
+
     /* Typography */
     /* Visual */
     /* Misc */
@@ -512,13 +591,33 @@ ul {
   }
 }
 
-@media (min-width: 70em) {
+@media (min-width: 64em) {
   .main {
+    /* Positioning */
     grid-template-columns: var(--column-spacing) 1.5fr 1fr var(--column-spacing);
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main__small {
+    /* Positioning */
+    grid-template-columns: calc(var(--column-spacing) + var(--paddingX)) 1.5fr 1fr calc(
+        var(--column-spacing) + var(--paddingX)
+      );
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
   }
 
   .product-info--sticky {
-    padding: 5vh var(--2base) 0 var(--2base);
+    /* Positioning */
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
   }
 }
 </style>

@@ -24,36 +24,37 @@
     <aside class="store--background main--background"></aside>
     <section class="product-info main--sidebar">
       <div class="product-info__sticky main--sidebar__sticky">
-        <div class="product-info--color">
-          <h4>Color name</h4>
-          <p>{{ currentColor[0] }}</p>
-          <p>add to wishlist</p>
-        </div>
-
-        <div class="product-info--Material">
-          <h4>Materials</h4>
-          <ul>
-            <li>- 10% luck, 20% skill</li>
-            <li>- 15% concentrated power of will</li>
-            <li>- 5%pleasure, 50% percent cotton</li>
-            <li>
-              And a 100% reason to remember the tshirt (actually 100% cotton,
-              too)
-            </li>
-          </ul>
-        </div>
-
-        <div class="product-info--sizes">
-          <h4>Available Sizes</h4>
-          <p>S, M, L, XL</p>
-          <p>see size chart</p>
-        </div>
-
-        <div class="product-info--price">
-          <h4>Price for every t-shirt</h4>
-          <p class="price--wrapper">
-            <span class="headline__background ">For 20$</span>
-          </p>
+        <div class="recap-wrapper">
+          <recap headline="About the color" :alreadyExpanded="true">
+            <div class="product-info--color">
+              <p>{{ currentColor[0] }}</p>
+              <p>add to wishlist</p>
+            </div>
+          </recap>
+          <recap headline="Materials">
+            <ul class="product-info--Material">
+              <li>- 10% luck, 20% skill</li>
+              <li>- 15% concentrated power of will</li>
+              <li>- 5%pleasure, 50% percent cotton</li>
+              <li>
+                And a 100% reason to remember the tshirt (actually 100% cotton,
+                too)
+              </li>
+            </ul>
+          </recap>
+          <recap headline="Available Sizes">
+            <div class="product-info--sizes">
+              <p>S, M, L, XL</p>
+              <p>see size chart</p>
+            </div>
+          </recap>
+          <recap :last="true" headline="Price for every t-shirt">
+            <div class="product-info--price">
+              <p class="price--wrapper">
+                <span class="headline__background ">For 20$</span>
+              </p>
+            </div>
+          </recap>
         </div>
 
         <button-simple
@@ -101,6 +102,7 @@ import storeFooter from "@/components/footer/footer.vue";
 import pageTransition from "@/components/transitions/transition.vue";
 import productImage from "@/components/homepage/productImage.vue";
 import styledHeadline from "@/components/headline/headline.vue";
+import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
@@ -108,7 +110,8 @@ export default {
     storeFooter,
     pageTransition,
     productImage,
-    styledHeadline
+    styledHeadline,
+    recap
   },
   props: [],
   name: "store",
@@ -220,15 +223,6 @@ export default {
 </script>
 
 <style scoped>
-.main {
-  /* Positioning */
-  grid-template-columns: var(--column-spacing) 1.5fr 1fr var(--column-spacing);
-  /* Box-model */
-  /* Typography */
-  /* Visual */
-  /* Misc */
-}
-
 .product-images {
   /* Positioning */
   display: grid;
@@ -251,6 +245,35 @@ export default {
     /* Visual */
     /* Misc */
   }
+}
+
+.product-info--cta {
+  /* Positioning */
+  display: none;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+@media (min-width: 45em) {
+  .product-info--cta {
+    /* Positioning */
+    display: block;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+}
+
+.header--subline {
+  /* Positioning */
+  /* Box-model */
+  /* Typography */
+  font-size: var(--h3--fontsize__fixed);
+  /* Visual */
+  /* Misc */
 }
 
 .size-options {

@@ -64,7 +64,7 @@ export default {
   }
 }
 
-@media (min-width: 70em) {
+@media (min-width: 64em) {
   .button {
     padding: var(--1base) var(--6base);
   }

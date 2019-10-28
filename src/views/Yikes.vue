@@ -21,8 +21,8 @@ import { mapGetters } from "vuex";
 export default {
   components: {},
   //if the basics are being edited, this array contains existing basic information
-  props: [],
-  name: "componentTemplate",
+  props: {},
+  name: "yikes",
   data() {
     return {};
   },

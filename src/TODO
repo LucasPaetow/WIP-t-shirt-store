@@ -1,59 +1,85 @@
 
-######### Views ############
+######### Layout and Style ############
 
 General:
-- Implement Layout1 (Home, Signup/Login) and Layout2 (Profile, About)
 -- create components & guidelines for buttons, radio inputs, t-shirt preview
 -- define margins and paddings
+- Define primary, secondary, tertiary, no-styling
+- Dumb buttons should have a slot for a logo
 
+Main-Layout needs dedicated padding-top and row-gap
+
+Cart
+- Entry and Cart Itself can overflow, needs a different layout
+
+
+Checkout + Children
+
+- Better Radiobuttons and a datepicker
+- Put the payment inputs inside of the radio buttons
+- footer needs to be styled like everything else
+
+Inputs
+- turn radiobuttons into components
+
+
+Navbar
+- Extended navbar should come from behind the navbar
+
+
+######### Content ############
 
 Home page
 - add more images with 2-3 colors each (3 images in total?)
 - complete 2 feature sections with a headline combo and text
 
+Yikes, About, Legal
+- Textcontent
+
+Auth:
+- Sidebar-content, which is different from the sub headline
+
+######### Functionality ############
+
 Store-page
-- Give 20$ a dark Background
+
 - make wishlist-button functional by connecting it to the store
   -- Heart-Icon, which gets filled?
-- accordion element for the supporting information
 
 Cart
 - Save cart locally
+- loadingState (if user journey starts here)
+
+Search-Component
+- Show results on mobile while typing
+
+Checkout + Children
+- Input-Validation
+
+Image-Overlay:
 - loadingState
-- totalAmount and second pair of buttons
-
-Checkout
-
-Non-mobiel: should the sidebar content be within the childroutes (better controll over links etc) or outside (less moving around)
 
 
-Auth:
+########################################################################
+
+
+
+Modals
+=> Vue Portal for 1 Modal und 1 Alert
+- "Pick a Color" modal (Store, )
+- "Register" Modal after order completion
+- "Choose Size" from different places (Store,)
+
+
+
 
 
 
 ######### Components ############
 
-Search-Component
-- Show results on mobile while typing
 
 
-Inputs
-- turn radiobuttons into components
 
-Buttons
-- Define primary, secondary, tertiary, no-styling
-- Dumb buttons should have the option for a logo
-
-Image-Overlay:
-- Positioning des overlays (wie objectPosition) => difficult, maybe with the viewbox ? preserveAspectRatio only for very basic changes
-- loadingState
-
-Navbar
-- Create full navbar
-
-
-Modal screens:
-- Color chooser
 
 
 
@@ -67,7 +93,3 @@ Modal Problems
 //////////////
 => Workaround: A fixed button container with overflow none width 2/3 components inside and already rendered. On click they just move in and out of the container viewbox
 ///////////////
-
-Cleanup:
--- Separate components in dumb and smart
--- Colors are moved in Arrays, object would be nicer

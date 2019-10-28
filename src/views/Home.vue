@@ -1,6 +1,6 @@
 <template>
   <article class="home hero" v-if="!loadingState">
-    <aside class="home--background hero--header__background"></aside>
+    <aside class="home--background hero--background "></aside>
 
     <header class="header js-hide-on-search hero--header">
       <styledHeadline
@@ -12,6 +12,7 @@
           class="header--headline__layout"
           headlineText="is it ghostwhite?"
           :invertedColor="true"
+          headlineType="h2"
         ></styledHeadline>
       </div>
     </header>
@@ -32,18 +33,19 @@
         />
       </div>
       <div
-        class="no-sticky observe js-hide-on-search"
+        class="non-sticky observe js-hide-on-search"
         v-for="(color, index) in colors"
         :key="'colorsection1' + index"
       >
         <a @click="changeToPreviewColor(color)"
           ><styledHeadline
-            class="sticky-content--headline__layout "
+            class="non-sticky--links"
             :headlineText="
               index === 0 ? `is it ${color[0]}?` : `or ${color[0]}?`
             "
             :invertedColor="true"
             :id="`preview1-${index}`"
+            headlineType="h1"
           ></styledHeadline
         ></a>
       </div>
@@ -52,13 +54,7 @@
           class="search--headline__layout"
           headlineText="In what color do you want to leave others breathless?"
           :invertedColor="true"
-        ></styledHeadline>
-
-        <styledHeadline
-          class="search--headline__layout"
-          headlineText="just start typing"
-          headlineType="h2"
-          :invertedColor="true"
+          headlineType="h1"
         ></styledHeadline>
         <search
           id="search-wrapper-1"
@@ -68,7 +64,6 @@
             placeholder: 'mediumspringgreen?',
             id: 'home'
           }"
-          align="right"
           :error="errorSearch"
           @searchresultevent="selectResult"
           @searchupdateevent="updateColor"
@@ -89,9 +84,10 @@
       <styledHeadline
         class="feature--headline__layout"
         headlineText="just like you?"
+        headlineType="h2"
         :invertedColor="true"
       ></styledHeadline>
-      <p class="feature--body">
+      <p class="feature--body big-text">
         We dont just make perfect t-shirts. We train them to become the worlds
         greatest. At the end of their training they could partake in the
         olympics. But that would be fair to the other athletes. This is why they
@@ -102,31 +98,32 @@
     <section class="home--product sticky-wrapper hero__center">
       <div class="sticky-content js-hide-on-search">
         <image-overlay
-          :image_full="productData[3].urls.full"
-          :image_regular="productData[3].urls.regular"
-          :image_small="productData[3].urls.small"
-          :image_thumb="productData[3].urls.thumb"
-          :svg="productData[3].svg"
-          :alt_description="productData[3].alt_description"
+          :image_full="productData[2].urls.full"
+          :image_regular="productData[2].urls.regular"
+          :image_small="productData[2].urls.small"
+          :image_thumb="productData[2].urls.thumb"
+          :svg="productData[2].svg"
+          :alt_description="productData[2].alt_description"
           :overlay_color="currentColor || ['white', '#ffffff']"
           :fullHeight="responsiveImageHeight"
-          :aspectRatio="productData[3].width / productData[3].height"
+          :aspectRatio="productData[2].width / productData[2].height"
           class="image-overlay z-index-1"
         />
       </div>
       <div
-        class="no-sticky observe js-hide-on-search"
+        class="non-sticky observe js-hide-on-search"
         v-for="(color, index) in colors"
         :key="'colorsection1' + index"
       >
         <a @click="changeToPreviewColor(color)"
           ><styledHeadline
-            class="sticky-content--headline__layout "
+            class="non-sticky--links"
             :headlineText="
               index === 0 ? `is it ${color[0]}?` : `or ${color[0]}?`
             "
             :invertedColor="true"
             :id="`preview1-${index}`"
+            headlineType="h1"
           ></styledHeadline
         ></a>
       </div>
@@ -135,13 +132,7 @@
           class="search--headline__layout"
           headlineText="In what color do you want to leave others breathless?"
           :invertedColor="true"
-        ></styledHeadline>
-
-        <styledHeadline
-          class="search--headline__layout"
-          headlineText="just start typing"
-          headlineType="h2"
-          :invertedColor="true"
+          headlineType="h1"
         ></styledHeadline>
         <search
           id="search-wrapper-1"
@@ -151,7 +142,6 @@
             placeholder: 'mediumspringgreen?',
             id: 'home'
           }"
-          align="right"
           :error="errorSearch"
           @searchresultevent="selectResult"
           @searchupdateevent="updateColor"
@@ -162,6 +152,25 @@
           or scroll down for more inspiration
         </p>
       </div>
+    </section>
+
+    <section class="home--feature hero__center">
+      <styledHeadline
+        class="feature--headline__layout"
+        headlineText="A T-shirt that has astonishing stamina"
+      ></styledHeadline>
+      <styledHeadline
+        class="feature--headline__layout"
+        headlineText="just like you?"
+        headlineType="h2"
+        :invertedColor="true"
+      ></styledHeadline>
+      <p class="feature--body big-text">
+        We dont just make perfect t-shirts. We train them to become the worlds
+        greatest. At the end of their training they could partake in the
+        olympics. But that would be fair to the other athletes. This is why they
+        last so long.
+      </p>
     </section>
 
     <storeFooter class="footer__layout hero--footer"></storeFooter>
@@ -326,9 +335,7 @@ export default {
   /* Box-model */
   min-height: 300vh;
   /* Typography */
-
   /* Visual */
-
   /* Misc */
 }
 
@@ -348,7 +355,11 @@ export default {
   /* Misc */
 }
 
-.no-sticky {
+.non-sticky--links {
+  word-break: break-all;
+}
+
+.non-sticky {
   /* Positioning */
   position: relative;
 
@@ -393,6 +404,11 @@ export default {
   /* Visual */
 
   /* Misc */
+}
+
+.feature--body {
+  max-width: calc(100% - var(--paddingX));
+  padding: var(--1base) var(--halfbase);
 }
 
 /*Utility*/

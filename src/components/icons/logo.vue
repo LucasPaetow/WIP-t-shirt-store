@@ -23,7 +23,7 @@
 
 <style scoped>
 .icon-size {
-  width: 100%;
-  height: auto;
+  width: auto;
+  height: 100%;
 }
 </style>

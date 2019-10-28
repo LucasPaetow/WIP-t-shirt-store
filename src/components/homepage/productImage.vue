@@ -1,12 +1,15 @@
 <template>
   <section class="product-image overlay-wrapper">
     <div class="soundbite z-index-2">
-      <styled-headline :headlineText="product.description.headline" />
+      <styled-headline
+        :headlineText="product.description.headline"
+        headlineType="h2"
+      />
 
       <styled-headline
         v-if="product.description.subline"
         :headlineText="product.description.subline"
-        headlineType="h2"
+        headlineType="h3"
         :invertedColor="true"
       />
     </div>
@@ -105,7 +108,7 @@ export default {
 @media (min-width: 45em) {
   .overlay-layout {
     /* Positioning */
-    grid-column: 2/4;
+    grid-column: 1/4;
     grid-row: 1/4;
     /* Box-model */
 
@@ -116,8 +119,19 @@ export default {
 
   .soundbite {
     /* Positioning */
-    grid-column: 1/3;
+    grid-column: 2/4;
     grid-row: 2/3;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+}
+
+@media (min-width: 64em) {
+  .soundbite {
+    /* Positioning */
+    grid-column: 2/3;
     /* Box-model */
     /* Typography */
     /* Visual */

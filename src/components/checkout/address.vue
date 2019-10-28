@@ -1,98 +1,72 @@
 <template>
-  <article class="address main">
-    <header class="address--header main--header">
-      <styledHeadline headlineText="    About you"></styledHeadline>
-      <styledHeadline
-        headlineText="the future member of the being-stunningly-well-dressed-club:"
-        :invertedColor="true"
-      ></styledHeadline>
-    </header>
+  <section class="product-images address-content ">
+    <div class="address--identity">
+      <h3 class="address--headline">About you</h3>
 
-    <aside class="store--background main--background"></aside>
+      <inputField
+        class="identity--name"
+        v-model="identity.name"
+        :input="{
+          label: 'Your Password',
+          type: 'text',
+          placeholder: 'Name',
+          id: 'identity-name'
+        }"
+      />
+      <inputField
+        class="identity--email"
+        v-model="identity.email"
+        :input="{
+          label: 'Your Password',
+          type: 'text',
+          placeholder: 'Name',
+          id: 'identity-email'
+        }"
+      />
+    </div>
 
-    <section class="product-images main--content">
-      <div class="address--identity">
-        <inputField
-          class="identity--name"
-          v-model="identity.name"
-          :input="{
-            label: 'Your Password',
-            type: 'text',
-            placeholder: 'Name',
-            id: 'identity-name'
-          }"
-        />
-        <inputField
-          class="identity--email"
-          v-model="identity.email"
-          :input="{
-            label: 'Your Password',
-            type: 'text',
-            placeholder: 'Name',
-            id: 'identity-email'
-          }"
-        />
-      </div>
+    <div class="address--place address--section">
+      <h3 class="place--headline">Where should we ship your t-shirts to?</h3>
+      <inputField
+        class="place--street"
+        v-model="place.street"
+        :input="{
+          label: 'Your Street',
+          type: 'text',
+          placeholder: 'Street',
+          id: 'place-street'
+        }"
+      />
+      <inputField
+        class="place--zip"
+        v-model="place.zip"
+        :input="{
+          label: 'Zip code',
+          type: 'text',
+          placeholder: '12345',
+          id: 'place-zip'
+        }"
+      />
+      <inputField
+        class="place--city"
+        v-model="place.city"
+        :input="{
+          label: 'Your City',
+          type: 'text',
+          placeholder: 'city',
+          id: 'place-city'
+        }"
+      />
+    </div>
 
-      <div class="address--place address--section">
-        <styledHeadline
-          class="place--headline"
-          headlineText=" Where should we ship your t-shirts to?"
-        ></styledHeadline>
-        <inputField
-          class="place--street"
-          v-model="place.street"
-          :input="{
-            label: 'Your Street',
-            type: 'text',
-            placeholder: 'Street',
-            id: 'place-street'
-          }"
-        />
-        <inputField
-          class="place--zip"
-          v-model="place.zip"
-          :input="{
-            label: 'Zip code',
-            type: 'text',
-            placeholder: '12345',
-            id: 'place-zip'
-          }"
-        />
-        <inputField
-          class="place--city"
-          v-model="place.city"
-          :input="{
-            label: 'Your City',
-            type: 'text',
-            placeholder: 'city',
-            id: 'place-city'
-          }"
-        />
-      </div>
-
-      <section class="address--buttons">
-        <button-simple
-          class="address--button-cta"
-          :buttonText="'Show my shipping options'"
-          @simplebuttonevent="goTo('shipping')"
-        />
-      </section>
+    <section class="address--buttons">
+      <button-simple
+        class="address--button-cta"
+        :buttonText="'Show my shipping options'"
+        @simplebuttonevent="goTo('shipping')"
+      />
     </section>
-    <section class="main--sidebar">
-      <div class="main--sidebar__sticky">
-        <totalAmount class="address--amount__layout" />
-
-        <section class="address--buttons">
-          <button-simple
-            class="address--button-cta"
-            :buttonText="'Show my shipping options'"
-            @simplebuttonevent="goTo('shipping')"
-          />
-        </section>
-      </div>
-    </section>
-  </article>
+  </section>
 </template>
 
 <script>
@@ -182,6 +156,7 @@ export default {
   grid-column-gap: var(--1base);
   /* Box-model */
   padding: 3vh 0;
+
   /* Typography */
 
   /* Visual */
@@ -193,7 +168,6 @@ export default {
   grid-column: 1/3;
   grid-row: 1/2;
   /* Box-model */
-  padding: 0 var(--paddingX);
   /* Typography */
 
   /* Visual */

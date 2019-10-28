@@ -1,153 +1,110 @@
 <template>
-  <article class="payment main">
-    <header class="payment--header main--header">
-      <styledHeadline headlineText="Your payment option"></styledHeadline>
-    </header>
+  <section class="payment">
+    <form class="payment--options ">
+      <header class="payment-options--header">
+        <h3 class="header--headline">
+          Your payment option for the 60$
+        </h3>
+        <p class="header--subline">for the soon-to-be-yours t-shirts</p>
+      </header>
 
-    <aside class="payment--background main--background"></aside>
+      <label for="payment-option-1" class="payment--label">
+        <input
+          type="radio"
+          id="payment-option-1"
+          value="paypal"
+          v-model="payment"
+          class="label--indicator"
+        />
+        <div class="label--icon">
+          <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
+        </div>
+      </label>
 
-    <section class="main--content">
-      <div class="recap--shipping">
-        <h4 class="recap--headline">Your shipping choice</h4>
-        <router-link class="recap--change" :to="{ name: 'shipping' }"
-          >(change)</router-link
-        >
-        <label for="shipping-option-recap" class="payment--label">
-          <input
-            type="radio"
-            id="shipping-option-recap"
-            value="recap"
-            v-model="recap"
-            class="label--indicator"
+      <label for="payment-option-2" class="payment--label">
+        <input
+          type="radio"
+          id="payment-option-2"
+          value="credit"
+          v-model="payment"
+          class="label--indicator"
+        />
+        <div class="label--icon">
+          <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
+          <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
+        </div>
+      </label>
+
+      <label for="payment-option-3" class="payment--label">
+        <input
+          type="radio"
+          id="payment-option-3"
+          value="gift"
+          v-model="payment"
+          class="label--indicator"
+        />
+        <h4 class="label--headline">Gift card</h4>
+        <p class="label--text">From the awesome people close to you</p>
+      </label>
+    </form>
+
+    <div class="payment--choices">
+      <page-transition>
+        <div class="payment--choice--credit" v-if="payment === 'credit'">
+          <inputField
+            class="credit--name"
+            v-model="credit.number"
+            :input="{
+              label: 'Card number',
+              type: 'number',
+              placeholder: 'xxxx-xxxx-xxxx-xxxx',
+              id: 'credit-name'
+            }"
           />
-          <h4 class="label--headline">Regular Shipping</h4>
-
-          <p class="label--text">
-            Takes 1 day if you order in the next 3 h and 42 min.
+          <inputField
+            class="credit--date"
+            v-model="credit.date"
+            :input="{
+              label: 'Expires in',
+              type: 'text',
+              placeholder: 'MM/YYYY',
+              id: 'credit-date'
+            }"
+          />
+          <inputField
+            class="credit--code"
+            v-model="credit.code"
+            :input="{
+              label: 'Code',
+              type: 'password',
+              placeholder: '***',
+              id: 'credit-code'
+            }"
+          />
+        </div>
+        <div class="payment--choice--paypal" v-else-if="payment === 'paypal'">
+          <h4 class="paypal--headline">Pay with paypal</h4>
+          <p class="paypal--text">
+            You will get redirected to paypal once you confirm your order
           </p>
-        </label>
-      </div>
-
-      <form class="payment--options ">
-        <header class="payment-options--header">
-          <h2 class="header--headline">
-            Your payment option for the 60$
-          </h2>
-          <p class="header--subline">for the soon-to-be-yours t-shirts</p>
-        </header>
-
-        <label for="payment-option-1" class="payment--label">
-          <input
-            type="radio"
-            id="payment-option-1"
-            value="paypal"
-            v-model="payment"
-            class="label--indicator"
+        </div>
+        <div class="payment--choice--gift" v-else>
+          <h4 class="gift--headline"></h4>
+          <p class="gift--body"></p>
+          <inputField
+            class="credit--name"
+            v-model="gift"
+            :input="{
+              label: 'Gift card number',
+              type: 'number',
+              placeholder: 'xxxx-xxxx-xxxx-xxxx',
+              id: 'gift-number'
+            }"
           />
-          <div class="label--icon">
-            <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
-          </div>
-        </label>
-
-        <label for="payment-option-2" class="payment--label">
-          <input
-            type="radio"
-            id="payment-option-2"
-            value="credit"
-            v-model="payment"
-            class="label--indicator"
-          />
-          <div class="label--icon">
-            <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
-            <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
-          </div>
-        </label>
-
-        <label for="payment-option-3" class="payment--label">
-          <input
-            type="radio"
-            id="payment-option-3"
-            value="gift"
-            v-model="payment"
-            class="label--indicator"
-          />
-          <h4 class="label--headline">Gift card</h4>
-          <p class="label--text">From the awesome people close to you</p>
-        </label>
-      </form>
-
-      <div class="payment--choices">
-        <page-transition>
-          <div class="payment--choice--credit" v-if="payment === 'credit'">
-            <inputField
-              class="credit--name"
-              v-model="credit.number"
-              :input="{
-                label: 'Card number',
-                type: 'number',
-                placeholder: 'xxxx-xxxx-xxxx-xxxx',
-                id: 'credit-name'
-              }"
-            />
-            <inputField
-              class="credit--date"
-              v-model="credit.date"
-              :input="{
-                label: 'Expires in',
-                type: 'text',
-                placeholder: 'MM/YYYY',
-                id: 'credit-date'
-              }"
-            />
-            <inputField
-              class="credit--code"
-              v-model="credit.code"
-              :input="{
-                label: 'Code',
-                type: 'password',
-                placeholder: '***',
-                id: 'credit-code'
-              }"
-            />
-          </div>
-          <div class="payment--choice--paypal" v-else-if="payment === 'paypal'">
-            <h4 class="paypal--headline">Pay with paypal</h4>
-            <p class="paypal--text">
-              You will get redirected to paypal once you confirm your order
-            </p>
-          </div>
-          <div class="payment--choice--gift" v-else>
-            <h4 class="gift--headline"></h4>
-            <p class="gift--body"></p>
-            <inputField
-              class="credit--name"
-              v-model="gift"
-              :input="{
-                label: 'Gift card number',
-                type: 'number',
-                placeholder: 'xxxx-xxxx-xxxx-xxxx',
-                id: 'gift-number'
-              }"
-            />
-          </div>
-        </page-transition>
-      </div>
-    </section>
-
-    <section class="main--sidebar">
-      <div class="main--sidebar__sticky">
-        <totalAmount class="payment--amount__layout" />
-        <section class="payment--buttons">
-          <button-simple
-            class="payment--button-cta"
-            :buttonText="'Check my order'"
-            @simplebuttonevent="goTo('confirmation')"
-          />
-        </section>
-      </div>
-    </section>
-    <section class="product-images main--content"></section>
-  </article>
+        </div>
+      </page-transition>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -352,7 +309,7 @@ export default {
   /* Positioning */
 
   /* Box-model */
-  padding: 5vh var(--column-spacing);
+  padding: 5vh var(--2base);
   min-height: 18em;
   /* Typography */
 

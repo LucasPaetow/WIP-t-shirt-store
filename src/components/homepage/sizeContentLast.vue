@@ -159,7 +159,7 @@ export default {
 </script>
 
 <style scoped>
-@media (min-width: 70em) {
+@media (min-width: 64em) {
   .option-completion {
     /* Positioning */
     /* Box-model */

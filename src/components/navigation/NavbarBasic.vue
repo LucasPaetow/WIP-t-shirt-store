@@ -16,13 +16,11 @@
       >Pick a color</a
     >
 
-    <router-link
-      :to="{ name: '', params: {} }"
-      class="extended--link desktop-only"
+    <router-link :to="{ name: 'about' }" class="extended--link desktop-only"
       >FAQ</router-link
     >
     <router-link
-      :to="{ name: '', params: {} }"
+      :to="{ name: 'signup', params: {} }"
       class="extended--link desktop-only"
       >Signup for free shipping</router-link
     >
@@ -36,10 +34,10 @@
       class="navbar-basic--extended z-index-2 mobile-only"
       id="navbar-basic--extended"
     >
-      <router-link :to="{ name: '', params: {} }" class="extended--link"
+      <router-link :to="{ name: 'about' }" class="extended--link"
         >FAQ</router-link
       >
-      <router-link :to="{ name: '', params: {} }" class="extended--link"
+      <router-link :to="{ name: 'signup', params: {} }" class="extended--link"
         >Signup for free shipping</router-link
       >
     </aside>
@@ -121,35 +119,33 @@ export default {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: var(--column-spacing) 4rem 1fr var(--7base) var(
-      --column-spacing
-    );
+  grid-template-columns: 4rem 1fr;
+  grid-auto-columns: min-content;
+  grid-auto-flow: column;
 }
 
 @media (min-width: 45em) {
   .navbar-basic {
-    grid-template-columns: var(--column-spacing) 4rem 1fr min-content 12rem var(
-        --column-spacing
-      );
     grid-column-gap: var(--2base);
   }
 }
 
 .navbar-basic--logo {
   align-self: center;
-  grid-column: 2/3;
+  grid-column: 1/2;
 }
 
 .navbar-basic--button {
   align-self: center;
   justify-self: end;
-  grid-column: 3/4;
+  grid-column: 2/3;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .navbar-basic--hamburger {
   align-self: center;
-  grid-column: 4/5;
+  grid-column: 3/4;
 }
 
 .navbar-basic--extended {
@@ -174,6 +170,8 @@ export default {
 
 .extended--link {
   margin-top: var(--1base);
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .active {

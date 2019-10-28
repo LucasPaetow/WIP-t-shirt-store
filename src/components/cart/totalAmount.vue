@@ -68,7 +68,7 @@ export default {
   /* Typography */
 
   /* Visual */
-  background-color: var(--grey-0);
+
   /* Misc */
 }
 

@@ -5,24 +5,21 @@
     </router-link>
     <a
       class="navbar-full--button z-index-3"
-      @click="chooseColor()"
       href="#"
       v-scroll-to="{
         el: `#${idToScrollTo}`,
         duration: 200,
         easing: 'ease-in-out',
-        offset: -100
+        offset: responsiveOffset
       }"
-      >Change color</a
+      >Try another color</a
     >
 
-    <router-link
-      :to="{ name: '', params: {} }"
-      class="extended--link desktop-only"
-      >FAQ</router-link
+    <router-link :to="{ name: 'cart' }" class="extended--link desktop-only"
+      >Cart</router-link
     >
     <router-link
-      :to="{ name: '', params: {} }"
+      :to="{ name: 'signup', params: {} }"
       class="extended--link desktop-only"
       >Signup for free shipping</router-link
     >
@@ -36,10 +33,10 @@
       class="navbar-full--extended z-index-2 mobile-only"
       id="navbar-full--extended"
     >
-      <router-link :to="{ name: '', params: {} }" class="extended--link"
+      <router-link :to="{ name: 'about' }" class="extended--link"
         >FAQ</router-link
       >
-      <router-link :to="{ name: '', params: {} }" class="extended--link"
+      <router-link :to="{ name: 'signup', params: {} }" class="extended--link"
         >Signup for free shipping</router-link
       >
     </aside>
@@ -54,7 +51,7 @@ import hamburger from "@/components/icons/hamburger.vue";
 
 export default {
   components: { buttonSimple, logo, hamburger },
-  name: "navbarBasic",
+  name: "navbarFull",
   data() {
     return {
       activeHambuerMenu: false,
@@ -78,37 +75,13 @@ export default {
       this.activeHambuerMenu = false;
       let nav = document.getElementById("navbar-full--extended");
       nav.classList.remove("active");
-    },
-    chooseColor() {
-      let search1 = document.getElementById("search-wrapper-1");
-      let search2 = document.getElementById("search-wrapper-2");
-      let search3 = document.getElementById("search-wrapper-3");
-
-      let searchArray = [search1, search2, search3];
-      let closestSearch = false;
-      let closestSearchDistance = null;
-
-      searchArray.forEach(search => {
-        let searchTop = search.getBoundingClientRect().top;
-        let absoluteDistance = Math.abs(searchTop);
-
-        if (closestSearchDistance === null) {
-          closestSearchDistance = absoluteDistance;
-          closestSearch = search;
-          return;
-        }
-
-        if (closestSearchDistance > absoluteDistance) {
-          closestSearchDistance = absoluteDistance;
-          closestSearch = search;
-          return;
-        }
-      });
-      this.idToScrollTo = closestSearch.id;
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({}),
+    responsiveOffset() {
+      return -window.innerHeight / 2;
+    }
   }
 };
 </script>
@@ -118,35 +91,33 @@ export default {
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: var(--column-spacing) 4rem 1fr var(--7base) var(
-      --column-spacing
-    );
+  grid-template-columns: 4rem 1fr;
+  grid-auto-columns: min-content;
+  grid-auto-flow: column;
 }
 
 @media (min-width: 45em) {
   .navbar-full {
-    grid-template-columns: var(--column-spacing) 4rem 1fr min-content 12rem var(
-        --column-spacing
-      );
     grid-column-gap: var(--2base);
   }
 }
 
 .navbar-full--logo {
   align-self: center;
-  grid-column: 2/3;
+  grid-column: 1/2;
 }
 
 .navbar-full--button {
   align-self: center;
   justify-self: end;
-  grid-column: 3/4;
+  grid-column: 2/3;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .navbar-full--hamburger {
   align-self: center;
-  grid-column: 4/5;
+  grid-column: 3/4;
 }
 
 .navbar-full--extended {
@@ -171,6 +142,8 @@ export default {
 
 .extended--link {
   margin-top: var(--1base);
+  white-space: nowrap;
+  text-decoration: none;
 }
 
 .active {

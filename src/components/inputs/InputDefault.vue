@@ -83,6 +83,11 @@ export default {
   color: var(--grey-800);
   position: relative;
   z-index: 2;
+  background-color: var(--grey-200);
+}
+
+.input--form:focus {
+  border: 1px solid var(--green-700);
 }
 
 .input--form::placeholder {

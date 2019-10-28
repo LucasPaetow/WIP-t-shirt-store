@@ -1,15 +1,70 @@
 <template>
-  <article class="template"></article>
+  <article class="profile main">
+    <header class="profile--header main--header">
+      <styledHeadline headlineText="Header"></styledHeadline>
+    </header>
+
+    <aside class="profile--background main--background"></aside>
+
+    <section class="main--sidebar">
+      <div class="main--sidebar__sticky">
+        <router-link :to="{ name: 'profile' }">Track your order</router-link>
+        <router-link :to="{ name: 'profile' }">Change your address</router-link>
+        <router-link :to="{ name: 'profile' }"
+          >Change account information</router-link
+        >
+        <router-link :to="{ name: 'profile' }">delete accout</router-link>
+      </div>
+    </section>
+    <section class=" main--content">
+      <div class="profile--current">
+        <styledHeadline
+          headlineText="Your open orders"
+          headlineType="h2"
+          :invertedColor="true"
+        ></styledHeadline>
+      </div>
+
+      <div class="profile--orders">
+        <styledHeadline
+          headlineText="Your order history"
+          headlineType="h2"
+          :invertedColor="true"
+        ></styledHeadline>
+      </div>
+
+      <div class="profile--wishlist">
+        <styledHeadline
+          headlineText="Your addresses"
+          headlineType="h2"
+          :invertedColor="true"
+        ></styledHeadline>
+      </div>
+
+      <div class="profile--addresses">
+        <styledHeadline
+          headlineText="Your addresses"
+          headlineType="h2"
+          :invertedColor="true"
+        ></styledHeadline>
+      </div>
+    </section>
+
+    <storeFooter class="footer__layout main--footer" />
+  </article>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
-  components: {},
+  components: {
+    styledHeadline
+  },
   //if the basics are being edited, this array contains existing basic information
-  props: [],
-  name: "componentTemplate",
+  props: {},
+  name: "profile",
   data() {
     return {};
   },
@@ -33,27 +88,9 @@ export default {
 <style scoped>
 .template {
   /* Positioning */
-  display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-template-rows: 1fr;
-  grid-auto-rows: min-content;
-  grid-row-gap: 5vh;
   /* Box-model */
-  padding: var(--7base) 0 10vh 0;
   /* Typography */
-
   /* Visual */
-
   /* Misc */
 }
-
-/* Positioning */
-
-/* Box-model */
-
-/* Typography */
-
-/* Visual */
-
-/* Misc */
 </style>

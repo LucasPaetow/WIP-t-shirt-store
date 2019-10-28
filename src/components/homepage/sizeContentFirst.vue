@@ -143,7 +143,7 @@ export default {
 </script>
 
 <style scoped>
-@media (min-width: 70em) {
+@media (min-width: 64em) {
   .option-selection {
     /* Positioning */
     /* Box-model */

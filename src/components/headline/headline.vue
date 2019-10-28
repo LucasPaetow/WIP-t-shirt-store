@@ -44,12 +44,11 @@ export default {
 
 .styled-headline__h1 {
   /* Positioning */
-  /* Box-model */
-  padding: var(--h1__padding) 0;
-  /* Typography */
-  line-height: var(--h1__lineHeight);
-  font-size: var(--h1__fontSize);
 
+  /* Box-model */
+
+  /* Typography */
+  line-height: var(--h1--lineHeight__fixed);
   /* Visual */
 
   /* Misc */
@@ -57,16 +56,28 @@ export default {
 
 .styled-headline__h2 {
   /* Positioning */
-  /* Box-model */
-  padding: var(--h2__padding) 0;
-  /* Typography */
-  line-height: var(--h2__lineHeight);
-  font-size: var(--h2__fontSize);
 
+  /* Box-model */
+
+  /* Typography */
+  line-height: var(--h2--lineHeight__fixed);
   /* Visual */
 
   /* Misc */
 }
+
+.styled-headline__h3 {
+  /* Positioning */
+
+  /* Box-model */
+
+  /* Typography */
+  line-height: var(--h3--lineHeight__fixed);
+  /* Visual */
+
+  /* Misc */
+}
+
 .styled-headline--background {
   /* Positioning */
 
@@ -87,7 +98,7 @@ export default {
     /* Positioning */
 
     /* Box-model */
-    padding: var(--halfbase) var(--4base);
+    padding: var(--halfbase) var(--2base);
     /* Typography */
 
     /* Visual */
@@ -99,7 +110,19 @@ export default {
     /* Positioning */
 
     /* Box-model */
-    padding: var(--halfbase) var(--2base);
+    padding: var(--halfbase) var(--3base);
+    /* Typography */
+
+    /* Visual */
+
+    /* Misc */
+  }
+
+  .styled-headline__h3 .styled-headline--background {
+    /* Positioning */
+
+    /* Box-model */
+    padding: var(--halfbase) var(--1base);
     /* Typography */
 
     /* Visual */

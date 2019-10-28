@@ -1,13 +1,61 @@
 <template>
-  <page-transition>
-    <article class="signup" v-if="emailConfirmation">
-      <header class="header">
-        <h1 class="headline">Good job!</h1>
-        <p class="subheadline">
-          You are doing great
-        </p>
-      </header>
-      <section class="email-confirmation">
+  <article class="main main__small signup">
+    <aside class="home--background main--background"></aside>
+
+    <header class="signup--header  main--header">
+      <div class="signup--logo">
+        <logo></logo>
+      </div>
+
+      <styledHeadline headlineText="Create your free account"></styledHeadline>
+      <p class="subheadline">
+        Create a free account to revisit your searches and your
+        purchases/wishlist. Already famous here?
+        <router-link :to="{ name: 'login' }"><b>Login!</b></router-link>
+      </p>
+    </header>
+    <page-transition>
+      <section class="main--sidebar" v-if="emailConfirmation">
+        <div class="signup--features"></div>
+      </section>
+      <section class="main--sidebar" v-else>
+        <div class="signup--features">
+          <styledHeadline
+            headlineText="Whats new"
+            headlineType="h3"
+            :invertedColor="true"
+          ></styledHeadline>
+          <div class="checkout-recap recap-desktop recap-wrapper">
+            <recap headline="We added new colors!">
+              <p>
+                Nature begged us to use some of their stunning colors just to be
+                in the same sentence with us
+              </p></recap
+            >
+            <recap :last="true" headline="Comming soon">
+              <p>
+                See athletes cry in a 6 hour compilation after losing to our
+                t-shirts in the sport you like
+              </p></recap
+            >
+          </div>
+        </div>
+      </section>
+    </page-transition>
+    <page-transition>
+      <section
+        class="email-confirmation main--content"
+        v-if="emailConfirmation"
+      >
+        <header class="email-confirmation--header">
+          <styledHeadline
+            headlineText="Good job!"
+            headlineType="h2"
+          ></styledHeadline>
+          <p class="subheadline">
+            You are doing great
+          </p>
+        </header>
         <p>
           We sent you a confirmation email to:<br />
           {{ authData.email }}
@@ -23,28 +71,16 @@
         <p class="postphone--email-confirmation">
           If you want to do it later, thats fine. You still can continue now
         </p>
+        <div class="button-field">
+          <button-simple
+            buttonText="Continue"
+            primary="true"
+            class="button-layout--single-button"
+            @simplebuttonevent="navigateToTheLastPage()"
+          />
+        </div>
       </section>
-      <section class="button-field">
-        <!--buttons with additional error handling -->
-        <button-simple
-          buttonText="Continue"
-          primary="true"
-          class="button-layout--single-button"
-          @simplebuttonevent="navigateToTheLastPage()"
-        />
-        <!-- Get the values of the error object as array, check this array if there is a truthy value in there-->
-      </section>
-    </article>
-    <article class="signup" v-else>
-      <header class="header">
-        <h1 class="headline">Create your free account</h1>
-        <p class="subheadline">
-          Create a free account to revisit your searches and your
-          purchases/wishlist. Already famous here?
-          <router-link :to="{ name: 'login' }"><b>Login!</b></router-link>
-        </p>
-      </header>
-      <section class="inputs">
+      <section class="inputs main--content" v-else>
         <input-default
           v-model="authData.name"
           :input="{
@@ -116,26 +152,27 @@
         >
           {{ invalidAuth.email || invalidAuth.password || invalidAuth.misc }}
         </p>
+        <div class="button-field">
+          <!--buttons with additional error handling -->
+          <button-functional
+            buttonText="Create account"
+            @buttonfunctionalevent="userSignup"
+            :loading="loading"
+            :success="success"
+            :error="Object.values(inputError).some(entry => entry)"
+            :invalidAuth="Object.values(invalidAuth).some(entry => entry)"
+          />
+          <button-simple
+            buttonText="back"
+            secondary="true"
+            @simplebuttonevent="goTo('home')"
+          />
+
+          <!-- Get the values of the error object as array, check this array if there is a truthy value in there-->
+        </div>
       </section>
-      <section class="button-field">
-        <!--buttons with additional error handling -->
-        <button-simple
-          buttonText="back"
-          secondary="true"
-          @simplebuttonevent="goTo('start')"
-        />
-        <button-functional
-          buttonText="Create account"
-          @buttonfunctionalevent="userSignup"
-          :loading="loading"
-          :success="success"
-          :error="Object.values(inputError).some(entry => entry)"
-          :invalidAuth="Object.values(invalidAuth).some(entry => entry)"
-        />
-        <!-- Get the values of the error object as array, check this array if there is a truthy value in there-->
-      </section>
-    </article>
-  </page-transition>
+    </page-transition>
+  </article>
 </template>
 
 <script>
@@ -146,13 +183,19 @@ import inputDefault from "@/components/inputs/InputDefault.vue";
 import buttonFunctional from "@/components/buttons/ButtonFunctional.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import pageTransition from "@/components/transitions/transition.vue";
+import styledHeadline from "@/components/headline/headline.vue";
+import logo from "@/components/icons/logo.vue";
+import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
     inputDefault,
     buttonFunctional,
     buttonSimple,
-    pageTransition
+    pageTransition,
+    styledHeadline,
+    logo,
+    recap
   },
   name: "signup",
   data() {
@@ -313,23 +356,32 @@ export default {
 
 <style scoped>
 .signup {
-  min-height: 100%;
-  display: grid;
-  padding: var(--7base) 0 var(--2base) 0;
-  grid-auto-rows: min-content;
-  grid-template-rows: min-content min-content 1fr;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-row-gap: 3vh;
+  padding-top: 0;
+  padding-bottom: 10vh;
 }
 
-.header {
-  grid-column: 2/3;
-  grid-row: 2/3;
+.signup--logo {
+  height: var(--h1--fontsize__fixed);
+  width: auto;
+  margin-bottom: var(--1base);
+}
+
+@media (min-width: 45em) {
+  .signup--logo {
+    height: var(--h2--fontsize__fixed);
+  }
+}
+
+.signup--header {
+  padding: calc(7.5vh + var(--navbar__height)) 0 5vh 0;
+}
+
+.subheadline {
+  max-width: 30rem;
 }
 
 .inputs {
   grid-column: 2/3;
-  grid-row: 3/4;
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: var(--1base);
@@ -384,11 +436,8 @@ export default {
 }
 
 .button-field {
-  grid-column: 2/3;
-  grid-row: 4/5;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: var(--1base);
+  grid-row-gap: var(--1base);
   height: var(--6base);
   margin-bottom: var(--2base);
 }
@@ -396,8 +445,6 @@ export default {
 /*Part 2: Email Confirmation*/
 
 .email-confirmation {
-  grid-column: 2/3;
-  grid-row: 3/4;
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: var(--1base);

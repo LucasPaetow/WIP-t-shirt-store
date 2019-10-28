@@ -1,31 +1,68 @@
 <template>
-  <article class="checkout">
-    <section class="checkout--progress">
-      <router-link
-        :to="{ name: 'address' }"
-        class="checkout--progress-link checkout--progress-link1 active"
-        id="progress-address"
-        ><p class="link-text z-index-3">1. address</p>
-      </router-link>
-      <router-link
-        :to="{ name: 'shipping' }"
-        class="checkout--progress-link checkout--progress-link2"
-        :class="activeProgressLink"
-        id="progress-shipping"
-        ><p class="link-text z-index-3">2. shipping</p>
-      </router-link>
-      <router-link
-        :to="{ name: 'payment' }"
-        class="checkout--progress-link checkout--progress-link3"
-        id="progress-payment"
-        ><p class="link-text z-index-3">3. payment</p>
-      </router-link>
+  <article class="checkout main main__small">
+    <header class="checkout--header main--header">
+      <div class="checkout--progress z-index-3">
+        <router-link
+          :to="{ name: 'address' }"
+          class="checkout--progress-link checkout--progress-link1 active"
+          id="progress-address"
+          ><p class="link-text z-index-3">1. address</p>
+        </router-link>
+        <router-link
+          :to="{ name: 'shipping' }"
+          class="checkout--progress-link checkout--progress-link2"
+          :class="activeProgressLink"
+          id="progress-shipping"
+          ><p class="link-text z-index-3">2. shipping</p>
+        </router-link>
+        <router-link
+          :to="{ name: 'payment' }"
+          class="checkout--progress-link checkout--progress-link3"
+          id="progress-payment"
+          ><p class="link-text z-index-3">3. payment</p>
+        </router-link>
+      </div>
+    </header>
+
+    <aside class="checkout--background main--background"></aside>
+
+    <section class="checkout-recap recap-mobile recap-wrapper">
+      <recap headline="Address">
+        <ul>
+          <li>1</li>
+          <li>1</li>
+          <li>1</li>
+          <li>1</li>
+        </ul>
+      </recap>
+      <recap headline="Shipping"></recap>
+      <recap :last="true" headline="Payment"></recap>
     </section>
-    <section class="checkout--view">
+
+    <section class="checkout--content main--content">
       <page-transition>
         <router-view />
       </page-transition>
     </section>
+
+    <section class="main--sidebar">
+      <div class="main--sidebar__sticky checkout--sidebar__sticky">
+        <totalAmount class="checkout--amount__layout"></totalAmount>
+        <div class="checkout--buttons">
+          <button-simple
+            class="checkout--button-cta"
+            :buttonText="'Show my shipping options'"
+            @simplebuttonevent="goTo('shipping')"
+          />
+        </div>
+        <div class="checkout-recap recap-desktop recap-wrapper">
+          <recap headline="Address"> </recap>
+          <recap headline="Shipping"></recap>
+          <recap :last="true" headline="Payment"></recap>
+        </div>
+      </div>
+    </section>
+
     <footer class="footer main--footer">
       <h4 class="footer--headline">This is only a mockup</h4>
       <p class="footer--body">
@@ -39,9 +76,19 @@
 <script>
 import { mapGetters } from "vuex";
 import pageTransition from "@/components/transitions/transition.vue";
+import totalAmount from "@/components/cart/totalAmount.vue";
+import buttonSimple from "@/components/buttons/ButtonSimple.vue";
+import styledHeadline from "@/components/headline/headline.vue";
+import recap from "@/components/checkout/recap.vue";
 
 export default {
-  components: { pageTransition },
+  components: {
+    pageTransition,
+    totalAmount,
+    buttonSimple,
+    styledHeadline,
+    recap
+  },
   //if the basics are being edited, this array contains existing basic information
   props: [],
   name: "checkout",
@@ -74,31 +121,103 @@ export default {
 </script>
 
 <style scoped>
-.checkout {
+.checkout-recap {
   /* Positioning */
-  display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-template-rows: 3rem;
-  grid-auto-rows: min-content;
-  /* Box-model */
-  padding: var(--7base) 0 0 0;
-  min-height: 100%;
-  /* Typography */
+  grid-column: 2/3;
 
+  /* Box-model */
+
+  /* Typography */
   /* Visual */
 
   /* Misc */
 }
 
-.checkout--progress {
+.checkout--content {
   /* Positioning */
+  /* Box-model */
 
-  grid-column: 1/4;
+  /* Typography */
+  /* Visual */
+  box-shadow: 0px 0px 5px 1px hsla(0, 0%, 0%, 0.25);
+  /* Misc */
+}
+
+.checkout--sidebar__sticky {
+  /* Positioning */
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-auto-flow: row;
   /* Box-model */
 
+  /* Typography */
+  /* Visual */
+  box-shadow: 0px 0px 5px 1px hsla(0, 0%, 0%, 0.25);
+  /* Misc */
+}
+
+.checkout--amount__layout {
+  /* Positioning */
+  grid-column: 1/2;
+  grid-row: 1/2;
+  /* Box-model */
+  width: 100%;
+  /* Typography */
+  /* Visual */
+
+  /* Misc */
+}
+
+.checkout--buttons {
+  /* Positioning */
+  grid-column: 1/2;
+  grid-row: 2/3;
+  /* Box-model */
+  width: 100%;
+  /* Typography */
+  /* Visual */
+
+  /* Misc */
+}
+
+.recap-desktop {
+  /* Positioning */
+  grid-column: 1/2;
+  grid-row: 3/4;
+  /* Box-model */
+  display: none;
+  width: 100%;
+  /* Typography */
+  /* Visual */
+
+  /* Misc */
+}
+
+.recap-mobile {
+  display: grid;
+}
+
+@media (min-width: 45em) {
+  .recap-desktop {
+    display: grid;
+  }
+  .recap-mobile {
+    display: none;
+  }
+}
+
+.checkout--header {
+  padding: 5vh 0;
+}
+
+.checkout--progress {
+  /* Positioning */
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-flow: row;
+  align-self: start;
+  /* Box-model */
+  height: var(--6base);
   /* Typography */
 
   /* Visual */
@@ -117,10 +236,23 @@ export default {
   align-self: center;
   width: 100%;
   height: 100%;
+  border: 2px solid var(--grey-500);
+  border-right: transparent;
   /* Typography */
 
   /* Visual */
-  background-color: var(--grey-300);
+
+  /* Misc */
+}
+
+.checkout--progress-link:last-of-type {
+  /* Positioning */
+  /* Box-model */
+  border-right: 2px solid var(--grey-500);
+  /* Typography */
+
+  /* Visual */
+
   /* Misc */
 }
 
@@ -147,6 +279,7 @@ export default {
   width: 100%;
   height: 100%;
   z-index: 1;
+
   /* Typography */
 
   /* Visual */
@@ -178,18 +311,6 @@ export default {
   .link-text {
     font-size: var(--1base);
   }
-}
-
-.checkout--view {
-  /* Positioning */
-  grid-column: 1/4;
-  /* Box-model */
-
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
 }
 
 .footer {

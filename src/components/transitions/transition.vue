@@ -224,6 +224,21 @@ export default {
   opacity: 0;
 }
 
+/* --------with delay---------*/
+
+.fade-delay-enter-active {
+  transition: opacity 0.2s cubic-bezier(0.55, 0, 0.1, 1) 0.2s;
+}
+
+.fade-delay-leave-active {
+  transition: opacity 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.fade-delay-enter,
+.fade-delay-leave-to {
+  opacity: 0;
+}
+
 /* --------slide---------*/
 .slide-left-enter-active,
 .slide-left-leave-active,

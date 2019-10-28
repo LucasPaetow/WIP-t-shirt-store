@@ -3,6 +3,10 @@
     <nav class="navbar" id="nav" v-if="hideNavbar">
       <pageTransition propTransitionName="navigation">
         <navbar-basic key="basic-navbar" v-if="showBasicNavbar" />
+        <navbar-minimal
+          key="full-navbar"
+          v-else-if="!showBasicNavbar && showMinimalNavbar"
+        />
         <navbar-full key="full-navbar" v-else />
       </pageTransition>
     </nav>
@@ -13,10 +17,11 @@
 import { mapGetters } from "vuex";
 import navbarBasic from "@/components/navigation/NavbarBasic.vue";
 import navbarFull from "@/components/navigation/NavbarFull.vue";
+import navbarMinimal from "@/components/navigation/NavbarMinimal.vue";
 import pageTransition from "@/components/transitions/transition.vue";
 
 export default {
-  components: { navbarFull, navbarBasic, pageTransition },
+  components: { navbarFull, navbarBasic, pageTransition, navbarMinimal },
   name: "navBar",
   computed: {
     hideNavbar() {
@@ -34,8 +39,16 @@ export default {
         return true;
       }
       return false;
+    },
+    showMinimalNavbar() {
+      let name = this.$route.path.split("/");
+      if (name[1] === "checkout") {
+        return true;
+      }
+      return false;
     }
-  }
+  },
+  mounted() {}
 };
 </script>
 
@@ -50,5 +63,6 @@ export default {
   background-color: white;
   box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
   width: 100vw;
+  padding: 0 var(--column-spacing);
 }
 </style>

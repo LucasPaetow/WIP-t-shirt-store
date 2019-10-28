@@ -1,25 +1,25 @@
 <template>
-  <article class="about main">
-    <header class="about--header main--header">
+  <article class="legal main">
+    <header class="legal--header main--header">
       <styledHeadline headlineText="Header"></styledHeadline>
     </header>
 
-    <aside class="about--background main--background"></aside>
+    <aside class="legal--background main--background"></aside>
 
     <section class="main--sidebar">
       <div class="main--sidebar__sticky">
-        <router-link :to="{ name: 'about' }">about X</router-link>
-        <router-link :to="{ name: 'about' }">about X</router-link>
-        <router-link :to="{ name: 'about' }">about X</router-link>
-        <router-link :to="{ name: 'about' }">about X</router-link>
-        <router-link :to="{ name: 'about' }">about X</router-link>
-        <router-link :to="{ name: 'about' }">about X</router-link>
+        <router-link :to="{ name: 'legal' }">legal X</router-link>
+        <router-link :to="{ name: 'legal' }">legal X</router-link>
+        <router-link :to="{ name: 'legal' }">legal X</router-link>
+        <router-link :to="{ name: 'legal' }">legal X</router-link>
+        <router-link :to="{ name: 'legal' }">legal X</router-link>
+        <router-link :to="{ name: 'legal' }">legal X</router-link>
       </div>
     </section>
     <section class=" main--content">
-      <div class="about--shirt">
+      <div class="legal--shirt">
         <styledHeadline
-          headlineText="About the shirt"
+          headlineText="legal the shirt"
           headlineType="h2"
           :invertedColor="true"
         ></styledHeadline>
@@ -33,7 +33,7 @@
           headlineType="h3"
         ></styledHeadline>
       </div>
-      <div class="about--shipping">
+      <div class="legal--shipping">
         <styledHeadline
           headlineText="Shipping and returns"
           headlineType="h2"
@@ -45,7 +45,7 @@
           headlineType="h3"
         ></styledHeadline>
       </div>
-      <div class="about--us">
+      <div class="legal--us">
         <styledHeadline
           headlineText="Our Story"
           headlineType="h2"
@@ -77,7 +77,7 @@ export default {
   },
   //if the basics are being edited, this array contains existing basic information
   props: {},
-  name: "about",
+  name: "legal",
   data() {
     return {};
   },

@@ -1,86 +1,95 @@
 <template>
-  <article class="cart main" v-if="shoppingCart.length">
-    <header class="cart--header main--header">
-      <h2 class="header--headline">
-        You have {{ shoppingCart.length }}
-        {{ shoppingCart.length > 1 ? "items" : "item" }} in your cart
-      </h2>
-    </header>
+  <article class="cart main">
+    <page-transition>
+      <header class="cart--header main--header" v-if="shoppingCart.length">
+        <styledHeadline
+          :headlineText="
+            `You have ${shoppingCart.length}
+            ${shoppingCart.length > 1 ? 'items' : 'item'} in your cart`
+          "
+        />
+      </header>
+      <header class="cart--header main--header" v-else>
+        <styledHeadline headlineText="Your cart is empty" />
+      </header>
+    </page-transition>
+
     <aside class="cart--background main--background"></aside>
-    <section class="cart--entries main--content">
-      <cartEntry
-        v-for="(entry, index) in shoppingCart"
-        :key="'shoppingEntry' + index"
-        :entry="entry"
-        :index="index"
-      />
-    </section>
-    <section class="cart-sidebar main--sidebar">
-      <div class="product-info main--sidebar__sticky">
-        <totalAmount class="payment--amount__layout" />
+    <page-transition>
+      <section class="cart--entries main--content" v-if="shoppingCart.length">
+        <cartEntry
+          v-for="(entry, index) in shoppingCart"
+          :key="'shoppingEntry' + index"
+          :entry="entry"
+          :index="index"
+        />
+      </section>
+      <section class="cart--entries main--content" v-else>
+        <p class="header--subline">
+          If you saved you favourite t-shirt on another device before, you can
+          log in to restore it
+        </p>
         <div class="cart--button-wrapper">
           <button-simple
             class="cart--button-cta"
-            :buttonText="'checkout and login'"
-            @simplebuttonevent="goTo('address')"
+            :buttonText="'login'"
+            @simplebuttonevent="goTo('login')"
           />
           <button-simple
             class="cart--button-cta"
-            :buttonText="'checkout as guest'"
+            :buttonText="'choose a color'"
             buttonType="secondary"
-            @simplebuttonevent="goTo('address')"
+            @simplebuttonevent="goBack()"
           />
         </div>
-      </div>
-    </section>
-    <section class="cart--total-amount"></section>
-  </article>
-  <article class="cart-empty" v-else>
-    <header class="cart--header">
-      <h2 class="header--headline">You dont have any items in your cart</h2>
-      <p class="header--subline">
-        If you saved you favourit tshirt on another device before, you can log
-        in to restore it
-      </p>
-    </header>
-    <section class="cart--button-wrapper">
-      <button-simple
-        class="cart--button-cta"
-        :buttonText="'login'"
-        @simplebuttonevent="goTo('login')"
-      />
-      <button-simple
-        class="cart--button-cta"
-        :buttonText="'choose a color'"
-        buttonType="secondary"
-        @simplebuttonevent="goBack()"
-      />
-    </section>
-    <section class="cart--upsell z-index-2">
-      <h4 class="more-shirts--headline">
-        Here are some community favourites, you might be interested in
-      </h4>
-      <div class="more-shirts--shirts">
-        <div
-          class="shirt-wrapper"
-          v-for="color in communityColors"
-          @click="changeToCommunityColor(color)"
-        >
-          <image-overlay
-            :image_full="require('@/assets/images/kA9asUxmVka.png')"
-            :image_regular="require('@/assets/images/kA9asUxmVka.png')"
-            :image_small="require('@/assets/images/kA9asUxmVka.png')"
-            :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
-            :svg="supportData[3].svg"
-            :alt_description="supportData[3].alt_description"
-            :overlay_color="color || ['white', '#ffffff']"
-            class="image-overlay more-shirts--image"
-          />
-          <h4 class="shirt--headline ">{{ color[0] }}</h4>
+
+        <div class="product-info">
+          <h4 class="more-shirts--headline">
+            Here are some community favourites, you might be interested in
+          </h4>
+          <div class="more-shirts--shirts">
+            <div
+              class="shirt-wrapper"
+              v-for="color in communityColors"
+              @click="changeToCommunityColor(color)"
+            >
+              <image-overlay
+                :image_full="require('@/assets/images/kA9asUxmVka.png')"
+                :image_regular="require('@/assets/images/kA9asUxmVka.png')"
+                :image_small="require('@/assets/images/kA9asUxmVka.png')"
+                :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
+                :svg="supportData[3].svg"
+                :alt_description="supportData[3].alt_description"
+                :overlay_color="color || ['white', '#ffffff']"
+                class="image-overlay more-shirts--image"
+              />
+              <h4 class="shirt--headline ">{{ color[0] }}</h4>
+            </div>
+          </div>
         </div>
+      </section></page-transition
+    >
+
+    <section class="cart-sidebar main--sidebar">
+      <div class="product-info main--sidebar__sticky">
+        <totalAmount class="payment--amount__layout" />
+        <page-transition>
+          <div class="cart--button-wrapper" v-if="shoppingCart.length">
+            <button-simple
+              class="cart--button-cta"
+              :buttonText="'checkout and login'"
+              @simplebuttonevent="goTo('login')"
+            />
+            <button-simple
+              class="cart--button-cta"
+              :buttonText="'checkout as guest'"
+              buttonType="secondary"
+              @simplebuttonevent="goTo('address')"
+            />
+          </div>
+        </page-transition>
       </div>
     </section>
-    <aside class="cart--upsell__background z-index-1"></aside>
   </article>
 </template>
 
@@ -92,6 +101,7 @@ import modalLayout from "@/components/modal/modalLayout.vue";
 import styledHeadline from "@/components/headline/headline.vue";
 import cartEntry from "@/components/cart/cartEntry.vue";
 import totalAmount from "@/components/cart/totalAmount.vue";
+import pageTransition from "@/components/transitions/transition.vue";
 
 export default {
   components: {
@@ -100,7 +110,8 @@ export default {
     modalLayout,
     styledHeadline,
     cartEntry,
-    totalAmount
+    totalAmount,
+    pageTransition
   },
   //if the basics are being edited, this array contains existing basic information
   props: [],
@@ -154,7 +165,8 @@ export default {
 <style scoped>
 .cart--entries {
   /* Positioning */
-
+  display: grid;
+  grid-row-gap: 3vh;
   /* Box-model */
   padding: 0 0 3vh 0;
   /* Typography */
@@ -170,24 +182,6 @@ export default {
   grid-auto-flow: row;
   grid-row-gap: var(--1base);
   /* Box-model */
-
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
-}
-
-.cart-empty .cart--upsell {
-  /* Positioning */
-  grid-column: 2/3;
-  grid-row: 3/4;
-  display: grid;
-  grid-auto-flow: row;
-  grid-auto-rows: min-content;
-  grid-row-gap: var(--1base);
-  /* Box-model */
-  padding: 5vh 0;
 
   /* Typography */
 
@@ -252,16 +246,5 @@ export default {
 
     /* Misc */
   }
-}
-
-.cart-empty .cart--upsell__background {
-  /* Positioning */
-  grid-column: 1/4;
-  grid-row: 3/4;
-  /* Box-model */
-  height: 100%;
-  /* Typography */
-  background-color: hsla(0, 0%, 90%, 1);
-  /* Visual */
 }
 </style>
