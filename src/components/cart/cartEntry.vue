@@ -73,7 +73,8 @@ export default {
           product: {
             amount: product.amount,
             size: product.size,
-            color: this.entry.color
+            color: this.entry.color,
+            timestamp: Date.now()
           }
         })
         .then(() => {
@@ -82,7 +83,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      supportData: "productModule/getSupport"
+    })
   },
   mounted() {
     console.log("entry: " + this.entry);

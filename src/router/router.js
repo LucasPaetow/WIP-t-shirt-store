@@ -23,11 +23,13 @@ const router = new Router({
     {
       path: "/login",
       name: "login",
+      props: true,
       component: () => import("@/views/Login.vue")
     },
     {
       path: "/signup",
       name: "signup",
+      props: true,
       component: () => import("@/views/Signup.vue")
     },
     {

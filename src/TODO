@@ -1,4 +1,39 @@
 
+
+######### Functionality ############
+
+
+User:
+- User can add to wishlist, payment, addresses and it gets stored in the user account ==> Watcher
+
+
+- After a "purchase", the cart gets emptied and the purchase is added to the order history
+- Guest checkout should be an anonymous account with the option to register after purchase
+
+Cart
+- if the user is logged in, he only sees the button to checkout
+
+
+totalAmount
+- Update Amount and Shipping
+
+Search-Component
+- Show results on mobile while typing
+
+Checkout + Children
+- Input-Validation
+- Communicate information between Checkout-Children and Checkout
+
+
+loadingState
+- Image-Overlay
+- Cart
+- Store
+- Checkout should get redirected to card, if the card is empty
+
+
+Recap: Jedes recap-element braucht einen key oder eine randomNumber
+
 ######### Layout and Style ############
 
 General:
@@ -12,16 +47,12 @@ Main-Layout needs dedicated padding-top and row-gap
 Cart
 - Entry and Cart Itself can overflow, needs a different layout
 
-
 Checkout + Children
-
 - Better Radiobuttons and a datepicker
-- Put the payment inputs inside of the radio buttons
 - footer needs to be styled like everything else
 
 Inputs
 - turn radiobuttons into components
-
 
 Navbar
 - Extended navbar should come from behind the navbar
@@ -39,27 +70,6 @@ Yikes, About, Legal
 Auth:
 - Sidebar-content, which is different from the sub headline
 
-######### Functionality ############
-
-Store-page
-
-- make wishlist-button functional by connecting it to the store
-  -- Heart-Icon, which gets filled?
-
-Cart
-- Save cart locally
-- loadingState (if user journey starts here)
-
-Search-Component
-- Show results on mobile while typing
-
-Checkout + Children
-- Input-Validation
-
-Image-Overlay:
-- loadingState
-
-
 ########################################################################
 
 
@@ -69,18 +79,6 @@ Modals
 - "Pick a Color" modal (Store, )
 - "Register" Modal after order completion
 - "Choose Size" from different places (Store,)
-
-
-
-
-
-
-######### Components ############
-
-
-
-
-
 
 
 Modal Problems

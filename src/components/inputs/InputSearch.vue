@@ -51,7 +51,7 @@ import searchIcon from "@/components/icons/search.vue";
 
 export default {
   components: { arrowIcon, searchIcon },
-  name: "inputField",
+  name: "inputSearch",
   props: {
     input: Object,
     error: String,

@@ -8,102 +8,130 @@
         <p class="header--subline">for the soon-to-be-yours t-shirts</p>
       </header>
 
-      <label for="payment-option-1" class="payment--label">
-        <input
-          type="radio"
-          id="payment-option-1"
-          value="paypal"
-          v-model="payment"
-          class="label--indicator"
-        />
-        <div class="label--icon">
-          <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
-        </div>
-      </label>
-
-      <label for="payment-option-2" class="payment--label">
-        <input
-          type="radio"
-          id="payment-option-2"
-          value="credit"
-          v-model="payment"
-          class="label--indicator"
-        />
-        <div class="label--icon">
-          <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
-          <svg class="icon" width="80" height="60" viewBox="0 0 80 60"></svg>
-        </div>
-      </label>
-
-      <label for="payment-option-3" class="payment--label">
-        <input
-          type="radio"
-          id="payment-option-3"
-          value="gift"
-          v-model="payment"
-          class="label--indicator"
-        />
-        <h4 class="label--headline">Gift card</h4>
-        <p class="label--text">From the awesome people close to you</p>
-      </label>
+      <div class="recap-wrapper">
+        <recap
+          headline="Credit card"
+          :radioMode="true"
+          radioValue="credit"
+          @radiorecapevent="changeRadio"
+          :radioExtended="activeRadio === 'credit' ? true : false"
+        >
+          <div class="payment--choice--credit">
+            <inputField
+              class="credit--name"
+              v-model="credit.number"
+              :input="{
+                label: 'Card number',
+                type: 'number',
+                placeholder: 'xxxx-xxxx-xxxx-xxxx',
+                id: 'credit-name'
+              }"
+            />
+            <inputField
+              class="credit--date"
+              v-model="credit.date"
+              :input="{
+                label: 'Expires in',
+                type: 'text',
+                placeholder: 'MM/YYYY',
+                id: 'credit-date'
+              }"
+            />
+            <inputField
+              class="credit--code"
+              v-model="credit.code"
+              :input="{
+                label: 'Code',
+                type: 'password',
+                placeholder: '***',
+                id: 'credit-code'
+              }"
+            />
+          </div>
+        </recap>
+        <recap
+          headline="Paypal"
+          :radioMode="true"
+          radioValue="paypal"
+          @radiorecapevent="changeRadio"
+          :radioExtended="activeRadio === 'paypal' ? true : false"
+        >
+          <div class="payment--choice--credit">
+            <inputField
+              class="credit--name"
+              v-model="credit.number"
+              :input="{
+                label: 'Card number',
+                type: 'number',
+                placeholder: 'xxxx-xxxx-xxxx-xxxx',
+                id: 'credit-name'
+              }"
+            />
+            <inputField
+              class="credit--date"
+              v-model="credit.date"
+              :input="{
+                label: 'Expires in',
+                type: 'text',
+                placeholder: 'MM/YYYY',
+                id: 'credit-date'
+              }"
+            />
+            <inputField
+              class="credit--code"
+              v-model="credit.code"
+              :input="{
+                label: 'Code',
+                type: 'password',
+                placeholder: '***',
+                id: 'credit-code'
+              }"
+            />
+          </div>
+        </recap>
+        <recap
+          headline="Gift card"
+          :last="true"
+          :radioMode="true"
+          radioValue="gift"
+          @radiorecapevent="changeRadio"
+          :radioExtended="activeRadio === 'gift' ? true : false"
+        >
+          <div class="payment--choice--credit">
+            <inputField
+              class="credit--name"
+              v-model="credit.number"
+              :input="{
+                label: 'Card number',
+                type: 'number',
+                placeholder: 'xxxx-xxxx-xxxx-xxxx',
+                id: 'credit-name'
+              }"
+            />
+            <inputField
+              class="credit--date"
+              v-model="credit.date"
+              :input="{
+                label: 'Expires in',
+                type: 'text',
+                placeholder: 'MM/YYYY',
+                id: 'credit-date'
+              }"
+            />
+            <inputField
+              class="credit--code"
+              v-model="credit.code"
+              :input="{
+                label: 'Code',
+                type: 'password',
+                placeholder: '***',
+                id: 'credit-code'
+              }"
+            />
+          </div>
+        </recap>
+      </div>
     </form>
-
-    <div class="payment--choices">
-      <page-transition>
-        <div class="payment--choice--credit" v-if="payment === 'credit'">
-          <inputField
-            class="credit--name"
-            v-model="credit.number"
-            :input="{
-              label: 'Card number',
-              type: 'number',
-              placeholder: 'xxxx-xxxx-xxxx-xxxx',
-              id: 'credit-name'
-            }"
-          />
-          <inputField
-            class="credit--date"
-            v-model="credit.date"
-            :input="{
-              label: 'Expires in',
-              type: 'text',
-              placeholder: 'MM/YYYY',
-              id: 'credit-date'
-            }"
-          />
-          <inputField
-            class="credit--code"
-            v-model="credit.code"
-            :input="{
-              label: 'Code',
-              type: 'password',
-              placeholder: '***',
-              id: 'credit-code'
-            }"
-          />
-        </div>
-        <div class="payment--choice--paypal" v-else-if="payment === 'paypal'">
-          <h4 class="paypal--headline">Pay with paypal</h4>
-          <p class="paypal--text">
-            You will get redirected to paypal once you confirm your order
-          </p>
-        </div>
-        <div class="payment--choice--gift" v-else>
-          <h4 class="gift--headline"></h4>
-          <p class="gift--body"></p>
-          <inputField
-            class="credit--name"
-            v-model="gift"
-            :input="{
-              label: 'Gift card number',
-              type: 'number',
-              placeholder: 'xxxx-xxxx-xxxx-xxxx',
-              id: 'gift-number'
-            }"
-          />
-        </div>
-      </page-transition>
-    </div>
   </section>
 </template>
 
@@ -114,6 +142,7 @@ import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import inputField from "@/components/inputs/InputDefault.vue";
 import pageTransition from "@/components/transitions/transition.vue";
 import styledHeadline from "@/components/headline/headline.vue";
+import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
@@ -121,15 +150,15 @@ export default {
     totalAmount,
     buttonSimple,
     pageTransition,
-    styledHeadline
+    styledHeadline,
+    recap
   },
   //if the basics are being edited, this array contains existing basic information
   props: [],
   name: "checkoutpayment",
   data() {
     return {
-      payment: "credit",
-      recap: "recap",
+      activeRadio: "credit",
       credit: {
         number: "",
         date: "",
@@ -139,11 +168,8 @@ export default {
     };
   },
   methods: {
-    //navigation
-    goTo(locationName) {
-      this.$router.push({
-        name: locationName
-      });
+    changeRadio(radioValue) {
+      this.activeRadio = radioValue;
     }
   },
   computed: {

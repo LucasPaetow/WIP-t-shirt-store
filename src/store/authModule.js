@@ -18,6 +18,9 @@ export default {
     },
     getCurrentUser: state => {
       return state.currentUser;
+    },
+    getGuestStatus: state => {
+      return state.currentUser.isAnonymous;
     }
   },
   // -----------------------------------------------------------------
@@ -50,14 +53,12 @@ export default {
 
             let userID = user.user.uid;
 
-            //retrieve the stored user data from the firestore
+            //set the user to the store
             fb.usersCollection
               .doc(userID)
               .set({
                 name: signup.name,
-                email: signup.email,
-                orderHistory: {},
-                searchHistory: []
+                email: signup.email
               })
               .then(() => {
                 //and pass it on as another action
@@ -70,7 +71,9 @@ export default {
           .then(() => {
             //send email confirmation
             let currentUser = fb.firebase.auth().currentUser;
-            currentUser.sendEmailVerification();
+            currentUser.sendEmailVerification().then(() => {
+              console.log("email sent");
+            });
           })
           .then(() => {
             //return success for the local state handling
@@ -98,6 +101,9 @@ export default {
             //set current user and user profile
             commit("USER_setCurrent", user.user);
             dispatch("USER_getProfile");
+            dispatch("userModule/USER_getShoppingData", null, {
+              root: true
+            });
           })
           .then(() => {
             //return success for the local state handling
@@ -112,6 +118,45 @@ export default {
             } else {
               throw "There was a problem with the login process";
             }
+          })
+      );
+    },
+
+    AUTH_guest: ({}) => {
+      return (
+        fb.auth
+          //firebase auth call
+          .signInAnonymously()
+          .then(user => {
+            //set the current user to the auth object
+            commit("USER_setCurrent", user.user);
+
+            let userID = user.user.uid;
+
+            //set the user to the store
+            fb.usersCollection
+              .doc(userID)
+              .set({
+                name: null,
+                email: null
+              })
+              .then(() => {
+                //and pass it on as another action
+                dispatch("USER_getProfile");
+              })
+              .catch(error => {
+                console.log(error);
+              });
+          })
+
+          .then(() => {
+            //return success for the local state handling
+            return "successful guest signup";
+          })
+          .catch(error => {
+            //or throw an error
+            console.log(error);
+            throw "There was a problem with the signup process. Please try again later";
           })
       );
     },
@@ -137,11 +182,14 @@ export default {
 
     USER_getProfile: ({ commit, state }) => {
       //look up the firestore for the current user id and download the profile
-      fb.usersCollection
+      return fb.usersCollection
         .doc(state.currentUser.uid)
         .get()
         .then(res => {
           commit("USER_setProfile", res.data());
+        })
+        .then(() => {
+          return "got the user data successfully";
         })
         .catch(error => {
           console.log(error);
@@ -155,11 +203,6 @@ export default {
         .then(() => {
           //remove all stored user data
           commit("USER_logout");
-          dispatch("productModule/API_deleteSearchResults", null, {
-            root: true
-          });
-        })
-        .then(() => {
           //and go to the home page
           router.replace("/");
         })
@@ -168,85 +211,22 @@ export default {
         });
     },
 
-    USER_uploadSearchResults: ({ state }, searchResult) => {
-      console.log("uploading user search");
-      //uploads the search result to firebase
-      fb.usersCollection
-        .doc(state.currentUser.uid)
-        .collection("searches")
-        .doc(searchResult.searchTerm)
-        .set(searchResult, { merge: true });
-      //and merges with any existing data
-      //update the searchHistory entry as well
+    AUTH_updateUserInfo: ({ commit, dispatch, state }, userInfo) => {
+      //update user information
+      let userID = state.currentUser.uid;
 
-      fb.usersCollection.doc(state.currentUser.uid).update({
-        searchHistory: fb.fieldValue.arrayUnion(searchResult.searchTerm)
-      });
-    },
-
-    USER_uploadSearchHistory: ({ state, rootState }, searchResult) => {
-      console.log("uploading user search hisory once");
-      /*if the user signs in after at least one search there is a search hisory item, which will not get saved. So they have to be uploaded once*/
-      const searchHistory = rootstate.productModule.allSearchResults;
-      //if the user didnt search for anything before return early
-      if (!searchHistory.length) {
-        console.log(searchHistory.length);
-        return;
-      }
-      //iterate over the searchHistory array and upload each entry
-      searchHistory.map(searchEntry => {
-        fb.usersCollection
-          .doc(state.currentUser.uid)
-          .collection("searches")
-          .doc(searchEntry.searchTerm)
-          .set(searchEntry, { merge: true });
-
-        //update the searchHistory entry as well
-
-        fb.usersCollection.doc(state.currentUser.uid).update({
-          searchHistory: fb.fieldValue.arrayUnion(searchResult.searchTerm)
+      return fb.usersCollection
+        .doc(userID)
+        .update({
+          name: userInfo.name,
+          email: userInfo.email
+        })
+        .then(() => {
+          return "update successful";
+        })
+        .catch(error => {
+          console.log(error);
         });
-      });
-    },
-
-    USER_restoreSearchResults_firebase: ({ state, rootState, dispatch }) => {
-      console.log("restoring user search");
-
-      //check if data is already available
-      let searchAllHistory = rootState.productModule.allSearchResults.length;
-      let searchCurrentHistory = rootState.productModule.currentSearchResult;
-
-      //if there is data available return early
-      if (searchAllHistory && searchCurrentHistory) {
-        console.log("skipping restore, data already present");
-        return;
-      }
-
-      //fetch user search data and sent it to the product module
-
-      const firebaseStorageObject = {
-        currentSearchResult: null,
-        allSearchResults: []
-      };
-
-      fb.usersCollection
-        .doc(state.currentUser.uid)
-        .collection("searches")
-        .orderBy("latestUpdate", "asc")
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(searchTerm => {
-            console.log(searchTerm.id);
-            firebaseStorageObject.allSearchResults.unshift(searchTerm.data());
-          });
-        });
-      dispatch(
-        "productModule/API_restoreSearchResults_local",
-        firebaseStorageObject,
-        {
-          root: true
-        }
-      );
     }
   }
 };

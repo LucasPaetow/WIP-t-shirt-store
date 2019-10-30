@@ -1,15 +1,43 @@
 <template>
   <section class="product-images address-content ">
-    <div class="address--identity">
-      <h3 class="address--headline">About you</h3>
+    <div class="address--identity" v-if="userProfile">
+      <h3 class="address--headline">
+        Welcome Back, {{ userProfile.name }}. Ready to stun everyone again?
+      </h3>
+
+      <div class="different-reciver">
+        <inputField
+          class="place--name z-index-1"
+          v-model="identity.name"
+          :input="{
+            label: 'Your Name',
+            type: 'text',
+            placeholder: 'Forname Name',
+            id: 'identity-name'
+          }"
+        />
+        <div
+          class="input-overlay z-index-2"
+          @click="differentReciver = false"
+          v-if="differentReciver"
+        >
+          <p class="input-overlay--text">changed your mind?</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="address--identity" v-else>
+      <h3 class="address--headline">
+        About you, the future member of the being-stunningly-well-dressed-club:
+      </h3>
 
       <inputField
         class="identity--name"
         v-model="identity.name"
         :input="{
-          label: 'Your Password',
+          label: 'Your Name',
           type: 'text',
-          placeholder: 'Name',
+          placeholder: 'Forname Name',
           id: 'identity-name'
         }"
       />
@@ -17,19 +45,65 @@
         class="identity--email"
         v-model="identity.email"
         :input="{
-          label: 'Your Password',
-          type: 'text',
-          placeholder: 'Name',
+          label: 'Your Email',
+          type: 'email',
+          placeholder: 'forname.name@email.com',
           id: 'identity-email'
         }"
       />
     </div>
 
-    <div class="address--place address--section">
+    <div
+      class="address--place address--section"
+      v-if="previousAddressAvailable"
+    >
+      <h3 class="place--headline">
+        The last time, we shipped your order to this address:
+      </h3>
+
+      <ul class="place--address__compact">
+        <li>{{ previousAddress.name }}</li>
+        <li>{{ previousAddress.street }}</li>
+        <li>{{ previousAddress.city }}, {{ previousAddress.zp }}</li>
+      </ul>
+
+      <button-simple
+        class="address--button__reuse"
+        :buttonText="'Use it again'"
+        @simplebuttonevent="nextStep('historyAddress')"
+      />
+      <button-simple
+        class="address--button__discard"
+        :buttonText="'use a different address'"
+        @simplebuttonevent="previousAddressAvailable = false"
+      />
+    </div>
+    <div class="address--place address--section" v-else>
       <h3 class="place--headline">Where should we ship your t-shirts to?</h3>
+
+      <div class="different-reciver">
+        <inputField
+          class="place--name z-index-1"
+          v-model="address.name"
+          :input="{
+            label: 'Name of the reciver',
+            type: 'text',
+            placeholder: 'Forname Name',
+            id: 'address-name'
+          }"
+        />
+        <div
+          class="input-overlay z-index-2"
+          @click="differentReciver = true"
+          v-if="!differentReciver"
+        >
+          <p class="input-overlay--text">Is this for somebody else?</p>
+        </div>
+      </div>
+
       <inputField
         class="place--street"
-        v-model="place.street"
+        v-model="address.street"
         :input="{
           label: 'Your Street',
           type: 'text',
@@ -37,33 +111,37 @@
           id: 'place-street'
         }"
       />
-      <inputField
-        class="place--zip"
-        v-model="place.zip"
-        :input="{
-          label: 'Zip code',
-          type: 'text',
-          placeholder: '12345',
-          id: 'place-zip'
-        }"
-      />
-      <inputField
-        class="place--city"
-        v-model="place.city"
-        :input="{
-          label: 'Your City',
-          type: 'text',
-          placeholder: 'city',
-          id: 'place-city'
-        }"
-      />
+
+      <div class="small-input-wrapper">
+        <inputField
+          class="place--zip"
+          v-model="address.zip"
+          :input="{
+            label: 'Zip code',
+            type: 'text',
+            placeholder: '12345',
+            id: 'place-zip'
+          }"
+        />
+        <inputField
+          class="place--city"
+          v-model="address.city"
+          :input="{
+            label: 'Your City',
+            type: 'text',
+            placeholder: 'city',
+            id: 'place-city'
+          }"
+        />
+      </div>
     </div>
 
     <section class="address--buttons">
       <button-simple
+        v-if="!previousAddressAvailable"
         class="address--button-cta"
         :buttonText="'Show my shipping options'"
-        @simplebuttonevent="goTo('shipping')"
+        @simplebuttonevent="nextStep('newAddress')"
       />
     </section>
   </section>
@@ -94,27 +172,106 @@ export default {
         name: "",
         email: ""
       },
-      place: {
+      address: {
+        name: "",
         street: "",
         zip: "",
         city: ""
-      }
+      },
+      previousAddress: {
+        name: "",
+        street: "",
+        zip: "",
+        city: ""
+      },
+      previousAddressAvailable: false,
+      differentReciver: false
     };
   },
   methods: {
-    //navigation
-    goTo(locationName) {
-      this.$router.push({
-        name: locationName
-      });
+    nextStep(address) {
+      //validate entrys
+      //check for guest or user
+      if (this.guestStatus) {
+        //upload guest data
+        this.$store.dispatch("authModule/AUTH_updateUserInfo", {
+          name: this.identity.name,
+          email: this.identity.email
+        });
+      }
+
+      if (!this.guestStatus) {
+        //check if a different name was used for a user and update if needed
+
+        if (this.identity.name !== this.userProfile.name)
+          this.$store.dispatch("authModule/AUTH_updateUserInfo", {
+            name: this.identity.name,
+            email: this.identity.email
+          });
+      }
+
+      //set address info to the store
+      //add the name to it
+
+      let updatedAdress = { ...this.address };
+      //check if a different reciver was entered
+      if (!this.differentReciver) {
+        //if not, the user ordert this for himself
+        updatedAdress[name] = this.identity.name;
+      }
+
+      this.$store
+        .dispatch("userModule/USER_setCurrentData", {
+          type: "address",
+          data: updatedAdress
+        })
+        .then(() => {
+          //go to shipping
+          this.$router.push({ name: "shipping" });
+        });
+    },
+
+    updateUserData(hook) {
+      //check if the user profile is present
+      if (this.userProfile) {
+        this.identity.name = this.userProfile.name;
+        this.identity.email = this.userProfile.email;
+      }
+      //check if there is existing store data
+      if (this.userAddress) {
+        this.address.name = this.userAddress.name;
+        this.address.street = this.userAddress.street;
+        this.address.zip = this.userAddress.zip;
+        this.address.city = this.userAddress.city;
+      }
+
+      //check if there is existing history data
+      //only show this once
+      if (this.historyAddress && hook === "mounted") {
+        this.previousAddress.name = this.userAddressHistory.name;
+        this.previousAddress.street = this.userAddressHistory.street;
+        this.previousAddress.zip = this.userAddressHistory.zip;
+        this.previousAddress.city = this.userAddressHistory.city;
+        this.previousAddressAvailable = true;
+      }
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      userProfile: "authModule/getUserProfile",
+      userAddress: "userModule/getAddress",
+      userAddressHistory: "userModule/getAddressHistory",
+      guestStatus: "authModule/getGuestStatus"
+    })
   },
-  created() {},
+  mounted() {
+    this.updateUserData("mounted");
+    //console.log(this);
+  },
   //same check for route-view keep-alive
-  activated() {}
+  activated() {
+    this.updateUserData("activated");
+  }
 };
 </script>
 
@@ -150,10 +307,8 @@ export default {
   /* Positioning */
 
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
   grid-auto-rows: min-content;
   grid-row-gap: var(--1base);
-  grid-column-gap: var(--1base);
   /* Box-model */
   padding: 3vh 0;
 
@@ -163,11 +318,14 @@ export default {
 
   /* Misc */
 }
-.place--headline {
+
+.different-reciver {
   /* Positioning */
-  grid-column: 1/3;
-  grid-row: 1/2;
+
+  display: grid;
+
   /* Box-model */
+
   /* Typography */
 
   /* Visual */
@@ -175,10 +333,54 @@ export default {
   /* Misc */
 }
 
-.place--street {
+.place--name {
   /* Positioning */
-  grid-column: 1/3;
-  grid-row: 2/3;
+  grid-column: 1/2;
+  grid-row: 1/2;
+
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
+}
+
+.input-overlay {
+  /* Positioning */
+  grid-column: 1/2;
+  grid-row: 1/2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Box-model */
+
+  /* Typography */
+
+  /* Visual */
+  background-color: hsla(0, 0%, 100%, 0.95);
+  /* Misc */
+}
+
+.input-overlay--text {
+  /* Positioning */
+
+  /* Box-model */
+
+  /* Typography */
+  font-weight: bold;
+  /* Visual */
+
+  /* Misc */
+}
+
+.small-input-wrapper {
+  /* Positioning */
+
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  grid-column-gap: var(--1base);
   /* Box-model */
 
   /* Typography */

@@ -22,11 +22,48 @@ export default {
   },
   name: "app",
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      getShoppingCart: "userModule/getShoppingCart",
+      loading: "initModule/getCompleteLoadingState"
+    })
   },
 
   created() {
+    //initalize all the store by fetching data and loading ressources
     this.$store.dispatch("initModule/INIT_store");
+  },
+  mounted() {
+    //watch the shoppingCart for changes
+
+    if (this.loading) {
+      //dont watch during initalizing
+      console.log(
+        "app is initalizing, changes are to restore the previous state"
+      );
+      return;
+    }
+    //watch the local shopping cart
+    this.$store.watch(
+      (state, getters) => this.getShoppingCart,
+      (newValue, oldValue) => {
+        this.$store.dispatch("userModule/PRODUCT_saveShoppingCart");
+      }
+    );
+
+    //watch the local address state
+    this.$store.watch(
+      (state, getters) => this.getAddress,
+      (newValue, oldValue) => {
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "address");
+      }
+    );
+    //watch the local address state
+    this.$store.watch(
+      (state, getters) => this.getPayment,
+      (newValue, oldValue) => {
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "payment");
+      }
+    );
   }
 };
 </script>
@@ -78,6 +115,7 @@ export default {
   /*signaling*/
   --red-700: #c53030;
   --green-700: #2f855a;
+  --green-200: hsla(128, 26%, 79%, 1);
 
   /*padding*/
   --paddingX: 5vw;
@@ -463,7 +501,6 @@ input {
 
   width: 100%;
   border: 2px solid var(--grey-600);
-
   /* Typography */
   /* Visual */
   /* Misc */

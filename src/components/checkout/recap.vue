@@ -1,5 +1,33 @@
 <template>
   <section
+    v-if="radioMode"
+    class="recap"
+    :class="[last ? 'last' : '', radioExtended ? 'expanded' : '']"
+    @click="$emit('radiorecapevent', radioValue)"
+  >
+    <div class="recap--collapsed">
+      <h3 class="recap--headline z-index-2">
+        {{ headline }}
+      </h3>
+
+      <closeIcon
+        class="recap--close close-icon z-index-3"
+        :activeCloseMenu="radioExtended"
+      />
+    </div>
+
+    <div class="recap--expanded" v-if="radioExtended">
+      <div
+        :class="`expanded-content${radioValue}`"
+        class="expanded-radio-content"
+      >
+        <slot></slot>
+      </div>
+    </div>
+  </section>
+
+  <section
+    v-else
     class="recap"
     :class="[last ? 'last' : '', expanded ? 'expanded' : '']"
     @click="expanded = !expanded"
@@ -14,11 +42,12 @@
         :activeCloseMenu="expanded"
       />
     </div>
-    <pageTransition propTransitionName="fade-delay" propTransitionMode="">
-      <div class="recap--expanded" v-if="expanded">
+
+    <div class="recap--expanded" v-if="expanded">
+      <div class="expanded-content">
         <slot></slot>
       </div>
-    </pageTransition>
+    </div>
   </section>
 </template>
 
@@ -49,6 +78,17 @@ export default {
     alreadyExpanded: {
       type: Boolean,
       default: false
+    },
+    radioMode: {
+      type: Boolean,
+      default: false
+    },
+    radioExtended: {
+      type: Boolean,
+      default: false
+    },
+    radioValue: {
+      type: String
     }
   },
   name: "checkoutpayment",
@@ -60,40 +100,6 @@ export default {
     };
   },
   methods: {
-    beforeLeave(element) {
-      this.prevHeight = element.getBoundingClientRect().height;
-    },
-    enter(element, done) {
-      const height = element.getBoundingClientRect().height;
-
-      [...element.children].forEach(child => {
-        element.style.opacity = 0;
-      });
-
-      element.style.height = this.prevHeight + "px";
-
-      this.animate({
-        duration: 200,
-        timing: function(timeFraction) {
-          return timeFraction;
-        },
-        draw: progress => {
-          element.style.height = height * progress + "px";
-        }
-      });
-      done();
-      /*requestAnimationFrame(() => {
-        element.style.height = height;
-    });*/
-    },
-    afterEnter(element) {
-      setTimeout(() => {
-        [...element.children].forEach(child => {
-          element.style.opacity = 1;
-        });
-        element.style.height = "auto";
-      }, 200);
-    },
     animate({ timing, draw, duration }) {
       let start = performance.now();
 
@@ -110,9 +116,7 @@ export default {
           timeFraction < 1 ? requestAnimationFrame(animate) : resolve(true);
         });
       });
-    },
-    timing() {},
-    draw(progress) {}
+    }
   },
   computed: {
     ...mapGetters({})
@@ -136,22 +140,45 @@ export default {
 
   updated() {
     let height = this.$el.getBoundingClientRect().height;
+
+    if (height === this.prevHeight) {
+      //not the height is getting updated => return early
+      return;
+    }
+
+    let content = document.querySelector(
+      `.expanded-content${this.radioValue ? this.radioValue : ""}`
+    );
+
     //set element height to the previous state
     this.$el.style.height = this.prevHeight + "px";
 
+    if (content) {
+      content.style.opacity = 0;
+    }
     //animate heigt from previous to current
     this.animate({
-      duration: 200,
-      timing: function quad(timeFraction) {
-        return Math.pow(timeFraction, 2);
+      duration: this.expanded ? 300 : 200,
+      timing: timeFraction => {
+        let collapse = timeFraction * (2 - timeFraction);
+        let expand = 1 - Math.pow(1 - timeFraction, 1.675);
+        return this.expanded ? collapse : expand;
       },
       draw: progress => {
         this.expanded
           ? (this.$el.style.height = height * progress + "px")
-          : (this.$el.style.height = height + "px");
+          : (this.$el.style.height =
+              this.prevHeight - (this.prevHeight - height) * progress + "px");
       }
     }).then(() => {
       this.$el.style.height = "auto";
+      let content = document.querySelector(
+        `.expanded-content${this.radioValue ? this.radioValue : ""}`
+      );
+      if (content) {
+        content.style.transition = "opacity 0.3s cubic-bezier(0.55, 0, 0.1, 1)";
+        content.style.opacity = 1;
+      }
     });
   }
 };
@@ -255,7 +282,6 @@ export default {
   grid-column: 1/2;
   /* Box-model */
   padding: var(--1base);
-
   /* Typography */
 
   /* Visual */
@@ -285,10 +311,13 @@ export default {
   align-self: center;
 }
 
-.recap--expanded {
+.expanded-content,
+.expanded-radio-content {
   /* Positioning */
 
   /* Box-model */
+  width: 100%;
+  height: 100%;
   padding: var(--1base);
   /* Typography */
 

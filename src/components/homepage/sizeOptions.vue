@@ -64,7 +64,8 @@ export default {
       let product = {
         amount: productInfo.amount,
         size: productInfo.size,
-        color: this.currentColor
+        color: this.currentColor,
+        timestamp: Date.now()
       };
       this.product = product;
       this.$store

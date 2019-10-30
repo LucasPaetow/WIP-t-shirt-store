@@ -10,7 +10,9 @@
       <p class="subheadline">
         You need to login so we can fetch your search- and purchase history. The
         first time you visit? Create a
-        <router-link :to="{ name: 'signup' }"><b>free account!</b></router-link>
+        <router-link :to="{ name: 'signup', params: { nextPage } }"
+          ><b>free account!</b></router-link
+        >
         and be remembered!
       </p>
     </header>
@@ -202,6 +204,9 @@ export default {
     recap
   },
   name: "login",
+  props: {
+    nextPage: String
+  },
   data() {
     return {
       loading: false,
@@ -259,11 +264,16 @@ export default {
             this.success = true;
             setTimeout(() => {
               /*for the user to see this, the next step is delayed by 500ms.
-               The next step is either to go to the route were the user came from or to go back to the starting page*/
-              if (this.previousRoute && this.previousRoute !== "signup") {
+               The next step is a set page, going back to the route were the user came from or to go back to the starting page*/
+              if (this.nextPage) {
+                this.goTo(this.nextPage);
+              } else if (
+                this.previousRoute &&
+                this.previousRoute !== "signup"
+              ) {
                 this.goTo(this.previousRoute);
               } else {
-                this.goTo("start");
+                this.goTo("store");
               }
               this.success = false;
             }, 500);

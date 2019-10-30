@@ -27,5 +27,14 @@ const fieldValue = firebase.firestore.FieldValue;
 
 // firebase collections
 const usersCollection = db.collection("users");
+const storeCollection = db.collection("store");
 
-export { auth, currentUser, usersCollection, functions, firebase, fieldValue };
+export {
+  auth,
+  currentUser,
+  usersCollection,
+  storeCollection,
+  functions,
+  firebase,
+  fieldValue
+};

@@ -11,7 +11,9 @@
       <p class="subheadline">
         Create a free account to revisit your searches and your
         purchases/wishlist. Already famous here?
-        <router-link :to="{ name: 'login' }"><b>Login!</b></router-link>
+        <router-link :to="{ name: 'login', params: { nextPage } }"
+          ><b>Login!</b></router-link
+        >
       </p>
     </header>
     <page-transition>
@@ -196,6 +198,9 @@ export default {
     styledHeadline,
     logo,
     recap
+  },
+  props: {
+    nextPage: String
   },
   name: "signup",
   data() {

@@ -1,5 +1,8 @@
 <template>
-  <article class="cart main">
+  <article class="" v-if="!supportData">
+    <h1>loading</h1>
+  </article>
+  <article class="cart main" v-else>
     <page-transition>
       <header class="cart--header main--header" v-if="shoppingCart.length">
         <styledHeadline
@@ -33,7 +36,7 @@
           <button-simple
             class="cart--button-cta"
             :buttonText="'login'"
-            @simplebuttonevent="goTo('login')"
+            @simplebuttonevent="goTo('login', { nextPage: 'checkout' })"
           />
           <button-simple
             class="cart--button-cta"
@@ -78,13 +81,13 @@
             <button-simple
               class="cart--button-cta"
               :buttonText="'checkout and login'"
-              @simplebuttonevent="goTo('login')"
+              @simplebuttonevent="goTo('login', { nextPage: 'checkout' })"
             />
             <button-simple
               class="cart--button-cta"
               :buttonText="'checkout as guest'"
               buttonType="secondary"
-              @simplebuttonevent="goTo('address')"
+              @simplebuttonevent="checkoutGuest()"
             />
           </div>
         </page-transition>
@@ -122,6 +125,12 @@ export default {
     };
   },
   methods: {
+    checkoutGuest() {
+      this.$store.dispatch("authModule/USER_guest").then(() => {
+        this.goTo("address");
+      });
+    },
+
     changeToCommunityColor(color) {
       this.$store
         .dispatch("productModule/COLORS_setCurrent", color)
@@ -133,9 +142,10 @@ export default {
         });
     },
     //navigation
-    goTo(locationName) {
+    goTo(locationName, params) {
       this.$router.push({
-        name: locationName
+        name: locationName,
+        params
       });
     },
     goBack() {
@@ -153,7 +163,8 @@ export default {
     ...mapGetters({
       shoppingCart: "userModule/getShoppingCart",
       supportData: "productModule/getSupport",
-      currentColor: "productModule/getCurrentColor"
+      currentColor: "productModule/getCurrentColor",
+      loading: "initModule/getCompleteLoadingState"
     })
   },
   created() {},
