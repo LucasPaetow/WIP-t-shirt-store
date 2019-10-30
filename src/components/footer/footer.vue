@@ -1,35 +1,51 @@
 <template
   ><footer class="footer">
     <div class="footer--section">
-      <h3 class="footer--section__headline">About the shirt</h3>
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <h2 class="footer--section__headline">About the shirt</h2>
+      <router-link
+        :to="{ name: 'about', hash: '#sizes' }"
+        class="footer--section__link"
         >Sizes</router-link
       >
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <router-link
+        :to="{ name: 'about', hash: '#quality' }"
+        class="footer--section__link"
         >Quality</router-link
       >
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <router-link
+        :to="{ name: 'about', hash: '#care' }"
+        class="footer--section__link"
         >Wash and care instructions</router-link
       >
     </div>
     <div class="footer--section">
-      <h3 class="footer--section__headline">About shipping</h3>
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <h2 class="footer--section__headline">About shipping</h2>
+      <router-link
+        :to="{ name: 'about', hash: '#shipping' }"
+        class="footer--section__link"
         >Shipping and returns</router-link
       >
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <router-link
+        :to="{ name: 'about', hash: '#tracking' }"
+        class="footer--section__link"
         >Order Tracking</router-link
       >
     </div>
     <div class="footer--section">
-      <h3 class="footer--section__headline">About us</h3>
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <h2 class="footer--section__headline">About us</h2>
+      <router-link
+        :to="{ name: 'about', hash: '#us' }"
+        class="footer--section__link"
         >Our Story</router-link
       >
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <router-link
+        :to="{ name: 'legal', hash: '#impressum' }"
+        class="footer--section__link"
         >Impressum</router-link
       >
-      <router-link :to="{ name: '' }" class="footer--section__link"
+      <router-link
+        :to="{ name: 'legal', hash: '#privacy' }"
+        class="footer--section__link"
         >Privacy</router-link
       >
     </div>
@@ -37,41 +53,33 @@
 >
 
 <script>
-export default {};
+import styledHeadline from "@/components/headline/headline.vue";
+export default {
+  components: {
+    styledHeadline
+  }
+};
 </script>
 
 <style scoped>
 .footer {
   /* Positioning */
   display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
   grid-template-rows: 1fr;
   grid-auto-rows: min-content;
   grid-row-gap: var(--4base);
   /* Box-model */
-  padding: 10vh 0;
+  padding-bottom: 10vh;
+  margin-top: 10vh;
   /* Typography */
 
   /* Visual */
-  background-color: grey;
-  /* Misc */
-}
-
-.footer--headline {
-  /* Positioning */
-  grid-column: 2/3;
-  /* Box-model */
-
-  /* Typography */
-  font-size: var(--h1__fontSize);
-  /* Visual */
-
+  background-color: var(--grey-300);
   /* Misc */
 }
 
 .footer--section {
   /* Positioning */
-  grid-column: 2/3;
   display: flex;
   flex-direction: column;
   /* Box-model */
@@ -89,7 +97,6 @@ export default {};
   /* Box-model */
   margin-bottom: var(--halfbase);
   /* Typography */
-  font-size: var(--h2__fontSize);
   /* Visual */
 
   /* Misc */
@@ -103,7 +110,7 @@ export default {};
   /* Typography */
 
   /* Visual */
-  color: var(--grey-200);
+  color: var(--grey-800);
   /* Misc */
 }
 
@@ -124,9 +131,7 @@ export default {};
 @media (min-width: 45em) {
   .footer {
     /* Positioning */
-    grid-template-columns: var(--column-spacing) 1fr 1fr 1fr var(
-        --column-spacing
-      );
+    grid-template-columns: 1fr 1fr 1fr;
     /* Box-model */
     /* Typography */
     /* Visual */
@@ -148,7 +153,7 @@ export default {};
 
   .footer--section:nth-of-type(1) {
     /* Positioning */
-    grid-column: 2/3;
+    grid-column: 1/2;
 
     /* Box-model */
 
@@ -161,7 +166,7 @@ export default {};
 
   .footer--section:nth-of-type(2) {
     /* Positioning */
-    grid-column: 3/4;
+    grid-column: 2/3;
 
     /* Box-model */
 
@@ -174,7 +179,7 @@ export default {};
 
   .footer--section:nth-of-type(3) {
     /* Positioning */
-    grid-column: 4/5;
+    grid-column: 3/4;
     /* Box-model */
 
     /* Typography */

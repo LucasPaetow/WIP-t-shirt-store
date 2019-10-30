@@ -1,5 +1,18 @@
 <template>
-  <article class="template"></article>
+  <article class="store main">
+    <header class="store--header main--header">
+      <styledHeadline headlineText="Header"></styledHeadline>
+    </header>
+
+    <aside class="store--background main--background"></aside>
+
+    <section class="main--sidebar">
+      <div class="main--sidebar__sticky"></div>
+    </section>
+    <section class="product-images main--content"></section>
+
+    <storeFooter class="footer__layout main--footer" />
+  </article>
 </template>
 
 <script>
@@ -8,8 +21,8 @@ import { mapGetters } from "vuex";
 export default {
   components: {},
   //if the basics are being edited, this array contains existing basic information
-  props: [],
-  name: "componentTemplate",
+  props: {},
+  name: "yikes",
   data() {
     return {};
   },
@@ -33,30 +46,9 @@ export default {
 <style scoped>
 .template {
   /* Positioning */
-  display: grid;
-  padding: var(--padding-top) 0 var(--2base) 0;
-  grid-auto-rows: min-content;
-  grid-template-rows: 7rem;
-  grid-template-columns: var(--padding-main) var(--view-main) var(
-      --padding-main
-    );
-  grid-row-gap: var(--padding-rows);
   /* Box-model */
-  min-height: 100%;
   /* Typography */
-
   /* Visual */
-
   /* Misc */
 }
-
-/* Positioning */
-
-/* Box-model */
-
-/* Typography */
-
-/* Visual */
-
-/* Misc */
 </style>

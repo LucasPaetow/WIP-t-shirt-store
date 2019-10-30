@@ -2,54 +2,44 @@
 
 import { pictures, support } from "@/assets/pictureData.js";
 import { colors } from "@/assets/colors.js";
-import { colors_simple } from "@/assets/colors_simple.js";
 const fb = require("@/api/firebaseConfig.js");
 
 export default {
   namespaced: true,
   // -----------------------------------------------------------------
   state: {
-    loading: false
+    loading: { primaryData: false, secondaryData: false }
   },
   // -----------------------------------------------------------------
   getters: {
     getLoadingState: state => {
-      return state.loading;
+      return state.loading.primaryData;
+    },
+    getCompleteLoadingState: state => {
+      if (state.loading.primaryData || state.loading.secondaryData) {
+        return true;
+      }
+      return false;
     }
   },
   // -----------------------------------------------------------------
   mutations: {
-    INIT_loading(state, boolean) {
+    INIT_loading(state, loading) {
       //set the current state to that of the index
-      state.loading = boolean;
+      state.loading[loading.step] = loading.status;
     }
   },
   // -----------------------------------------------------------------
   actions: {
     INIT_store: async ({ dispatch, commit }) => {
       console.log("init store");
-      commit("INIT_loading", true);
+      //init loading
+      commit("INIT_loading", { step: "primaryData", status: true });
+      commit("INIT_loading", { step: "secondaryData", status: true });
 
-      let loadSupportData = await dispatch("INIT_restoreData", "support");
-      let setSupportData = await dispatch(
-        "productModule/SUPPORT_setData",
-        loadSupportData,
-        {
-          root: true
-        }
-      );
+      //load data
 
-      let loadColorData = await dispatch("INIT_restoreData", "colors");
-      let setColorData = await dispatch(
-        "productModule/COLORS_setData",
-        loadColorData,
-        {
-          root: true
-        }
-      );
-
-      let finishSave = await commit("INIT_loading", false);
-
+      //load product data first
       let loadProductData = await dispatch("INIT_restoreData", "product");
       let setProductData = await dispatch(
         "productModule/PRODUCT_setData",
@@ -59,7 +49,50 @@ export default {
         }
       );
 
-      return finishSave;
+      //load colors
+      let loadColorData = await dispatch("INIT_restoreData", "colors");
+      let setColorData = await dispatch(
+        "productModule/COLORS_setData",
+        loadColorData,
+        {
+          root: true
+        }
+      );
+
+      //check for local user info and restore this first
+      let checkForLocalUserSave = await dispatch(
+        "userModule/INIT_userSaveLocal",
+        null,
+        {
+          root: true
+        }
+      );
+
+      //set the first loading step to false again => everything else can be loaded afterwards
+      let finishInitalRestore = await commit("INIT_loading", {
+        step: "primaryData",
+        status: false
+      });
+
+      //load additional data
+      let loadSupportData = await dispatch("INIT_restoreData", "support");
+      let setSupportData = await dispatch(
+        "productModule/SUPPORT_setData",
+        loadSupportData,
+        {
+          root: true
+        }
+      );
+
+      //get user data from remote
+      let checkForRemoteUserSave = await dispatch("INIT_userSaveRemote");
+
+      let finishFullRestore = await commit("INIT_loading", {
+        step: "secondaryData",
+        status: false
+      });
+
+      return finishFullRestore;
     },
 
     INIT_restoreData: async ({ dispatch }, section) => {
@@ -91,6 +124,29 @@ export default {
         `t-shirt-store_${section.type}`,
         JSON.stringify(section.data)
       );
+    },
+
+    INIT_userSaveRemote: async ({ dispatch }, section) => {
+      //check if user is present
+      let userAuthState = await fb.auth.onAuthStateChanged(user => {
+        if (!user) {
+          //if not,return early
+          console.log("no user present");
+          return;
+        }
+        console.log("page was reloaded, user is present");
+
+        //reset user data
+        dispatch("authModule/AUTH_PageReload", user, {
+          root: true
+        });
+
+        //check for a remote save and overwrite the store
+        dispatch("userModule/USER_getCurrentOrder", user, {
+          root: true
+        });
+      });
+      return userAuthState;
     }
   }
 };

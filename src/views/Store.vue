@@ -1,12 +1,18 @@
 <template>
-  <article class="store" id="store">
-    <header class="header" id="looks-great">
-      <h1 class="header--headline" v-if="today">
-        This is how cool you will look tomorrow
-      </h1>
-      <h1 class="header--headline" v-else>
-        This is how cool you will look in 2 days
-      </h1>
+  <article class="store main" id="store">
+    <header class="store--header main--header" id="looks-great">
+      <styledHeadline
+        v-if="today"
+        class="header--headline__layout"
+        headlineText="This is how cool you will look tomorrow"
+      ></styledHeadline>
+
+      <styledHeadline
+        v-else
+        class="header--headline__layout"
+        headlineText="This is how cool you will look in 2 days"
+      ></styledHeadline>
+
       <p class="header--subline">
         If you order in the next
         <span v-if="Math.floor(now / 60) > 0">
@@ -15,17 +21,50 @@
         <b> {{ Math.floor(((now / 60) % 1) * 60) }} min</b>
       </p>
     </header>
-    <section class="product-info">
-      <p class="info info--price">
-        <span class="headline__background ">For 20$</span>
-      </p>
-      <buttonSimple
-        class="info info--wishlist"
-        buttonText="add color to wishlist"
-        buttonType="no-styling"
-      />
+    <aside class="store--background main--background"></aside>
+    <section class="product-info main--sidebar">
+      <div class="product-info__sticky main--sidebar__sticky">
+        <div class="recap-wrapper">
+          <recap headline="About the color" :alreadyExpanded="true">
+            <div class="product-info--color">
+              <p>{{ currentColor[0] }}</p>
+              <p>add to wishlist</p>
+            </div>
+          </recap>
+          <recap headline="Materials">
+            <ul class="product-info--Material">
+              <li>- 10% luck, 20% skill</li>
+              <li>- 15% concentrated power of will</li>
+              <li>- 5%pleasure, 50% percent cotton</li>
+              <li>
+                And a 100% reason to remember the tshirt (actually 100% cotton,
+                too)
+              </li>
+            </ul>
+          </recap>
+          <recap headline="Available Sizes">
+            <div class="product-info--sizes">
+              <p>S, M, L, XL</p>
+              <p>see size chart</p>
+            </div>
+          </recap>
+          <recap :last="true" headline="Price for every t-shirt">
+            <div class="product-info--price">
+              <p class="price--wrapper">
+                <span class="headline__background ">For 20$</span>
+              </p>
+            </div>
+          </recap>
+        </div>
+
+        <button-simple
+          class="product-info--cta"
+          :buttonText="'choose your size'"
+          @simplebuttonevent="goTo('sizeOptions')"
+        />
+      </div>
     </section>
-    <section class="product-images" v-if="randomProductData">
+    <section class="product-images main--content" v-if="randomProductData">
       <productImage
         v-for="(product, index) in randomProductData"
         :key="'randomProductImage' + index"
@@ -38,7 +77,7 @@
       </productImage>
     </section>
 
-    <storeFooter />
+    <storeFooter class="footer__layout main--footer" />
 
     <router-link
       :to="{
@@ -49,7 +88,10 @@
     >
       <p class="size-options--text">Choose Size</p>
     </router-link>
-    <page-transition><router-view /></page-transition>
+
+    <page-transition propTransitionName="full-slide">
+      <router-view />
+    </page-transition>
   </article>
 </template>
 
@@ -59,13 +101,17 @@ import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import storeFooter from "@/components/footer/footer.vue";
 import pageTransition from "@/components/transitions/transition.vue";
 import productImage from "@/components/homepage/productImage.vue";
+import styledHeadline from "@/components/headline/headline.vue";
+import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
     buttonSimple,
     storeFooter,
     pageTransition,
-    productImage
+    productImage,
+    styledHeadline,
+    recap
   },
   props: [],
   name: "store",
@@ -172,115 +218,103 @@ export default {
     this.$store.dispatch("productModule/COLORS_setCurrent", colorArray);
   },
   //same check for route-view keep-alive
-  activated() {},
-  beforeRouteUpdate(to, from, next) {
-    let store = document.getElementById("store");
-    if (to.name === "sizeOptions") {
-      this.scrollPosition = window.pageYOffset;
-      store.style.top = -this.scrollPosition + "px";
-      store.classList.add("fixed-scroll");
-    }
-    if (to.name === "store") {
-      store.classList.remove("fixed-scroll");
-      store.style.top = "";
-      setTimeout(() => {
-        window.scrollTo(0, this.scrollPosition);
-      }, 10);
-    }
-
-    next();
-  }
+  activated() {}
 };
 </script>
 
 <style scoped>
-/* Positioning */
-/* Box-model */
-/* Typography */
-/* Visual */
-/* Misc */
-
-.store {
-  /* Positioning */
-  /* Box-model */
-  padding: var(--7base) 0 0 0;
-  min-height: 100%;
-  /* Typography */
-
-  /* Visual */
-  background-color: var(--grey-100);
-  /* Misc */
-}
-
-.header {
+.product-images {
   /* Positioning */
   display: grid;
-  grid-auto-rows: min-content;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
+  grid-auto-flow: row;
+  grid-row-gap: 5vh;
   /* Box-model */
-  padding: 3vh 0 5vh 0;
+  min-height: 100%;
   /* Typography */
-
   /* Visual */
-
   /* Misc */
 }
 
-.header--headline {
+@media (min-width: 45em) {
+  .product-images {
+    /* Positioning */
+    display: grid;
+    grid-auto-flow: row;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+}
+
+.product-info--cta {
   /* Positioning */
-  grid-column: 2/3;
+  display: none;
   /* Box-model */
-  padding: var(--h1__padding) 0;
   /* Typography */
-  line-height: 125%;
-  font-size: calc(var(--h1__fontSize) * 1.25);
-
   /* Visual */
-
   /* Misc */
+}
+
+@media (min-width: 45em) {
+  .product-info--cta {
+    /* Positioning */
+    display: block;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
 }
 
 .header--subline {
   /* Positioning */
-  grid-column: 2/3;
   /* Box-model */
-
   /* Typography */
-
+  font-size: var(--h3--fontsize__fixed);
   /* Visual */
-
   /* Misc */
 }
 
-.product-info {
+.size-options {
   /* Positioning */
-  display: flex;
-  flex-direction: row;
-  /* Box-model */
-  padding: 1vh var(--column-spacing);
-  justify-content: space-between;
-  /* Typography */
-  /* Visual */
-  /* Misc */
-}
-
-.product-images {
-  /* Positioning */
-  display: grid;
-  grid-auto-rows: min-content;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
-  grid-row-gap: 2vh;
-  /* Box-model */
-  min-height: 100%;
-  /* Typography */
-  /* Visual */
-  /* Misc */
-}
-
-.fixed-scroll {
   position: fixed;
+  bottom: 0;
   left: 0;
-  right: 0;
-  overflow-y: scroll; /* render disabled scroll bar to keep the same width */
+  display: grid;
+  /* Box-model */
+  height: 5rem;
+  width: 100%;
+  /* Typography */
+  /* Visual */
+  background-color: hsla(0, 0%, 30%, 0.75);
+  text-decoration-color: var(--grey-0);
+  /* Misc */
+}
+.size-options--text {
+  /* Positioning */
+  justify-self: center;
+  align-self: center;
+  /* Box-model */
+  /* Typography */
+  font-size: var(--2base);
+  font-weight: bold;
+  /* Visual */
+  color: var(--grey-0);
+
+  /* Misc */
+}
+
+@media (min-width: 45em) {
+  .size-options {
+    /* Positioning */
+    display: none;
+    /* Box-model */
+
+    /* Typography */
+    /* Visual */
+
+    /* Misc */
+  }
 }
 </style>

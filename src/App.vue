@@ -22,11 +22,48 @@ export default {
   },
   name: "app",
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      getShoppingCart: "userModule/getShoppingCart",
+      loading: "initModule/getCompleteLoadingState"
+    })
   },
 
   created() {
+    //initalize all the store by fetching data and loading ressources
     this.$store.dispatch("initModule/INIT_store");
+  },
+  mounted() {
+    //watch the shoppingCart for changes
+
+    if (this.loading) {
+      //dont watch during initalizing
+      console.log(
+        "app is initalizing, changes are to restore the previous state"
+      );
+      return;
+    }
+    //watch the local shopping cart
+    this.$store.watch(
+      (state, getters) => this.getShoppingCart,
+      (newValue, oldValue) => {
+        this.$store.dispatch("userModule/PRODUCT_saveShoppingCart");
+      }
+    );
+
+    //watch the local address state
+    this.$store.watch(
+      (state, getters) => this.getAddress,
+      (newValue, oldValue) => {
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "address");
+      }
+    );
+    //watch the local address state
+    this.$store.watch(
+      (state, getters) => this.getPayment,
+      (newValue, oldValue) => {
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "payment");
+      }
+    );
   }
 };
 </script>
@@ -78,64 +115,108 @@ export default {
   /*signaling*/
   --red-700: #c53030;
   --green-700: #2f855a;
+  --green-200: hsla(128, 26%, 79%, 1);
 
   /*padding*/
+  --paddingX: 5vw;
 
   /*spacing*/
-  --column-spacing: 5vw;
+  --column-spacing: 2.5vw;
+
+  /*Navbar*/
+  --navbar__height: var(--7base);
 
   /*main headline*/
-  --h1__fontSize: 7vw;
-  --h2__fontSize: 6vw;
-  --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 3.5vw);
-  --h1__padding: var(--fourthbase);
+
+  --h1--fontsize__fixed: var(--3base);
+  --h1--padding__fixed: var(--fourthbase);
+  --h1--lineHeight-factor__fixed: 0.9rem;
+  --h1--lineHeight__fixed: calc(
+    var(--h1--fontsize__fixed) + var(--h1--padding__fixed) * 2 +
+      var(--h1--lineHeight-factor__fixed)
+  );
+
+  --h2--fontsize__fixed: var(--2base);
+  --h2--padding__fixed: var(--fourthbase);
+  --h2--lineHeight-factor__fixed: 0.75rem;
+  --h2--lineHeight__fixed: calc(
+    var(--h2--fontsize__fixed) + var(--h2--padding__fixed) * 2 +
+      var(--h2--lineHeight-factor__fixed)
+  );
+
+  --h3--fontsize__fixed: calc(var(--1base) * 1.1);
+  --h3--padding__fixed: var(--fourthbase);
+  --h3--lineHeight-factor__fixed: 0.6rem;
+  --h3--lineHeight__fixed: calc(
+    var(--h3--fontsize__fixed) + var(--h3--padding__fixed) * 2 +
+      var(--h3--lineHeight-factor__fixed)
+  );
 }
 
 @media (min-width: 22.5em) {
+  :root {
+    --h1--fontsize__fixed: var(--4base);
+    --h1--lineHeight-factor__fixed: 1.1rem;
+  }
 }
 
 @media (min-width: 26em) {
   :root {
-    --h1__fontSize: 6vw;
-    --h2__fontSize: 5vw;
-    --h1__padding: var(--thirdbase);
-    --h1__lineHeight: calc(var(--h1__fontSize) + var(--h1__padding) * 2 + 2vw);
+  }
+}
+
+@media (min-width: 30em) {
+  :root {
+    --navbar__height: var(--8base);
   }
 }
 
 @media (min-width: 37.5em) {
   :root {
-    --column-spacing: 10vw;
-    --h1__fontSize: 5.5vw;
-    --h2__fontSize: 4vw;
-    --h1__padding: var(--fourthbase);
   }
 }
 @media (min-width: 45em) {
   :root {
-    --column-spacing: 6vw;
-    --h1__fontSize: 5vw;
-    --h2__fontSize: 3vw;
+    --column-spacing: 2vw;
+    --h1--fontsize__fixed: var(--5base);
+    --h1--lineHeight-factor__fixed: 1.35rem;
+    --h2--fontsize__fixed: var(--3base);
+    --h2--lineHeight-factor__fixed: 0.9rem;
+    --h3--fontsize__fixed: var(--2base);
+    --h3--lineHeight-factor__fixed: 0.75rem;
   }
 }
 
-@media (min-width: 70em) {
+@media (min-width: 56em) {
   :root {
-    --column-spacing: 12.5vw;
-    --h1__fontSize: 4vw;
-    --h2__fontSize: 2vw;
+    --column-spacing: 5vw;
+  }
+}
+
+@media (min-width: 64em) {
+  :root {
+    --column-spacing: 10vw;
+    --h1--fontsize__fixed: var(--6base);
+    --h1--lineHeight-factor__fixed: 1.5rem;
+    --h2--fontsize__fixed: var(--4base);
+    --h2--lineHeight-factor__fixed: 1.1rem;
+    --h3--fontsize__fixed: var(--3base);
+    --h3--lineHeight-factor__fixed: 0.9rem;
   }
 }
 
 @media (min-width: 90em) {
   :root {
-    --column-spacing: 15vw;
-    --h1__fontSize: 3.25vw;
-    --h2__fontSize: 1.75vw;
-    --h1__padding: var(--halfbase);
-    --h1__lineHeight: calc(
-      var(--h1__fontSize) + var(--h1__padding) * 2 + 1.5vw
-    );
+    --column-spacing: 12.5vw;
+    --h1--padding__fixed: var(--halfbase);
+    --h1--lineHeight-factor__fixed: 1.6rem;
+    --h2--padding__fixed: var(--halfbase);
+  }
+}
+
+@media (min-width: 110em) {
+  :root {
+    --column-spacing: 20vw;
   }
 }
 
@@ -185,8 +266,7 @@ html,
   -moz-osx-font-smoothing: grayscale;
 
   /* Visual */
-  background-color: white;
-
+  background-color: var(--grey-0);
   /* Misc */
 }
 
@@ -196,8 +276,8 @@ h1 {
   /* Box-model */
   padding-bottom: var(--1base);
   /* Typography */
-  line-height: 150%;
-  font-size: var(--h1__fontSize);
+  font-size: var(--h1--fontsize__fixed);
+
   /* Visual */
   color: var(--grey-900);
 
@@ -210,7 +290,7 @@ h2 {
   /* Box-model */
   padding-bottom: var(--halfbase);
   /* Typography */
-  font-size: var(--h2__fontSize);
+  font-size: var(--h2--fontsize__fixed);
   /* Visual */
   color: var(--grey-900);
   /* Misc */
@@ -220,9 +300,9 @@ h3 {
   /* Positioning */
 
   /* Box-model */
-
+  padding-bottom: var(--halfbase);
   /* Typography */
-  font-size: var(--2base);
+  font-size: var(--h3--fontsize__fixed);
   /* Visual */
   color: var(--grey-900);
   /* Misc */
@@ -263,6 +343,19 @@ ul {
 
   /* Box-model */
 
+  /* Typography */
+
+  /* Visual */
+  /* Misc */
+  list-style: none;
+}
+
+form,
+input {
+  /* Positioning */
+
+  /* Box-model */
+  max-width: 30rem;
   /* Typography */
 
   /* Visual */
@@ -316,5 +409,252 @@ ul {
   /* Visual */
   /* Misc */
   z-index: 4;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-scroll {
+  overflow-y: scroll;
+}
+
+@media (min-width: 45em) {
+  .big-text {
+    font-size: var(--2base);
+  }
+}
+
+/*Site layout*/
+
+/*hero has one main column and side padding*/
+/*main has one main column, a sidebar and side padding*/
+
+.hero,
+.main {
+  /* Positioning */
+  display: grid;
+  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
+  grid-auto-rows: min-content;
+  grid-row-gap: 5vh;
+  /* Box-model */
+  min-height: 100%;
+  padding-top: var(--navbar__height);
+
+  /* Typography */
+
+  /* Visual */
+
+  /* Misc */
+}
+
+.main--background,
+.hero--background {
+  /* Positioning */
+  position: relative;
+  grid-column: 1/4;
+  grid-row: 1/2;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  background-color: var(--grey-200);
+  /* Misc */
+}
+
+.main--header,
+.hero--header {
+  /* Positioning */
+  position: relative;
+  z-index: 2;
+  grid-column: 2/3;
+  grid-row: 1/2;
+  /* Box-model */
+  padding: 7.5vh var(--paddingX) 5vh var(--paddingX);
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main__small .main--header {
+  /* Positioning */
+  /* Box-model */
+  padding: 7.5vh 0 5vh 0;
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--sidebar {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.recap-wrapper {
+  /* Positioning */
+  display: grid;
+  grid-auto-rows: min-content;
+  /* Box-model */
+
+  width: 100%;
+  border: 2px solid var(--grey-600);
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--sidebar__sticky {
+  /* Positioning */
+  display: grid;
+  grid-auto-flow: row;
+  /* Box-model */
+  grid-row-gap: 3vh;
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--content {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main__small .main--content {
+  /* Positioning */
+  /* Box-model */
+  max-width: 30rem;
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.main--footer,
+.hero--footer {
+  /* Positioning */
+  grid-column: 1/4;
+  /* Box-model */
+  padding: 7.5vh var(--paddingX) 5vh var(--paddingX);
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.hero__center,
+.main__center-sidebar,
+.main__center-content {
+  /* Positioning */
+  grid-column: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+@media (min-width: 45em) {
+  .main {
+    /* Positioning */
+    grid-template-columns: var(--column-spacing) 1.66fr 1fr var(
+        --column-spacing
+      );
+    grid-column-gap: var(--2base);
+    grid-template-rows: min-content min-content 1fr;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main--header {
+    /* Positioning */
+    grid-column: 2/4;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main--background,
+  .main--footer {
+    /* Positioning */
+    grid-column: 1/5;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main--sidebar {
+    /* Positioning */
+    grid-column: 3/4;
+    grid-row: 2/3;
+    /* Box-model */
+    min-height: 100%;
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main--sidebar__sticky {
+    position: sticky;
+    top: var(--navbar__height);
+  }
+
+  .main--content {
+    /* Positioning */
+    grid-column: 2/3;
+    grid-row: 2/3;
+    /* Box-model */
+    min-height: 100%;
+
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main__center-sidebar {
+    /* Positioning */
+    grid-column: 3/4;
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+}
+
+@media (min-width: 64em) {
+  .main {
+    /* Positioning */
+    grid-template-columns: var(--column-spacing) 1.5fr 1fr var(--column-spacing);
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .main__small {
+    /* Positioning */
+    grid-template-columns: calc(var(--column-spacing) + var(--paddingX)) 1.5fr 1fr calc(
+        var(--column-spacing) + var(--paddingX)
+      );
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
+
+  .product-info--sticky {
+    /* Positioning */
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
 }
 </style>

@@ -7,7 +7,11 @@
     <span class="input-wrapper input--shadow">
       <input
         class="input--form"
-        :class="[error ? 'error' : '', invalidAuth ? 'error' : '']"
+        :class="[
+          error ? 'error' : '',
+          invalidAuth ? 'error' : '',
+          value ? 'input-filled' : ''
+        ]"
         :type="input.type"
         :placeholder="input.placeholder"
         :id="input.id"
@@ -29,9 +33,16 @@
 <script>
 export default {
   name: "inputField",
-  props: ["value", "input", "error", "index", "invalidAuth"],
+  props: {
+    value: String,
+    input: Object,
+    error: Object,
+    index: Number,
+    invalidAuth: String
+  },
   methods: {
     togglePassword() {
+      console.log($event.target.value);
       let input = document.getElementById(`${this.input.id}`);
       if (input.type === "text") {
         input.type = "password";
@@ -47,7 +58,7 @@ export default {
 .form {
   display: grid;
   grid-auto-rows: min-content;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   width: 100%;
   position: relative;
 }
@@ -72,11 +83,21 @@ export default {
   padding: var(--1base);
   line-height: 150%;
   font-size: var(--1base);
+  font-weight: bold;
   border-radius: var(--fourthbase);
   border: 1px solid var(--grey-500);
   color: var(--grey-800);
   position: relative;
   z-index: 2;
+  background-color: var(--grey-200);
+}
+
+.input--form.input-filled {
+  background-color: var(--green-200);
+}
+
+.input--form:focus {
+  border: 1px solid var(--green-700);
 }
 
 .input--form::placeholder {

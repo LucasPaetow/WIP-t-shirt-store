@@ -21,6 +21,23 @@ const router = new Router({
       component: () => import("@/views/About.vue")
     },
     {
+      path: "/login",
+      name: "login",
+      props: true,
+      component: () => import("@/views/Login.vue")
+    },
+    {
+      path: "/signup",
+      name: "signup",
+      props: true,
+      component: () => import("@/views/Signup.vue")
+    },
+    {
+      path: "/cart",
+      name: "cart",
+      component: () => import("@/views/Cart.vue")
+    },
+    {
       path: "/your-:color-t-shirt",
       name: "store",
       component: () => import("@/views/Store.vue"),
@@ -32,24 +49,66 @@ const router = new Router({
           component: () => import("@/components/homepage/sizeOptions.vue")
         }
       ]
-    }
+    },
+    {
+      path: "/checkout",
+      name: "checkout",
+      redirect: { name: "address" },
+      component: () => import("@/views/Checkout.vue"),
+      children: [
+        {
+          path: "/checkout/address",
+          name: "address",
+          props: true,
+          component: () => import("@/components/checkout/address.vue")
+        },
+        {
+          path: "/checkout/shipping",
+          name: "shipping",
+          props: true,
+          component: () => import("@/components/checkout/shipping.vue")
+        },
+        {
+          path: "/checkout/payment",
+          name: "payment",
+          props: true,
+          component: () => import("@/components/checkout/payment.vue")
+        },
+        {
+          path: "/checkout/confirmation",
+          name: "confirmation",
+          props: true,
+          component: () => import("@/components/checkout/confirmation.vue")
+        },
+        {
+          path: "/checkout/status",
+          name: "status",
+          props: true,
+          component: () => import("@/components/checkout/status.vue")
+        }
+      ]
+    },
 
-    /*{
+    {
+      path: "/profile",
+      name: "profile",
+      component: () => import("@/views/Profile.vue")
+    },
+    {
       path: "/legal",
       name: "legal",
       component: () => import("@/views/Legal.vue")
     },
-
     {
-      path: "/signup",
-      name: "signup",
-      component: () => import("@/views/Signup.vue")
+      path: "/yikes",
+      name: "yikes",
+      component: () => import("@/views/Yikes.vue")
     },
     {
-      path: "/login",
-      name: "login",
-      component: () => import("@/views/Login.vue")
-    }*/
+      path: "*",
+      name: "404",
+      redirect: { name: "yikes" }
+    }
   ],
   //saves the scroll position if the user uses the back button
   scrollBehavior(to, from, savedPosition) {

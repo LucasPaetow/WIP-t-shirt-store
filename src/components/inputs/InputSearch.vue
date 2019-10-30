@@ -17,6 +17,8 @@
         @keydown.enter.prevent="searchEnterEvent()"
         @keydown.esc="clearInput()"
         @keydown.delete="enableSearchAgain()"
+        @focus="$emit('searchfocusevent')"
+        @blur="$emit('searchblurevent')"
         autocomplete="off"
       />
       <ul class="results" id="searchResults" v-if="showSearchResults">
@@ -49,7 +51,7 @@ import searchIcon from "@/components/icons/search.vue";
 
 export default {
   components: { arrowIcon, searchIcon },
-  name: "inputField",
+  name: "inputSearch",
   props: {
     input: Object,
     error: String,

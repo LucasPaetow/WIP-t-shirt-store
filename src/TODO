@@ -1,16 +1,93 @@
 
-Store-page
-- make wishlist-button functional
-  -- Heart-Icon, which gets filled?
 
-- Save cart locally
+######### Functionality ############
+
+
+User:
+- User can add to wishlist, payment, addresses and it gets stored in the user account ==> Watcher
+
+
+- After a "purchase", the cart gets emptied and the purchase is added to the order history
+- Guest checkout should be an anonymous account with the option to register after purchase
 
 Cart
-- empty state (maybe some color suggestions?)
-- Edit Store
+- if the user is logged in, he only sees the button to checkout
+
+
+totalAmount
+- Update Amount and Shipping
+
+Search-Component
+- Show results on mobile while typing
+
+Checkout + Children
+- Input-Validation
+- Communicate information between Checkout-Children and Checkout
+
+
+loadingState
+- Image-Overlay
+- Cart
+- Store
+- Checkout should get redirected to card, if the card is empty
+
+
+Recap: Jedes recap-element braucht einen key oder eine randomNumber
+
+######### Layout and Style ############
+
+General:
+-- create components & guidelines for buttons, radio inputs, t-shirt preview
+-- define margins and paddings
+- Define primary, secondary, tertiary, no-styling
+- Dumb buttons should have a slot for a logo
+
+Main-Layout needs dedicated padding-top and row-gap
+
+Cart
+- Entry and Cart Itself can overflow, needs a different layout
+
+Checkout + Children
+- Better Radiobuttons and a datepicker
+- footer needs to be styled like everything else
+
+Inputs
+- turn radiobuttons into components
 
 Navbar
-- Create basic and full navbar
+- Extended navbar should come from behind the navbar
 
-Misc:
-- Input elements = Inline error/success/delete input
+
+######### Content ############
+
+Home page
+- add more images with 2-3 colors each (3 images in total?)
+- complete 2 feature sections with a headline combo and text
+
+Yikes, About, Legal
+- Textcontent
+
+Auth:
+- Sidebar-content, which is different from the sub headline
+
+########################################################################
+
+
+
+Modals
+=> Vue Portal for 1 Modal und 1 Alert
+- "Pick a Color" modal (Store, )
+- "Register" Modal after order completion
+- "Choose Size" from different places (Store,)
+
+
+Modal Problems
+- There is no separation of animations for the background and forground
+- Only a very basic transition animation without full animation duration and cubicBezier control
+- Top closebutton has to be hidden during transition because its not part of the transition but affected
+- Headline is sometimes not very well sized because only the headline
+- A secondary button is missing (maybe "choose another color")?
+
+//////////////
+=> Workaround: A fixed button container with overflow none width 2/3 components inside and already rendered. On click they just move in and out of the container viewbox
+///////////////
