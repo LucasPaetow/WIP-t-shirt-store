@@ -57,11 +57,18 @@ export default {
         this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "address");
       }
     );
-    //watch the local address state
+    //watch the local payment state
     this.$store.watch(
       (state, getters) => this.getPayment,
       (newValue, oldValue) => {
         this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "payment");
+      }
+    );
+    //watch the local shipping state
+    this.$store.watch(
+      (state, getters) => this.getShipping,
+      (newValue, oldValue) => {
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "shipping");
       }
     );
   }

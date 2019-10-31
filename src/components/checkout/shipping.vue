@@ -12,13 +12,16 @@
         type="radio"
         id="shipping-option-1"
         value="regular"
-        v-model="shipping"
+        v-model="shippingType"
         class="label--indicator"
       />
-      <h4 class="label--headline">Regular Shipping</h4>
+      <h4 class="label--headline">
+        Regular Shipping - {{ pricingData.shipping.regular }}$
+      </h4>
 
       <p class="label--text">
-        Takes 1 day if you order in the next 3 h and 42 min.
+        Takes {{ getItTomorrow ? "1 day" : "2 days" }} if you order in the next
+        {{ shippingTime.hours }}h and {{ shippingTime.minutes }} min.
       </p>
     </label>
 
@@ -34,10 +37,12 @@
         type="radio"
         id="shipping-option-2"
         value="express"
-        v-model="shipping"
+        v-model="shippingType"
         class="label--indicator"
       />
-      <h4 class="label--headline">Express Shipping</h4>
+      <h4 class="label--headline">
+        Express Shipping - {{ pricingData.shipping.express }}$
+      </h4>
       <p class="label--text">
         Will be at your place at 9 AM so you are ready to rock
       </p>
@@ -48,22 +53,38 @@
         type="radio"
         id="shipping-option-3"
         value="custom"
-        v-model="shipping"
+        v-model="shippingType"
         class="label--indicator"
       />
-      <h4 class="label--headline">Custom Shipping</h4>
+      <h4 class="label--headline">
+        Custom Shipping - {{ pricingData.shipping.custom }}$
+      </h4>
       <p class="label--text">
-        Will be at your place at a date of your choosing between 20th and 27th
+        Will be at your place next week at a date of your choosing between
+        {{ getXDaysFromNow(2) + dateEnding(getXDaysFromNow(2)) }}
+        and
+        {{ getXDaysFromNow(9) + dateEnding(getXDaysFromNow(9)) }}
       </p>
       <input
         type="date"
         id="date-picker"
         class="label--date-picker"
-        value="21.11.2019"
-        min="21.11.2019"
-        max="28.11.2019"
+        v-model="customDate"
+        :min="this.getXDatesFromNow(2)"
+        :max="this.getXDatesFromNow(9)"
       />
     </label>
+
+    <section class="shipping--buttons">
+      <p>shippingType: {{ shippingType }}</p>
+      <p>custom: {{ customDate }}</p>
+
+      <button-simple
+        class="shipping--button-cta"
+        :buttonText="'Show my payment options'"
+        @simplebuttonevent="nextStep()"
+      />
+    </section>
   </form>
 </template>
 
@@ -84,23 +105,83 @@ export default {
   name: "checkoutShipping",
   data() {
     return {
-      shipping: "regular"
+      shippingType: "regular",
+      customDate: ""
     };
   },
   methods: {
+    nextStep() {
+      console.log(this.customDate);
+      console.log(this.$route);
+
+      let customDateCheck = shippingType === "custom" && customDate.length > 0;
+
+      this.$store
+        .dispatch("userModule/USER_setCurrentData", {
+          type: "shipping",
+          data: {
+            type: this.shippingType,
+            customDate: customDateCheck ? this.customDate : ""
+          }
+        })
+        .then(result => {
+          //go to shipping
+          console.log(result);
+          //this.$router.push({ name: "payment" });
+        });
+    },
+    setDate() {
+      //check if there is data present
+      //if this doesnt work it needs to be set with vue.set()
+      if (this.getShipping) {
+        this.shippingType = this.getShipping.type;
+      }
+
+      //check for a custom date
+
+      if (this.getShipping.customDate) {
+        this.customDate = this.getShipping.customDate;
+        return;
+      }
+
+      //if not accessed by previous functions, set to current day
+      this.customDate = this.getXDatesFromNow(0);
+    },
     //navigation
     goTo(locationName) {
       this.$router.push({
         name: locationName
       });
+    },
+    dateEnding(day) {
+      if (day === "01") {
+        return "st";
+      } else if (day === "02") {
+        return "nd";
+      } else if (day === "03") {
+        return "rd";
+      } else {
+        return "th";
+      }
     }
   },
   computed: {
-    ...mapGetters({})
+    ...mapGetters({
+      getItTomorrow: "timeModule/getItTomorrow",
+      shippingTime: "timeModule/getShippingDeadline",
+      getXDatesFromNow: "timeModule/getXDatesFromNow",
+      getXDaysFromNow: "timeModule/getXDaysFromNow",
+      pricingData: "productModule/getPricingData",
+      getShipping: "userModule/getShipping"
+    })
   },
-  created() {},
+  mounted() {
+    this.setDate();
+  },
   //same check for route-view keep-alive
-  activated() {}
+  activated() {
+    this.setDate();
+  }
 };
 </script>
 

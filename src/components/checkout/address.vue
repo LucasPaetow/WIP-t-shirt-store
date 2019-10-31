@@ -189,7 +189,7 @@ export default {
     };
   },
   methods: {
-    nextStep(address) {
+    nextStep(addressType) {
       //validate entrys
       //check for guest or user
       if (this.guestStatus) {

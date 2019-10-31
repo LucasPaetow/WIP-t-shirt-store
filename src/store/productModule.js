@@ -9,7 +9,15 @@ export default {
     productData: null,
     supportData: null,
     productColorPalette: null,
-    currentColor: null
+    currentColor: null,
+    pricingData: {
+      tshirt: 20,
+      shipping: {
+        regular: 5,
+        express: 15,
+        custom: 8
+      }
+    }
   },
   // -----------------------------------------------------------------
   getters: {
@@ -19,6 +27,11 @@ export default {
     getSupport: state => {
       return state.supportData;
     },
+
+    getPricingData: state => {
+      return state.pricingData;
+    },
+
     getProduct_random: state => {
       let shuffled = state.productData
         .map(a => ({ sort: Math.random(), value: a }))
