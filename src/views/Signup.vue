@@ -180,7 +180,6 @@
 <script>
 const helper = require("@/misc/helper.js");
 
-import { mapGetters } from "vuex";
 import inputDefault from "@/components/inputs/InputDefault.vue";
 import buttonFunctional from "@/components/buttons/ButtonFunctional.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
@@ -243,7 +242,7 @@ export default {
         this.$store
           .dispatch("authModule/AUTH_signup", this.authData)
           //when it returns true
-          .then(result => {
+          .then(() => {
             //set loading to false
             this.loading = false;
             // and display a success-green around the button
@@ -337,9 +336,7 @@ export default {
   computed: {
     lengthValidated() {
       //return true if the length is over 8
-      if (this.authData.password.length >= 8) {
-        return true;
-      }
+      return this.authData.password.length >= 8 ? true : false;
     },
     uppercaseValidated() {
       //check if the letter is upper case

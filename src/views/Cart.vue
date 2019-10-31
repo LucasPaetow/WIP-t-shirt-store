@@ -53,7 +53,8 @@
           <div class="more-shirts--shirts">
             <div
               class="shirt-wrapper"
-              v-for="color in communityColors"
+              v-for="(color, index) in communityColors"
+              :key="'communityColor' + index"
               @click="changeToCommunityColor(color)"
             >
               <image-overlay
@@ -100,7 +101,6 @@
 import { mapGetters } from "vuex";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import imageOverlay from "@/components/overlay/ImageOverlay.vue";
-import modalLayout from "@/components/modal/modalLayout.vue";
 import styledHeadline from "@/components/headline/headline.vue";
 import cartEntry from "@/components/cart/cartEntry.vue";
 import totalAmount from "@/components/cart/totalAmount.vue";
@@ -110,7 +110,6 @@ export default {
   components: {
     buttonSimple,
     imageOverlay,
-    modalLayout,
     styledHeadline,
     cartEntry,
     totalAmount,

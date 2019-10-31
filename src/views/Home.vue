@@ -184,7 +184,6 @@
 import { mapGetters } from "vuex";
 import search from "@/components/inputs/InputSearch.vue";
 import imageOverlay from "@/components/overlay/ImageOverlay";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import storeFooter from "@/components/footer/footer.vue";
 import styledHeadline from "@/components/headline/headline.vue";
 
@@ -192,7 +191,6 @@ export default {
   components: {
     search,
     imageOverlay,
-    buttonSimple,
     storeFooter,
     styledHeadline
   },

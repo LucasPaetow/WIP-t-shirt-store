@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     togglePassword() {
-      console.log($event.target.value);
       let input = document.getElementById(`${this.input.id}`);
       if (input.type === "text") {
         input.type = "password";

@@ -78,7 +78,6 @@ import { mapGetters } from "vuex";
 import pageTransition from "@/components/transitions/transition.vue";
 import totalAmount from "@/components/cart/totalAmount.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
-import styledHeadline from "@/components/headline/headline.vue";
 import recap from "@/components/checkout/recap.vue";
 
 export default {
@@ -86,7 +85,6 @@ export default {
     pageTransition,
     totalAmount,
     buttonSimple,
-    styledHeadline,
     recap
   },
   //if the basics are being edited, this array contains existing basic information
@@ -106,10 +104,7 @@ export default {
   computed: {
     ...mapGetters({}),
     activeProgressLink() {
-      if (this.$route.name === "payment") {
-        return "active";
-      }
-      return;
+      return this.$route.name === "payment" ? "active" : "";
     }
   },
   mounted() {

@@ -53,11 +53,8 @@
 >
 
 <script>
-import styledHeadline from "@/components/headline/headline.vue";
 export default {
-  components: {
-    styledHeadline
-  }
+  components: {}
 };
 </script>
 

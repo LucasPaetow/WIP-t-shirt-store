@@ -25,6 +25,7 @@
         <li
           class="result"
           v-for="(result, index) in filteredList"
+          :key="result + index"
           @click="addResultFromFilteredList(result)"
           :class="[highlightResult(index) ? 'active-element' : '']"
         >
@@ -47,10 +48,9 @@
 <script>
 import { mapGetters } from "vuex";
 import arrowIcon from "@/components/icons/arrow.vue";
-import searchIcon from "@/components/icons/search.vue";
 
 export default {
-  components: { arrowIcon, searchIcon },
+  components: { arrowIcon },
   name: "inputSearch",
   props: {
     input: Object,

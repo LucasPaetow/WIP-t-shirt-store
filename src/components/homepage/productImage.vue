@@ -31,13 +31,11 @@
 
 <script>
 import imageOverlay from "@/components/overlay/ImageOverlay";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
     imageOverlay,
-    buttonSimple,
     styledHeadline
   },
   //if the basics are being edited, this array contains existing basic information

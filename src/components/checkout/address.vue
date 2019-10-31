@@ -150,16 +150,12 @@
 <script>
 import { mapGetters } from "vuex";
 import inputField from "@/components/inputs/InputDefault.vue";
-import totalAmount from "@/components/cart/totalAmount.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
-import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
     inputField,
-    totalAmount,
-    buttonSimple,
-    styledHeadline
+    buttonSimple
   },
   //if the basics are being edited, this array contains existing basic information
   props: {
@@ -202,7 +198,7 @@ export default {
 
       if (!this.guestStatus) {
         //check if a different name was used for a user and update if needed
-
+        console.log(addressType);
         if (this.identity.name !== this.userProfile.name)
           this.$store.dispatch("authModule/AUTH_updateUserInfo", {
             name: this.identity.name,

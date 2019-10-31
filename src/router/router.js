@@ -1,6 +1,5 @@
 import Vue from "vue";
 import Router from "vue-router";
-import store from "@/store/store.js";
 import { firebase } from "@firebase/app";
 import "@firebase/auth";
 
@@ -123,7 +122,7 @@ const router = new Router({
 });
 
 export default router;
-/*
+
 //navigaitonal guard for auth users
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(x => x.meta.requiresAuth);
@@ -138,4 +137,3 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
-*/

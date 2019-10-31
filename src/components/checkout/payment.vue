@@ -137,20 +137,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import totalAmount from "@/components/cart/totalAmount.vue";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import inputField from "@/components/inputs/InputDefault.vue";
-import pageTransition from "@/components/transitions/transition.vue";
-import styledHeadline from "@/components/headline/headline.vue";
 import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
     inputField,
-    totalAmount,
-    buttonSimple,
-    pageTransition,
-    styledHeadline,
     recap
   },
   //if the basics are being edited, this array contains existing basic information

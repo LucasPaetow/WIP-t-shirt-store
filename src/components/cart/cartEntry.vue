@@ -29,13 +29,11 @@
 <script>
 import { mapGetters } from "vuex";
 import pageTransition from "@/components/transitions/transition.vue";
-import modalBase from "@/components/modal/modalBase.vue";
 import entryFirst from "@/components/cart/cartEntryFirst.vue";
 import entryLast from "@/components/cart/cartEntryLast.vue";
 export default {
   components: {
     pageTransition,
-    modalBase,
     entryFirst,
     entryLast
   },

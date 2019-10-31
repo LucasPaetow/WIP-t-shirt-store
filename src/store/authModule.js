@@ -122,7 +122,7 @@ export default {
       );
     },
 
-    AUTH_guest: ({}) => {
+    AUTH_guest: ({ commit, dispatch }) => {
       return (
         fb.auth
           //firebase auth call
@@ -161,7 +161,7 @@ export default {
       );
     },
 
-    AUTH_passwordForgotten: ({ commit, dispatch }, email) => {
+    AUTH_passwordForgotten: email => {
       return fb.auth
         .sendPasswordResetEmail(email)
         .then(result => {
@@ -196,7 +196,7 @@ export default {
         });
     },
 
-    USER_logout: ({ commit, dispatch }) => {
+    USER_logout: ({ commit }) => {
       //firebase logout call
       return fb.auth
         .signOut()
@@ -211,7 +211,7 @@ export default {
         });
     },
 
-    AUTH_updateUserInfo: ({ commit, dispatch, state }, userInfo) => {
+    AUTH_updateUserInfo: ({ state }, userInfo) => {
       //update user information
       let userID = state.currentUser.uid;
 

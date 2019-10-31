@@ -1,5 +1,5 @@
 <template>
-  <form class="shipping--options shipping--section">
+  <section class="shipping--options shipping--section">
     <header class="shipping-options--header">
       <h3 class="header--headline">
         Your best option
@@ -70,35 +70,28 @@
         id="date-picker"
         class="label--date-picker"
         v-model="customDate"
-        :min="this.getXDatesFromNow(2)"
-        :max="this.getXDatesFromNow(9)"
+        :min="getXDatesFromNow(2)"
+        :max="getXDatesFromNow(9)"
       />
     </label>
 
-    <section class="shipping--buttons">
-      <p>shippingType: {{ shippingType }}</p>
-      <p>custom: {{ customDate }}</p>
-
+    <div class="shipping--buttons">
       <button-simple
         class="shipping--button-cta"
         :buttonText="'Show my payment options'"
-        @simplebuttonevent="nextStep()"
       />
-    </section>
-  </form>
+      <buttonClose></buttonClose>
+    </div>
+  </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import totalAmount from "@/components/cart/totalAmount.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
-import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
-    totalAmount,
-    buttonSimple,
-    styledHeadline
+    buttonSimple
   },
   //if the basics are being edited, this array contains existing basic information
   props: [],
@@ -111,10 +104,13 @@ export default {
   },
   methods: {
     nextStep() {
-      console.log(this.customDate);
-      console.log(this.$route);
+      let inputElement = document.getElementById("date-picker");
 
-      let customDateCheck = shippingType === "custom" && customDate.length > 0;
+      console.log(this.customDate);
+      console.log(inputElement);
+
+      /*let customDateCheck =
+        this.shippingType === "custom" && this.customDate.length > 0;
 
       this.$store
         .dispatch("userModule/USER_setCurrentData", {
@@ -128,7 +124,7 @@ export default {
           //go to shipping
           console.log(result);
           //this.$router.push({ name: "payment" });
-        });
+      });*/
     },
     setDate() {
       //check if there is data present
@@ -145,14 +141,9 @@ export default {
       }
 
       //if not accessed by previous functions, set to current day
-      this.customDate = this.getXDatesFromNow(0);
+      this.customDate = this.getXDatesFromNow(2);
     },
-    //navigation
-    goTo(locationName) {
-      this.$router.push({
-        name: locationName
-      });
-    },
+
     dateEnding(day) {
       if (day === "01") {
         return "st";
@@ -337,10 +328,22 @@ export default {
 .shipping--buttons {
   /* Positioning */
   display: grid;
-  grid-auto-rows: min-content;
+  grid-auto-rows: 5rem 5rem;
   grid-row-gap: var(--1base);
   /* Box-model */
   padding: 3vh 0;
+  /* Typography */
+
+  /* Visual */
+  background-color: grey;
+  /* Misc */
+}
+
+.shipping--button-cta {
+  /* Positioning */
+  grid-row: 2/3;
+  /* Box-model */
+
   /* Typography */
 
   /* Visual */
