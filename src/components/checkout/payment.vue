@@ -175,7 +175,7 @@ export default {
   computed: {
     ...mapGetters({})
   },
-  created() {},
+  mounted() {},
   //same check for route-view keep-alive
   activated() {}
 };

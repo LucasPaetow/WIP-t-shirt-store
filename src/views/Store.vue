@@ -2,7 +2,7 @@
   <article class="store main" id="store">
     <header class="store--header main--header" id="looks-great">
       <styledHeadline
-        v-if="today"
+        v-if="getItTomorrow"
         class="header--headline__layout"
         headlineText="This is how cool you will look tomorrow"
       ></styledHeadline>
@@ -15,10 +15,10 @@
 
       <p class="header--subline">
         If you order in the next
-        <span v-if="Math.floor(now / 60) > 0">
-          <b>{{ Math.floor(now / 60) }}h</b> and</span
+        <span v-if="shippingTime.hours > 0">
+          <b>{{ shippingTime.hours }}h</b> and</span
         >
-        <b> {{ Math.floor(((now / 60) % 1) * 60) }} min</b>
+        <b> {{ shippingTime.minutes }} min</b>
       </p>
     </header>
     <aside class="store--background main--background"></aside>
@@ -70,7 +70,6 @@
         :key="'randomProductImage' + index"
         :product="product"
         :index="index"
-        :features="features"
         :currentColor="currentColor"
         @productimageevent="chooseSize()"
       >
@@ -117,28 +116,6 @@ export default {
   name: "store",
   data() {
     return {
-      date: new Date(),
-      today: true,
-      features: [
-        {
-          headline: " ",
-          body: " "
-        },
-        {
-          headline: "Shipping",
-          body:
-            "Ordering takes only 5 minutes of your precious time and you can always return it for 90 days. But we both know you wont. We dedicated our whole life to crafting the perfect t-shirt"
-        },
-        {
-          headline: "Materials",
-          body: [
-            "10% luck, 20% skill",
-            "15% concentrated power of will",
-            "5%pleasure, 50% percent cotton",
-            "And a 100% reason to remember the tshirt (actually 100% cotton, too)"
-          ]
-        }
-      ],
       scrollPosition: 0
     };
   },
@@ -159,46 +136,12 @@ export default {
       loadingState: "initModule/getLoadingState",
       randomProductData: "productModule/getProduct_random",
       currentColor: "productModule/getCurrentColor",
-      productColors: "productModule/getColorPalette"
-    }),
-    now() {
-      let monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec"
-      ];
-
-      let today = this.date.getDate();
-      let tomorrow = "0" + (this.date.getDate() + 1);
-      let month = monthNames[this.date.getMonth()];
-      let year = this.date.getFullYear();
-
-      let todayAt3PM = Date.parse(`${today} ${month} ${year} 15:00:00`);
-      let tomorrowAt3PM = Date.parse(`${tomorrow} ${month} ${year} 15:00:00`);
-      let timeTill3PM = Math.trunc((todayAt3PM - this.date) / 1000 / 60);
-      let timeTill3PMTomorrow = Math.trunc(
-        (tomorrowAt3PM - this.date) / 1000 / 60
-      );
-
-      timeTill3PM > 0 ? (this.today = true) : (this.today = false);
-
-      return timeTill3PM > 0 ? timeTill3PM : timeTill3PMTomorrow;
-    }
+      productColors: "productModule/getColorPalette",
+      getItTomorrow: "timeModule/getItTomorrow",
+      shippingTime: "timeModule/getShippingDeadline"
+    })
   },
-  mounted() {
-    window.setInterval(() => {
-      this.date = new Date();
-    }, 60000);
-  },
+
   created() {
     if (this.currentColor) {
       return;
@@ -216,9 +159,7 @@ export default {
     let colorHex = this.productColors[colorName];
     let colorArray = [colorName, colorHex];
     this.$store.dispatch("productModule/COLORS_setCurrent", colorArray);
-  },
-  //same check for route-view keep-alive
-  activated() {}
+  }
 };
 </script>
 

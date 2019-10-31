@@ -11,6 +11,7 @@ export default {
     shoppingCart: [],
     address: {},
     payment: {},
+    shipping: {},
 
     //history
     //only get orderHistory and use it to fill the other history arrays
@@ -32,6 +33,9 @@ export default {
     },
     getPayment: state => {
       return state.payment;
+    },
+    getShipping: state => {
+      return state.shipping;
     },
     getShoppingCartCalulations: state => {
       let total = { amount: 0, price: 0, freeShipping: false };

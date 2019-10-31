@@ -87,11 +87,16 @@ export default {
       //get user data from remote
       let checkForRemoteUserSave = await dispatch("INIT_userSaveRemote");
 
+      let startTime = await dispatch("timeModule/TIME_init", null, {
+        root: true
+      });
+
       let finishFullRestore = await commit("INIT_loading", {
         step: "secondaryData",
         status: false
       });
 
+      let finishLoading = await console.log("everything is loaded");
       return finishFullRestore;
     },
 
