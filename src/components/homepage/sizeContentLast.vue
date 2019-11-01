@@ -64,7 +64,7 @@
         <div
           class="shirt-wrapper"
           v-for="(color, index) in communityColors"
-          :key="color + index"
+          :key="color + index + 'sizeContentLast'"
           @click="changeToCommunityColor(color)"
         >
           <image-overlay

@@ -141,7 +141,7 @@ export default {
 
     INIT_userSaveRemote: async ({ dispatch }) => {
       //check if user is present
-      let userAuthState = await fb.auth.onAuthStateChanged(user => {
+      let userAuthState = await fb.auth.onAuthStateChanged(async user => {
         if (!user) {
           //if not,return early
           console.log("no user present");
@@ -150,14 +150,20 @@ export default {
         console.log("page was reloaded, user is present");
 
         //reset user data
-        dispatch("authModule/AUTH_PageReload", user, {
+        let restoreUser = await dispatch("authModule/AUTH_PageReload", user, {
           root: true
         });
 
         //check for a remote save and overwrite the store
-        dispatch("userModule/USER_getCurrentOrder", user, {
-          root: true
-        });
+        let restoreData = await dispatch(
+          "userModule/USER_getCurrentOrder",
+          user,
+          {
+            root: true
+          }
+        );
+
+        return [restoreUser, restoreData];
       });
       return userAuthState;
     }

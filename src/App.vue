@@ -24,14 +24,64 @@ export default {
   computed: {
     ...mapGetters({
       getShoppingCart: "userModule/getShoppingCart",
+      getAddress: "userModule/getAddress",
+      getPayment: "userModule/getPayment",
+      getShipping: "userModule/getShipping",
       loading: "initModule/getCompleteLoadingState"
     })
+  },
+
+  watch: {
+    getShoppingCart: {
+      handler(newValue, oldValue) {
+        if (this.loading) {
+          //dont watch during initalizing
+          return;
+        }
+        console.log(`changed shoppingcart from ${oldValue} to ${newValue}`);
+        this.$store.dispatch("userModule/PRODUCT_saveShoppingCart");
+      },
+      deep: true
+    },
+    getAddress: {
+      handler(newValue, oldValue) {
+        if (this.loading) {
+          //dont watch during initalizing
+          return;
+        }
+        console.log(`changed address from ${oldValue} to ${newValue}`);
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "address");
+      },
+      deep: true
+    },
+    getShipping: {
+      handler(newValue, oldValue) {
+        if (this.loading) {
+          //dont watch during initalizing
+          return;
+        }
+        console.log(`changed shipping from ${oldValue} to ${newValue}`);
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "shipping");
+      },
+      deep: true
+    },
+    getPayment: {
+      handler(newValue, oldValue) {
+        if (this.loading) {
+          //dont watch during initalizing
+          return;
+        }
+        console.log(`changed payment from ${oldValue} to ${newValue}`);
+        this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "payment");
+      },
+      deep: true
+    }
   },
 
   created() {
     //initalize all the store by fetching data and loading ressources
     this.$store.dispatch("initModule/INIT_store");
-  },
+  } /*,
   mounted() {
     //watch the shoppingCart for changes
 
@@ -46,6 +96,7 @@ export default {
     this.$store.watch(
       (state, getters) => this.getShoppingCart,
       (newValue, oldValue) => {
+        console.log(`changed shoppingcart from ${oldValue} to ${newValue}`);
         this.$store.dispatch("userModule/PRODUCT_saveShoppingCart");
       }
     );
@@ -54,6 +105,7 @@ export default {
     this.$store.watch(
       (state, getters) => this.getAddress,
       (newValue, oldValue) => {
+        console.log(`changed address from ${oldValue} to ${newValue}`);
         this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "address");
       }
     );
@@ -61,6 +113,7 @@ export default {
     this.$store.watch(
       (state, getters) => this.getPayment,
       (newValue, oldValue) => {
+        console.log(`changed payment from ${oldValue} to ${newValue}`);
         this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "payment");
       }
     );
@@ -68,10 +121,11 @@ export default {
     this.$store.watch(
       (state, getters) => this.getShipping,
       (newValue, oldValue) => {
+        console.log(`changed shipping from ${oldValue} to ${newValue}`);
         this.$store.dispatch("userModule/PRODUCT_saveCurrentData", "shipping");
       }
     );
-  }
+}*/
 };
 </script>
 

@@ -36,7 +36,7 @@
           <button-simple
             class="cart--button-cta"
             :buttonText="'login'"
-            @simplebuttonevent="goTo('login', { nextPage: 'checkout' })"
+            @simplebuttonevent="checkoutUser()"
           />
           <button-simple
             class="cart--button-cta"
@@ -82,7 +82,7 @@
             <button-simple
               class="cart--button-cta"
               :buttonText="'checkout and login'"
-              @simplebuttonevent="goTo('login', { nextPage: 'checkout' })"
+              @simplebuttonevent="checkoutUser()"
             />
             <button-simple
               class="cart--button-cta"
@@ -129,6 +129,17 @@ export default {
         this.goTo("address");
       });
     },
+    checkoutUser() {
+      //check if the user is already logged in
+      if (this.userProfile) {
+        //if so, just go to the checkout
+        this.goTo("address");
+        return;
+      }
+
+      //If not, send him to the login page
+      this.goTo("login", { nextPage: "checkout" });
+    },
 
     changeToCommunityColor(color) {
       this.$store
@@ -163,7 +174,8 @@ export default {
       shoppingCart: "userModule/getShoppingCart",
       supportData: "productModule/getSupport",
       currentColor: "productModule/getCurrentColor",
-      loading: "initModule/getCompleteLoadingState"
+      loading: "initModule/getCompleteLoadingState",
+      userProfile: "authModule/getUserProfile"
     })
   },
   created() {},

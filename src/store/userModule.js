@@ -8,9 +8,9 @@ export default {
     wishlist: [],
     //currentOrder
     shoppingCart: [],
-    address: {},
-    payment: {},
-    shipping: {},
+    address: null,
+    payment: null,
+    shipping: null,
 
     //history
     //only get orderHistory and use it to fill the other history arrays
@@ -29,6 +29,9 @@ export default {
     },
     getAddress: state => {
       return state.address;
+    },
+    getAddressHistory: state => {
+      return state.addressHistory;
     },
     getPayment: state => {
       return state.payment;

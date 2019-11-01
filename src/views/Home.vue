@@ -20,15 +20,15 @@
     <section class="home--product sticky-wrapper hero__center">
       <div class="sticky-content js-hide-on-search">
         <image-overlay
-          :image_full="productData[2].urls.full"
-          :image_regular="productData[2].urls.regular"
-          :image_small="productData[2].urls.small"
-          :image_thumb="productData[2].urls.thumb"
-          :svg="productData[2].svg"
-          :alt_description="productData[2].alt_description"
+          :image_full="productData[0].urls.full"
+          :image_regular="productData[0].urls.regular"
+          :image_small="productData[0].urls.small"
+          :image_thumb="productData[0].urls.thumb"
+          :svg="productData[0].svg"
+          :alt_description="productData[0].alt_description"
           :overlay_color="currentColor || ['white', '#ffffff']"
           :fullHeight="responsiveImageHeight"
-          :aspectRatio="productData[2].width / productData[2].height"
+          :aspectRatio="productData[0].width / productData[0].height"
           class="image-overlay z-index-1"
         />
       </div>
@@ -294,7 +294,7 @@ export default {
     }),
     responsiveImageHeight() {
       if (window.innerHeight > 700) {
-        return 90;
+        return 80;
       }
       return 100;
     }

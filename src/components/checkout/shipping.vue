@@ -12,7 +12,7 @@
         type="radio"
         id="shipping-option-1"
         value="regular"
-        v-model="shippingType"
+        v-model="shippingData.type"
         class="label--indicator"
       />
       <h4 class="label--headline">
@@ -37,7 +37,7 @@
         type="radio"
         id="shipping-option-2"
         value="express"
-        v-model="shippingType"
+        v-model="shippingData.type"
         class="label--indicator"
       />
       <h4 class="label--headline">
@@ -53,7 +53,7 @@
         type="radio"
         id="shipping-option-3"
         value="custom"
-        v-model="shippingType"
+        v-model="shippingData.type"
         class="label--indicator"
       />
       <h4 class="label--headline">
@@ -69,7 +69,7 @@
         type="date"
         id="date-picker"
         class="label--date-picker"
-        v-model="customDate"
+        v-model="shippingData.customDate"
         :min="getXDatesFromNow(2)"
         :max="getXDatesFromNow(9)"
       />
@@ -79,8 +79,8 @@
       <button-simple
         class="shipping--button-cta"
         :buttonText="'Show my payment options'"
+        @simplebuttonevent="nextStep()"
       />
-      <buttonClose></buttonClose>
     </div>
   </section>
 </template>
@@ -98,50 +98,42 @@ export default {
   name: "checkoutShipping",
   data() {
     return {
-      shippingType: "regular",
-      customDate: ""
+      shippingData: {
+        type: "regular",
+        customDate: false
+      }
     };
   },
   methods: {
     nextStep() {
-      let inputElement = document.getElementById("date-picker");
-
-      console.log(this.customDate);
-      console.log(inputElement);
-
-      /*let customDateCheck =
-        this.shippingType === "custom" && this.customDate.length > 0;
-
+      //add the shipping data to the store
+      console.log(this.shippingData);
       this.$store
         .dispatch("userModule/USER_setCurrentData", {
           type: "shipping",
-          data: {
-            type: this.shippingType,
-            customDate: customDateCheck ? this.customDate : ""
-          }
+          data: this.shippingData
         })
         .then(result => {
           //go to shipping
           console.log(result);
-          //this.$router.push({ name: "payment" });
-      });*/
+          this.$router.push({ name: "payment" });
+        });
     },
     setDate() {
       //check if there is data present
-      //if this doesnt work it needs to be set with vue.set()
-      if (this.getShipping) {
-        this.shippingType = this.getShipping.type;
-      }
 
-      //check for a custom date
-
-      if (this.getShipping.customDate) {
-        this.customDate = this.getShipping.customDate;
+      if (!this.getShipping) {
+        //if not accessed by previous functions, set to current day
+        this.shippingData.customDate = this.getXDatesFromNow(2);
         return;
       }
 
-      //if not accessed by previous functions, set to current day
-      this.customDate = this.getXDatesFromNow(2);
+      this.shippingData.type = this.getShipping.type;
+      //check for a custom date
+
+      if (this.getShipping.customDate) {
+        this.shippingData.customDate = this.getShipping.customDate;
+      }
     },
 
     dateEnding(day) {
@@ -328,14 +320,13 @@ export default {
 .shipping--buttons {
   /* Positioning */
   display: grid;
-  grid-auto-rows: 5rem 5rem;
   grid-row-gap: var(--1base);
   /* Box-model */
   padding: 3vh 0;
   /* Typography */
 
   /* Visual */
-  background-color: grey;
+
   /* Misc */
 }
 

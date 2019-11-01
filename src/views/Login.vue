@@ -262,7 +262,7 @@ export default {
             // and display a success-green around the button
             this.success = true;
             setTimeout(() => {
-              /*for the user to see this, the next step is delayed by 500ms.
+              /*for the user to see this, the next step is delayed by 200ms.
                The next step is a set page, going back to the route were the user came from or to go back to the starting page*/
               if (this.nextPage) {
                 this.goTo(this.nextPage);
@@ -275,7 +275,7 @@ export default {
                 this.goTo("store");
               }
               this.success = false;
-            }, 500);
+            }, 200);
           })
           .then(() => {
             //clean the data for usage again

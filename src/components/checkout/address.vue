@@ -1,5 +1,5 @@
 <template>
-  <section class="product-images address-content ">
+  <section class="product-images address-content " v-if="currentUser">
     <div class="address--identity" v-if="userProfile">
       <h3 class="address--headline">
         Welcome Back, {{ userProfile.name }}. Ready to stun everyone again?
@@ -145,6 +145,9 @@
       />
     </section>
   </section>
+  <section v-else>
+    <h1>Loading</h1>
+  </section>
 </template>
 
 <script>
@@ -210,10 +213,11 @@ export default {
       //add the name to it
 
       let updatedAdress = { ...this.address };
+      console.log(updatedAdress);
       //check if a different reciver was entered
       if (!this.differentReciver) {
         //if not, the user ordert this for himself
-        updatedAdress[name] = this.identity.name;
+        updatedAdress.name = this.identity.name;
       }
 
       this.$store
@@ -255,6 +259,7 @@ export default {
   computed: {
     ...mapGetters({
       userProfile: "authModule/getUserProfile",
+      currentUser: "authModule/getCurrentUser",
       userAddress: "userModule/getAddress",
       userAddressHistory: "userModule/getAddressHistory",
       guestStatus: "authModule/getGuestStatus"

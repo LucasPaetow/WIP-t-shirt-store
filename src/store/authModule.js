@@ -101,9 +101,6 @@ export default {
             //set current user and user profile
             commit("USER_setCurrent", user.user);
             dispatch("USER_getProfile");
-            dispatch("userModule/USER_getShoppingData", null, {
-              root: true
-            });
           })
           .then(() => {
             //return success for the local state handling
@@ -176,6 +173,7 @@ export default {
 
     AUTH_PageReload: ({ commit, dispatch }, user) => {
       //get the auth object on reloads and pass it to the store
+      console.log("page reload");
       commit("USER_setCurrent", user);
       dispatch("USER_getProfile");
     },

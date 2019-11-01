@@ -19,7 +19,7 @@
           <div class="sizes--inputs inputs">
             <input
               v-for="(clothingSize, index1) in sizes"
-              :key="clothingSize + index1"
+              :key="clothingSize + index1 + 'sizeContentFirst1'"
               type="radio"
               :id="`size-${clothingSize}`"
               :value="clothingSize"
@@ -28,7 +28,7 @@
             />
             <label
               v-for="(clothingSize, index2) in sizes"
-              :key="clothingSize + index2"
+              :key="clothingSize + index2 + 'sizeContentFirst2'"
               :for="`size-${clothingSize}`"
               class="sizes--inputs__label default-input-style"
               :class="[size === clothingSize ? 'active' : '']"

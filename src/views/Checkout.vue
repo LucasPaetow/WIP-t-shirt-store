@@ -27,6 +27,7 @@
     <aside class="checkout--background main--background"></aside>
 
     <section class="checkout-recap recap-mobile recap-wrapper">
+      <recap headline="Amount"> <totalAmount></totalAmount></recap>
       <recap headline="Address">
         <ul>
           <li>1</li>
@@ -47,7 +48,6 @@
 
     <section class="main--sidebar">
       <div class="main--sidebar__sticky checkout--sidebar__sticky">
-        <totalAmount class="checkout--amount__layout"></totalAmount>
         <div class="checkout--buttons">
           <button-simple
             class="checkout--button-cta"
@@ -56,6 +56,7 @@
           />
         </div>
         <div class="checkout-recap recap-desktop recap-wrapper">
+          <recap headline="Amount"><totalAmount></totalAmount></recap>
           <recap headline="Address"> </recap>
           <recap headline="Shipping"></recap>
           <recap :last="true" headline="Payment"></recap>
