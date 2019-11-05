@@ -1,6 +1,5 @@
-/** VUEX auth module**/
+/** VUEX user module**/
 const fb = require("@/api/firebaseConfig.js");
-import router from "@/router/router.js";
 
 export default {
   namespaced: true,
@@ -9,9 +8,9 @@ export default {
     wishlist: [],
     //currentOrder
     shoppingCart: [],
-    address: {},
-    payment: {},
-    shipping: {},
+    address: null,
+    payment: null,
+    shipping: null,
 
     //history
     //only get orderHistory and use it to fill the other history arrays
@@ -30,6 +29,9 @@ export default {
     },
     getAddress: state => {
       return state.address;
+    },
+    getAddressHistory: state => {
+      return state.addressHistory;
     },
     getPayment: state => {
       return state.payment;
@@ -87,7 +89,7 @@ export default {
   },
   // -----------------------------------------------------------------
   actions: {
-    INIT_userSaveLocal: ({ commit }, product) => {
+    INIT_userSaveLocal: ({ commit }) => {
       //check if there is a local save
       let localSave = JSON.parse(localStorage.getItem("shoppingCart"));
       if (!localSave) {
@@ -108,7 +110,7 @@ export default {
     PRODUCT_editShoppingCart: ({ commit }, combinedProduct) => {
       commit("PRODUCT_editShoppingCart", combinedProduct);
     },
-    PRODUCT_saveShoppingCart: ({ dispatch, state, rootState }) => {
+    PRODUCT_saveShoppingCart: ({ state, rootState }) => {
       //save cart locally
       let cart = state.shoppingCart;
       localStorage.setItem("shoppingCart", JSON.stringify(cart));
@@ -138,7 +140,7 @@ export default {
         .set(objectToUpload);
     },
 
-    PRODUCT_saveCurrentData: ({ dispatch, state, rootState }, dataType) => {
+    PRODUCT_saveCurrentData: ({ state, rootState }, dataType) => {
       //dont save address and payment info locally
 
       let user = rootState.authModule.currentUser;
@@ -154,7 +156,7 @@ export default {
         .set(state[dataType]);
     },
 
-    USER_getCurrentOrder: ({ dispatch, state, commit }, user) => {
+    USER_getCurrentOrder: ({ commit }, user) => {
       //get all the available user data
       fb.usersCollection
         .doc(user.uid)

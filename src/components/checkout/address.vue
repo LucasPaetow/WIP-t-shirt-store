@@ -1,5 +1,5 @@
 <template>
-  <section class="product-images address-content ">
+  <section class="product-images address-content " v-if="currentUser">
     <div class="address--identity" v-if="userProfile">
       <h3 class="address--headline">
         Welcome Back, {{ userProfile.name }}. Ready to stun everyone again?
@@ -145,21 +145,20 @@
       />
     </section>
   </section>
+  <section v-else>
+    <h1>Loading</h1>
+  </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import inputField from "@/components/inputs/InputDefault.vue";
-import totalAmount from "@/components/cart/totalAmount.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
-import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
     inputField,
-    totalAmount,
-    buttonSimple,
-    styledHeadline
+    buttonSimple
   },
   //if the basics are being edited, this array contains existing basic information
   props: {
@@ -202,7 +201,7 @@ export default {
 
       if (!this.guestStatus) {
         //check if a different name was used for a user and update if needed
-
+        console.log(addressType);
         if (this.identity.name !== this.userProfile.name)
           this.$store.dispatch("authModule/AUTH_updateUserInfo", {
             name: this.identity.name,
@@ -214,10 +213,11 @@ export default {
       //add the name to it
 
       let updatedAdress = { ...this.address };
+      console.log(updatedAdress);
       //check if a different reciver was entered
       if (!this.differentReciver) {
         //if not, the user ordert this for himself
-        updatedAdress[name] = this.identity.name;
+        updatedAdress.name = this.identity.name;
       }
 
       this.$store
@@ -259,6 +259,7 @@ export default {
   computed: {
     ...mapGetters({
       userProfile: "authModule/getUserProfile",
+      currentUser: "authModule/getCurrentUser",
       userAddress: "userModule/getAddress",
       userAddressHistory: "userModule/getAddressHistory",
       guestStatus: "authModule/getGuestStatus"

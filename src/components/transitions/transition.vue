@@ -92,8 +92,12 @@ export default {
         return;
       }
     },
-    leave(el) {},
-    afterLeave(el) {},
+    leave(el) {
+      console.log(el);
+    },
+    afterLeave(el) {
+      console.log(el);
+    },
     beforeEnter(el) {
       el.style.opacity = 0;
       el.style.transition = `all 0.3s cubic-bezier(0,0,0.58,1)`;

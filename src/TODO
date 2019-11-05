@@ -4,26 +4,16 @@
 
 
 User:
-- User can add to wishlist, payment, addresses and it gets stored in the user account ==> Watcher
-
-
+- User can add to wishlist and it gets stored in the user account ==> Watcher
 - After a "purchase", the cart gets emptied and the purchase is added to the order history
-- Guest checkout should be an anonymous account with the option to register after purchase
-
-Cart
-- if the user is logged in, he only sees the button to checkout
-
+- Guest checkout should have the option to register after purchase
 
 totalAmount
 - Update Amount and Shipping
 
-Search-Component
-- Show results on mobile while typing
-
 Checkout + Children
 - Input-Validation
 - Communicate information between Checkout-Children and Checkout
-
 
 loadingState
 - Image-Overlay
@@ -32,7 +22,13 @@ loadingState
 - Checkout should get redirected to card, if the card is empty
 
 
-Recap: Jedes recap-element braucht einen key oder eine randomNumber
+Modals
+=> Vue Portal for 1 Modal und 1 Alert
+- "Pick a Color" modal (Store, )
+- "Register" Modal after order completion
+- "Choose Size" from different places (Store,)
+
+
 
 ######### Layout and Style ############
 
@@ -50,12 +46,13 @@ Cart
 Checkout + Children
 - Better Radiobuttons and a datepicker
 - footer needs to be styled like everything else
+- Have the recap elements get their headline filled in (and color changed) after a successful input (from "address" => "address: streeet, zip,city" (maybe needs characterlimit))
+-- Add an empty state and
 
-Inputs
-- turn radiobuttons into components
 
 Navbar
 - Extended navbar should come from behind the navbar
+- logout
 
 
 ######### Content ############
@@ -74,12 +71,16 @@ Auth:
 
 
 
-Modals
-=> Vue Portal for 1 Modal und 1 Alert
-- "Pick a Color" modal (Store, )
-- "Register" Modal after order completion
-- "Choose Size" from different places (Store,)
 
+
+
+######### Bugs ############
+
+Search-Component
+- Show results on mobile while typing
+
+Recap
+- Jedes recap-element braucht einen key oder eine randomNumber
 
 Modal Problems
 - There is no separation of animations for the background and forground

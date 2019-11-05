@@ -99,6 +99,7 @@ export default {
       });
     },
     focusFirstDescendant(element) {
+      console.log(element);
       const focusable = this.$el.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
       );

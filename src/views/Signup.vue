@@ -1,8 +1,8 @@
 <template>
-  <article class="main main__small signup">
-    <aside class="home--background main--background"></aside>
+  <article class="main signup">
+    <aside class="signup--background main--background"></aside>
 
-    <header class="signup--header  main--header">
+    <header class="signup--header main--header">
       <div class="signup--logo">
         <logo></logo>
       </div>
@@ -17,10 +17,10 @@
       </p>
     </header>
     <page-transition>
-      <section class="main--sidebar" v-if="emailConfirmation">
+      <section class="main--sidebar signup--sidebar" v-if="emailConfirmation">
         <div class="signup--features"></div>
       </section>
-      <section class="main--sidebar" v-else>
+      <section class="main--sidebar signup--sidebar" v-else>
         <div class="signup--features">
           <styledHeadline
             headlineText="Whats new"
@@ -180,7 +180,6 @@
 <script>
 const helper = require("@/misc/helper.js");
 
-import { mapGetters } from "vuex";
 import inputDefault from "@/components/inputs/InputDefault.vue";
 import buttonFunctional from "@/components/buttons/ButtonFunctional.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
@@ -243,7 +242,7 @@ export default {
         this.$store
           .dispatch("authModule/AUTH_signup", this.authData)
           //when it returns true
-          .then(result => {
+          .then(() => {
             //set loading to false
             this.loading = false;
             // and display a success-green around the button
@@ -337,9 +336,7 @@ export default {
   computed: {
     lengthValidated() {
       //return true if the length is over 8
-      if (this.authData.password.length >= 8) {
-        return true;
-      }
+      return this.authData.password.length >= 8 ? true : false;
     },
     uppercaseValidated() {
       //check if the letter is upper case
@@ -378,7 +375,7 @@ export default {
 }
 
 .signup--header {
-  padding: calc(7.5vh + var(--navbar__height)) 0 5vh 0;
+  padding-top: calc(7.5vh + var(--navbar__height));
 }
 
 .subheadline {

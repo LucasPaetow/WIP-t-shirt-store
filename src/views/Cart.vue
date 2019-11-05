@@ -36,7 +36,7 @@
           <button-simple
             class="cart--button-cta"
             :buttonText="'login'"
-            @simplebuttonevent="goTo('login', { nextPage: 'checkout' })"
+            @simplebuttonevent="checkoutUser()"
           />
           <button-simple
             class="cart--button-cta"
@@ -53,7 +53,8 @@
           <div class="more-shirts--shirts">
             <div
               class="shirt-wrapper"
-              v-for="color in communityColors"
+              v-for="(color, index) in communityColors"
+              :key="'communityColor' + index"
               @click="changeToCommunityColor(color)"
             >
               <image-overlay
@@ -81,7 +82,7 @@
             <button-simple
               class="cart--button-cta"
               :buttonText="'checkout and login'"
-              @simplebuttonevent="goTo('login', { nextPage: 'checkout' })"
+              @simplebuttonevent="checkoutUser()"
             />
             <button-simple
               class="cart--button-cta"
@@ -100,7 +101,6 @@
 import { mapGetters } from "vuex";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import imageOverlay from "@/components/overlay/ImageOverlay.vue";
-import modalLayout from "@/components/modal/modalLayout.vue";
 import styledHeadline from "@/components/headline/headline.vue";
 import cartEntry from "@/components/cart/cartEntry.vue";
 import totalAmount from "@/components/cart/totalAmount.vue";
@@ -110,7 +110,6 @@ export default {
   components: {
     buttonSimple,
     imageOverlay,
-    modalLayout,
     styledHeadline,
     cartEntry,
     totalAmount,
@@ -129,6 +128,17 @@ export default {
       this.$store.dispatch("authModule/USER_guest").then(() => {
         this.goTo("address");
       });
+    },
+    checkoutUser() {
+      //check if the user is already logged in
+      if (this.userProfile) {
+        //if so, just go to the checkout
+        this.goTo("address");
+        return;
+      }
+
+      //If not, send him to the login page
+      this.goTo("login", { nextPage: "checkout" });
     },
 
     changeToCommunityColor(color) {
@@ -164,7 +174,8 @@ export default {
       shoppingCart: "userModule/getShoppingCart",
       supportData: "productModule/getSupport",
       currentColor: "productModule/getCurrentColor",
-      loading: "initModule/getCompleteLoadingState"
+      loading: "initModule/getCompleteLoadingState",
+      userProfile: "authModule/getUserProfile"
     })
   },
   created() {},

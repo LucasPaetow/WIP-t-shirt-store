@@ -24,6 +24,7 @@ export default {
   components: { navbarFull, navbarBasic, pageTransition, navbarMinimal },
   name: "navBar",
   computed: {
+    ...mapGetters({}),
     hideNavbar() {
       let routes = ["login", "signup", "sizeOptions"];
 

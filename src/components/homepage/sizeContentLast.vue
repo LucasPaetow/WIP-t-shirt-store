@@ -63,7 +63,8 @@
       <div class="more-shirts--shirts">
         <div
           class="shirt-wrapper"
-          v-for="color in communityColors"
+          v-for="(color, index) in communityColors"
+          :key="color + index + 'sizeContentLast'"
           @click="changeToCommunityColor(color)"
         >
           <image-overlay
@@ -140,10 +141,7 @@ export default {
       allColors: "productModule/getColorPalette"
     }),
     responsiveHeadline() {
-      if (window.innerWidth > 700) {
-        return "h2";
-      }
-      return "h1";
+      return window.innerWidth > 700 ? "h2" : "h1";
     },
     randomColor() {
       const colorValues = Object.getOwnPropertyNames(this.allColors);
@@ -152,8 +150,7 @@ export default {
       const color = this.allColors[randomValue];
 
       return [randomValue, color];
-    },
-    defaultColor() {}
+    }
   }
 };
 </script>

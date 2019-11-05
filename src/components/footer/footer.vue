@@ -1,5 +1,5 @@
 <template
-  ><footer class="footer">
+  ><footer class="footer layout">
     <div class="footer--section">
       <h2 class="footer--section__headline">About the shirt</h2>
       <router-link
@@ -53,11 +53,8 @@
 >
 
 <script>
-import styledHeadline from "@/components/headline/headline.vue";
 export default {
-  components: {
-    styledHeadline
-  }
+  components: {}
 };
 </script>
 
@@ -80,6 +77,7 @@ export default {
 
 .footer--section {
   /* Positioning */
+  grid-column: 3/5;
   display: flex;
   flex-direction: column;
   /* Box-model */
@@ -128,10 +126,27 @@ export default {
   }
 }
 
-@media (min-width: 45em) {
+@media (min-width: 30em) {
+  .footer--section {
+    /* Positioning */
+    grid-column: 3/4;
+
+    /* Box-model */
+
+    /* Typography */
+
+    /* Visual */
+
+    /* Misc */
+  }
+}
+
+@media (min-width: 48em) {
   .footer {
     /* Positioning */
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: var(--column-spacing) 1fr 1fr 1fr var(
+        --column-spacing
+      );
     /* Box-model */
     /* Typography */
     /* Visual */
@@ -153,7 +168,7 @@ export default {
 
   .footer--section:nth-of-type(1) {
     /* Positioning */
-    grid-column: 1/2;
+    grid-column: 2/3;
 
     /* Box-model */
 
@@ -166,7 +181,7 @@ export default {
 
   .footer--section:nth-of-type(2) {
     /* Positioning */
-    grid-column: 2/3;
+    grid-column: 3/4;
 
     /* Box-model */
 
@@ -179,7 +194,7 @@ export default {
 
   .footer--section:nth-of-type(3) {
     /* Positioning */
-    grid-column: 3/4;
+    grid-column: 4/5;
     /* Box-model */
 
     /* Typography */

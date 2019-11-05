@@ -1,15 +1,15 @@
 <template>
-  <section class="product-image overlay-wrapper">
+  <section class="product-image">
     <div class="soundbite z-index-2">
       <styled-headline
         :headlineText="product.description.headline"
-        headlineType="h2"
+        :headlineType="responsiveHeadline"
       />
 
       <styled-headline
         v-if="product.description.subline"
         :headlineText="product.description.subline"
-        headlineType="h3"
+        :headlineType="responsiveSubline"
         :invertedColor="true"
       />
     </div>
@@ -22,8 +22,7 @@
       :svg="product.svg"
       :alt_description="product.alt_description"
       :overlay_color="currentColor || ['white', '#ffffff']"
-      :fullHeight="responsiveImageHeight"
-      :aspectRatio="product.width / product.height"
+      :fullHeight="80"
       class="overlay-layout z-index-1"
     />
   </section>
@@ -31,14 +30,14 @@
 
 <script>
 import imageOverlay from "@/components/overlay/ImageOverlay";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import styledHeadline from "@/components/headline/headline.vue";
+//import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
     imageOverlay,
-    buttonSimple,
     styledHeadline
+    //recap
   },
   //if the basics are being edited, this array contains existing basic information
   props: {
@@ -56,13 +55,29 @@ export default {
     responsiveImageHeight() {
       let width = window.innerWidth;
       if (width > 1200) {
-        return 80;
+        return 85;
       }
       if (width > 700) {
         return 85;
       }
 
       return 90;
+    },
+    responsiveHeadline() {
+      let width = window.innerWidth;
+      if (width > 1200) {
+        return "h2";
+      }
+
+      return "h1";
+    },
+    responsiveSubline() {
+      let width = window.innerWidth;
+      if (width > 1200) {
+        return "h3";
+      }
+
+      return "h2";
     }
   },
   created() {}
@@ -70,18 +85,14 @@ export default {
 </script>
 
 <style scoped>
-.overlay-wrapper {
+.product-image {
   /* Positioning */
   display: grid;
-  grid-template-rows: 5vh min-content 1fr;
-  grid-template-columns: 5vw 1fr 5vw;
+  grid-template-columns: var(--paddingX) 1fr var(--paddingX);
+  grid-auto-rows: min-content;
 
   /* Box-model */
-  /* Typography */
-
-  /* Visual */
-
-  /* Misc */
+  overflow: hidden;
 }
 
 .overlay-layout {
@@ -89,7 +100,6 @@ export default {
   grid-column: 1/4;
   grid-row: 1/4;
   /* Box-model */
-
   /* Typography */
   /* Visual */
   /* Misc */
@@ -103,39 +113,5 @@ export default {
   /* Typography */
   /* Visual */
   /* Misc */
-}
-
-@media (min-width: 45em) {
-  .overlay-layout {
-    /* Positioning */
-    grid-column: 1/4;
-    grid-row: 1/4;
-    /* Box-model */
-
-    /* Typography */
-    /* Visual */
-    /* Misc */
-  }
-
-  .soundbite {
-    /* Positioning */
-    grid-column: 2/4;
-    grid-row: 2/3;
-    /* Box-model */
-    /* Typography */
-    /* Visual */
-    /* Misc */
-  }
-}
-
-@media (min-width: 64em) {
-  .soundbite {
-    /* Positioning */
-    grid-column: 2/3;
-    /* Box-model */
-    /* Typography */
-    /* Visual */
-    /* Misc */
-  }
 }
 </style>

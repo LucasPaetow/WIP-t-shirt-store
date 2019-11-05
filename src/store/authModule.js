@@ -101,9 +101,6 @@ export default {
             //set current user and user profile
             commit("USER_setCurrent", user.user);
             dispatch("USER_getProfile");
-            dispatch("userModule/USER_getShoppingData", null, {
-              root: true
-            });
           })
           .then(() => {
             //return success for the local state handling
@@ -122,7 +119,7 @@ export default {
       );
     },
 
-    AUTH_guest: ({}) => {
+    AUTH_guest: ({ commit, dispatch }) => {
       return (
         fb.auth
           //firebase auth call
@@ -161,7 +158,7 @@ export default {
       );
     },
 
-    AUTH_passwordForgotten: ({ commit, dispatch }, email) => {
+    AUTH_passwordForgotten: email => {
       return fb.auth
         .sendPasswordResetEmail(email)
         .then(result => {
@@ -176,6 +173,7 @@ export default {
 
     AUTH_PageReload: ({ commit, dispatch }, user) => {
       //get the auth object on reloads and pass it to the store
+      console.log("page reload");
       commit("USER_setCurrent", user);
       dispatch("USER_getProfile");
     },
@@ -196,7 +194,7 @@ export default {
         });
     },
 
-    USER_logout: ({ commit, dispatch }) => {
+    USER_logout: ({ commit }) => {
       //firebase logout call
       return fb.auth
         .signOut()
@@ -211,7 +209,7 @@ export default {
         });
     },
 
-    AUTH_updateUserInfo: ({ commit, dispatch, state }, userInfo) => {
+    AUTH_updateUserInfo: ({ state }, userInfo) => {
       //update user information
       let userID = state.currentUser.uid;
 

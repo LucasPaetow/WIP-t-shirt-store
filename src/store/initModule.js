@@ -1,7 +1,5 @@
 /** VUEX init module**/
 
-import { pictures, support } from "@/assets/pictureData.js";
-import { colors } from "@/assets/colors.js";
 const fb = require("@/api/firebaseConfig.js");
 
 export default {
@@ -97,7 +95,17 @@ export default {
       });
 
       let finishLoading = await console.log("everything is loaded");
-      return finishFullRestore;
+      return [
+        finishFullRestore,
+        setProductData,
+        setColorData,
+        checkForLocalUserSave,
+        finishInitalRestore,
+        setSupportData,
+        checkForRemoteUserSave,
+        startTime,
+        finishLoading
+      ];
     },
 
     INIT_restoreData: async ({ dispatch }, section) => {
@@ -112,9 +120,9 @@ export default {
         data: remoteSave
       });
 
-      return remoteSave;
+      return [remoteSave, saveLocaly];
     },
-    INIT_queryFirebase: ({}, section) => {
+    INIT_queryFirebase: section => {
       console.log(`retrieving ${section} remotly`);
       return fb.storeCollection
         .doc(section)
@@ -123,7 +131,7 @@ export default {
           return result.data()[section];
         });
     },
-    INIT_saveLocaly: ({}, section) => {
+    INIT_saveLocaly: section => {
       console.log(`saving ${section.type} localy`);
       localStorage.setItem(
         `t-shirt-store_${section.type}`,
@@ -131,9 +139,9 @@ export default {
       );
     },
 
-    INIT_userSaveRemote: async ({ dispatch }, section) => {
+    INIT_userSaveRemote: async ({ dispatch }) => {
       //check if user is present
-      let userAuthState = await fb.auth.onAuthStateChanged(user => {
+      let userAuthState = await fb.auth.onAuthStateChanged(async user => {
         if (!user) {
           //if not,return early
           console.log("no user present");
@@ -142,14 +150,20 @@ export default {
         console.log("page was reloaded, user is present");
 
         //reset user data
-        dispatch("authModule/AUTH_PageReload", user, {
+        let restoreUser = await dispatch("authModule/AUTH_PageReload", user, {
           root: true
         });
 
         //check for a remote save and overwrite the store
-        dispatch("userModule/USER_getCurrentOrder", user, {
-          root: true
-        });
+        let restoreData = await dispatch(
+          "userModule/USER_getCurrentOrder",
+          user,
+          {
+            root: true
+          }
+        );
+
+        return [restoreUser, restoreData];
       });
       return userAuthState;
     }

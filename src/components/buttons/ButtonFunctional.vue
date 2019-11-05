@@ -1,6 +1,10 @@
 <template>
   <button
-  :class="[success ? 'success' : '', error ? 'error' : '', invalidAuth ? 'error' : '']"
+    :class="[
+      success ? 'success' : '',
+      error ? 'error' : '',
+      invalidAuth ? 'error' : ''
+    ]"
     class="button button-continue"
     @click="$emit('buttonfunctionalevent')"
   >
@@ -22,18 +26,14 @@
       <p class="button-text">{{ buttonText }}</p>
       <arrow-icon />
     </div>
-
-  </button>
-
   </button>
 </template>
 
 <script>
 import arrowIcon from "@/components/icons/arrow.vue";
 
-
 export default {
-    components:{arrowIcon},
+  components: { arrowIcon },
   name: "buttonFunctional",
   props: ["buttonText", "loading", "error", "success", "invalidAuth"]
 };
@@ -43,26 +43,25 @@ export default {
 /*----general button style-----*/
 
 .button-continue {
-    color: white;
-    background-color: var(--grey-800);
+  color: white;
+  background-color: var(--grey-800);
 }
 
 .button {
-    width: 100%;
-    min-width: 8rem;
-    height: 100%;
-    padding: var(--halfbase) var(--1base);
-    margin: var(--halfbase) 0;
-    border-radius: var(--fourthbase);
-    box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
-    position: relative;
-    cursor: pointer;
-    font-size: var(--halfbase);
-    text-transform: uppercase;
-    font-family: "Poppins", sans-serif;
-    font-weight: bold;
+  width: 100%;
+  min-width: 8rem;
+  height: 100%;
+  padding: var(--halfbase) var(--1base);
+  margin: var(--halfbase) 0;
+  border-radius: var(--fourthbase);
+  box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.05);
+  position: relative;
+  cursor: pointer;
+  font-size: var(--halfbase);
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-weight: bold;
 }
-
 
 @media (min-width: 25em) {
   .button {
@@ -75,7 +74,6 @@ export default {
     max-width: 14.5rem;
   }
 }
-
 
 .button::before {
   content: " ";
@@ -126,9 +124,9 @@ export default {
 }
 
 @media (min-width: 22.5em) {
-    .button-text {
-      padding-right: var(--halfbase);
-    }
+  .button-text {
+    padding-right: var(--halfbase);
+  }
 }
 
 /*-----error/success----*/

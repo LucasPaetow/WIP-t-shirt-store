@@ -53,16 +53,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
-import inputField from "@/components/inputs/InputDefault.vue";
-import pageTransition from "@/components/transitions/transition.vue";
 import closeIcon from "@/components/icons/close.vue";
 
 export default {
   components: {
-    inputField,
-    buttonSimple,
-    pageTransition,
     closeIcon
   },
   //if the basics are being edited, this array contains existing basic information

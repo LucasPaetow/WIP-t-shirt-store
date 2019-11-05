@@ -45,12 +45,11 @@
 
 <script>
 import { mapGetters } from "vuex";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import logo from "@/components/icons/logo.vue";
 import hamburger from "@/components/icons/hamburger.vue";
 
 export default {
-  components: { buttonSimple, logo, hamburger },
+  components: { logo, hamburger },
   name: "navbarFull",
   data() {
     return {

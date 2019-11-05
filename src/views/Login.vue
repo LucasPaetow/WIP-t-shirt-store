@@ -182,7 +182,6 @@
 <script>
 const helper = require("@/misc/helper.js");
 
-import { mapGetters } from "vuex";
 import inputDefault from "@/components/inputs/InputDefault.vue";
 import buttonFunctional from "@/components/buttons/ButtonFunctional.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
@@ -257,13 +256,13 @@ export default {
         this.$store
           .dispatch("authModule/AUTH_login", this.authData)
           //when it returns true
-          .then(result => {
+          .then(() => {
             //set loading to false
             this.loading = false;
             // and display a success-green around the button
             this.success = true;
             setTimeout(() => {
-              /*for the user to see this, the next step is delayed by 500ms.
+              /*for the user to see this, the next step is delayed by 200ms.
                The next step is a set page, going back to the route were the user came from or to go back to the starting page*/
               if (this.nextPage) {
                 this.goTo(this.nextPage);
@@ -276,7 +275,7 @@ export default {
                 this.goTo("store");
               }
               this.success = false;
-            }, 500);
+            }, 200);
           })
           .then(() => {
             //clean the data for usage again
@@ -383,7 +382,7 @@ export default {
       //dispatch the call and listen to the result
       this.$store
         .dispatch("authModule/AUTH_passwordForgotten", email)
-        .then(result => {
+        .then(() => {
           //stop the loading animation and display a success message
           this.forgottenPassword.loading = false;
           this.forgottenPassword.success = true;

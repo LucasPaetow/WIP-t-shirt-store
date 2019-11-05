@@ -1,6 +1,4 @@
-/** VUEX init module**/
-
-import { pictures } from "@/assets/pictureData.js";
+/** VUEX product module**/
 
 export default {
   namespaced: true,
