@@ -203,7 +203,7 @@ export default {
   grid-column: 1/3;
   grid-row: 2/3;
   position: relative;
-  border: 1px solid var(--grey-500);
+  border: 2px solid var(--grey-500);
   background-color: inherit;
 }
 
@@ -212,7 +212,7 @@ export default {
   padding: var(--1base);
   line-height: 150%;
   font-size: var(--2base);
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   color: var(--grey-800);
   position: relative;
   z-index: 2;
@@ -261,7 +261,7 @@ export default {
   max-height: 15rem;
   overflow-y: scroll;
   background-color: var(--grey-0);
-  border: 1px solid var(--grey-500);
+  border: 2px solid var(--grey-500);
   border-top-color: transparent;
 }
 

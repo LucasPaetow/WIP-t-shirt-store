@@ -1,6 +1,6 @@
 <template>
-  <article class="store main" id="store">
-    <header class="store--header main--header" id="looks-great">
+  <article class="store default-view layout" id="store">
+    <header class="store--header default-header" id="looks-great">
       <styledHeadline
         v-if="getItTomorrow"
         class="header--headline__layout"
@@ -21,96 +21,39 @@
         <b> {{ shippingTime.minutes }} min</b>
       </p>
     </header>
-    <aside class="store--background main--background"></aside>
-    <section class="product-info main--sidebar">
-      <div class="product-info__sticky main--sidebar__sticky">
-        <div class="recap-wrapper">
-          <recap headline="About the color" :alreadyExpanded="true">
-            <div class="product-info--color">
-              <p>{{ currentColor[0] }}</p>
-              <p>add to wishlist</p>
-            </div>
-          </recap>
-          <recap headline="Materials">
-            <ul class="product-info--Material">
-              <li>- 10% luck, 20% skill</li>
-              <li>- 15% concentrated power of will</li>
-              <li>- 5%pleasure, 50% percent cotton</li>
-              <li>
-                And a 100% reason to remember the tshirt (actually 100% cotton,
-                too)
-              </li>
-            </ul>
-          </recap>
-          <recap headline="Available Sizes">
-            <div class="product-info--sizes">
-              <p>S, M, L, XL</p>
-              <p>see size chart</p>
-            </div>
-          </recap>
-          <recap :last="true" headline="Price for every t-shirt">
-            <div class="product-info--price">
-              <p class="price--wrapper">
-                <span class="headline__background ">For 20$</span>
-              </p>
-            </div>
-          </recap>
-        </div>
+    <aside class="store--background default-background "></aside>
 
-        <button-simple
-          class="product-info--cta"
-          :buttonText="'choose your size'"
-          @simplebuttonevent="goTo('sizeOptions')"
-        />
-      </div>
-    </section>
-    <section class="product-images main--content" v-if="randomProductData">
+    <section
+      class="product-images layout layout--full"
+      v-if="randomProductData"
+    >
+      <div class="recap-fake layout--span1__right"></div>
       <productImage
         v-for="(product, index) in randomProductData"
         :key="'randomProductImage' + index"
         :product="product"
         :index="index"
         :currentColor="currentColor"
-        @productimageevent="chooseSize()"
+        :class="productClass(product)"
       >
       </productImage>
     </section>
 
-    <storeFooter class="footer__layout main--footer" />
-
-    <router-link
-      :to="{
-        name: 'sizeOptions',
-        params: {}
-      }"
-      class="size-options z-index-3"
-    >
-      <p class="size-options--text">Choose Size</p>
-    </router-link>
-
-    <page-transition propTransitionName="full-slide">
-      <router-view />
-    </page-transition>
+    <storeFooter class="footer__layout default-footer" />
   </article>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import storeFooter from "@/components/footer/footer.vue";
-import pageTransition from "@/components/transitions/transition.vue";
 import productImage from "@/components/homepage/productImage.vue";
 import styledHeadline from "@/components/headline/headline.vue";
-import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
-    buttonSimple,
     storeFooter,
-    pageTransition,
     productImage,
-    styledHeadline,
-    recap
+    styledHeadline
   },
   props: [],
   name: "store",
@@ -122,6 +65,11 @@ export default {
   methods: {
     chooseSize() {
       this.goTo("sizeOptions");
+    },
+    productClass(product) {
+      let aspectRatio = product.width / product.height >= 1;
+
+      return aspectRatio >= 1 ? `layout--wide` : `layout--small`;
     },
     //navigation
     goTo(locationName, paramObject) {
@@ -164,50 +112,6 @@ export default {
 </script>
 
 <style scoped>
-.product-images {
-  /* Positioning */
-  display: grid;
-  grid-auto-flow: row;
-  grid-row-gap: 5vh;
-  /* Box-model */
-  min-height: 100%;
-  /* Typography */
-  /* Visual */
-  /* Misc */
-}
-
-@media (min-width: 45em) {
-  .product-images {
-    /* Positioning */
-    display: grid;
-    grid-auto-flow: row;
-    /* Box-model */
-    /* Typography */
-    /* Visual */
-    /* Misc */
-  }
-}
-
-.product-info--cta {
-  /* Positioning */
-  display: none;
-  /* Box-model */
-  /* Typography */
-  /* Visual */
-  /* Misc */
-}
-
-@media (min-width: 45em) {
-  .product-info--cta {
-    /* Positioning */
-    display: block;
-    /* Box-model */
-    /* Typography */
-    /* Visual */
-    /* Misc */
-  }
-}
-
 .header--subline {
   /* Positioning */
   /* Box-model */
@@ -217,45 +121,99 @@ export default {
   /* Misc */
 }
 
-.size-options {
+.product-images {
   /* Positioning */
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  display: grid;
+  grid-row-gap: 15vh;
   /* Box-model */
-  height: 5rem;
-  width: 100%;
+  min-height: 100%;
   /* Typography */
   /* Visual */
-  background-color: hsla(0, 0%, 30%, 0.75);
-  text-decoration-color: var(--grey-0);
-  /* Misc */
-}
-.size-options--text {
-  /* Positioning */
-  justify-self: center;
-  align-self: center;
-  /* Box-model */
-  /* Typography */
-  font-size: var(--2base);
-  font-weight: bold;
-  /* Visual */
-  color: var(--grey-0);
-
   /* Misc */
 }
 
-@media (min-width: 45em) {
-  .size-options {
-    /* Positioning */
-    display: none;
-    /* Box-model */
+.recap-fake {
+  width: 25rem;
+  height: 30rem;
+  background-color: grey;
+  grid-row: 1/2;
+}
 
-    /* Typography */
-    /* Visual */
+.layout--small:first-of-type {
+  /* Positioning */
+  grid-column: 3/4;
+  grid-row: 1/2;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
 
-    /* Misc */
-  }
+.layout--small:nth-of-type(2) {
+  /* Positioning */
+  grid-column: 2/4;
+  grid-row: 3/4;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.layout--small:nth-of-type(3) {
+  /* Positioning */
+  grid-column: 3/5;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.layout--small:nth-of-type(3) {
+  /* Positioning */
+  grid-column: 2/4;
+  grid-row: 5/6;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.layout--small:nth-of-type(4) {
+  /* Positioning */
+  grid-column: 3/4;
+  grid-row: 6/7;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.layout--wide:first-of-type {
+  /* Positioning */
+  grid-column: 2/5;
+  grid-row: 2/3;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.layout--wide:nth-of-type(3) {
+  /* Positioning */
+  grid-column: 3/5;
+  grid-row: 4/5;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
+}
+
+.layout--wide:nth-of-type(2) {
+  /* Positioning */
+  grid-column: 2/5;
+  grid-row: 7/8;
+  /* Box-model */
+  /* Typography */
+  /* Visual */
+  /* Misc */
 }
 </style>

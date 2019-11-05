@@ -27,7 +27,6 @@
       :stroke-miterlimit="svg.strokeMiterlimit"
       :clip-rule="svg.clipRule"
       :viewBox="svg.viewBox"
-      x="30%"
       class="svg--tshirt"
       :preserveAspectRatio="svgPosition"
       :style="{

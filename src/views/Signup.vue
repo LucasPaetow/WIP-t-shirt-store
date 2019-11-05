@@ -1,8 +1,8 @@
 <template>
-  <article class="main main__small signup">
-    <aside class="home--background main--background"></aside>
+  <article class="main signup">
+    <aside class="signup--background main--background"></aside>
 
-    <header class="signup--header  main--header">
+    <header class="signup--header main--header">
       <div class="signup--logo">
         <logo></logo>
       </div>
@@ -17,10 +17,10 @@
       </p>
     </header>
     <page-transition>
-      <section class="main--sidebar" v-if="emailConfirmation">
+      <section class="main--sidebar signup--sidebar" v-if="emailConfirmation">
         <div class="signup--features"></div>
       </section>
-      <section class="main--sidebar" v-else>
+      <section class="main--sidebar signup--sidebar" v-else>
         <div class="signup--features">
           <styledHeadline
             headlineText="Whats new"
@@ -375,7 +375,7 @@ export default {
 }
 
 .signup--header {
-  padding: calc(7.5vh + var(--navbar__height)) 0 5vh 0;
+  padding-top: calc(7.5vh + var(--navbar__height));
 }
 
 .subheadline {
