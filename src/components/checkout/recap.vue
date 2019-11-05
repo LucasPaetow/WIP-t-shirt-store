@@ -196,7 +196,7 @@ export default {
   /* Positioning */
 
   /* Box-model */
-
+  min-width: 18rem;
   border-bottom: 2px solid var(--grey-600);
   /* Typography */
 

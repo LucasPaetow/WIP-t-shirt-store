@@ -5,7 +5,7 @@
     <header class="header js-hide-on-search default-header">
       <styledHeadline
         class="header--headline__layout"
-        headlineText="Your perfect t-shirt now comes in your perfect color"
+        headlineText="Your perfect t-shirt, in your perfect color"
       ></styledHeadline>
       <div class="header--rotating-headline">
         <styledHeadline

@@ -1,8 +1,8 @@
 <template>
-  <article class="main signup">
-    <aside class="signup--background main--background"></aside>
+  <article class="signup default-view layout">
+    <aside class="signup--background default-background"></aside>
 
-    <header class="signup--header main--header">
+    <header class="signup--header default-header">
       <div class="signup--logo">
         <logo></logo>
       </div>
@@ -17,10 +17,10 @@
       </p>
     </header>
     <page-transition>
-      <section class="main--sidebar signup--sidebar" v-if="emailConfirmation">
-        <div class="signup--features"></div>
-      </section>
-      <section class="main--sidebar signup--sidebar" v-else>
+      <section
+        class="signup--features layout--span1__right"
+        v-if="!emailConfirmation"
+      >
         <div class="signup--features">
           <styledHeadline
             headlineText="Whats new"
@@ -46,13 +46,14 @@
     </page-transition>
     <page-transition>
       <section
-        class="email-confirmation main--content"
+        class="signup--inputs email-confirmation layout--span1__center"
         v-if="emailConfirmation"
       >
         <header class="email-confirmation--header">
           <styledHeadline
             headlineText="Good job!"
             headlineType="h2"
+            :invertedColor="true"
           ></styledHeadline>
           <p class="subheadline">
             You are doing great
@@ -82,7 +83,7 @@
           />
         </div>
       </section>
-      <section class="inputs main--content" v-else>
+      <section class="signup--inputs layout--span1__center" v-else>
         <input-default
           v-model="authData.name"
           :input="{
@@ -368,7 +369,7 @@ export default {
   margin-bottom: var(--1base);
 }
 
-@media (min-width: 45em) {
+@media (min-width: 48em) {
   .signup--logo {
     height: var(--h2--fontsize__fixed);
   }
@@ -378,15 +379,22 @@ export default {
   padding-top: calc(7.5vh + var(--navbar__height));
 }
 
-.subheadline {
-  max-width: 30rem;
-}
-
-.inputs {
-  grid-column: 2/3;
+.signup--inputs {
   display: grid;
   grid-auto-rows: min-content;
   grid-row-gap: var(--1base);
+}
+
+.subheadline,
+.signup--features,
+.signup--inputs {
+  max-width: 30rem;
+}
+
+@media (min-width: 50em) {
+  .signup--inputs {
+    grid-row: 2/3;
+  }
 }
 
 .password-validation {
@@ -463,6 +471,5 @@ export default {
 }
 
 .button-layout--single-button {
-  grid-column: 2/3;
 }
 </style>

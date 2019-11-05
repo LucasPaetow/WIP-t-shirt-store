@@ -1,8 +1,8 @@
 <template>
-  <article class="login main main__small">
-    <aside class="home--background main--background"></aside>
+  <article class="login default-view layout">
+    <aside class="home--background default-background"></aside>
 
-    <header class="login--header  main--header">
+    <header class="login--header default-header">
       <div class="login--logo">
         <logo></logo>
       </div>
@@ -17,7 +17,7 @@
       </p>
     </header>
 
-    <section class="main--sidebar">
+    <section class="login--features layout--span1__right">
       <div class="login--features">
         <styledHeadline
           headlineText="Whats new"
@@ -41,7 +41,7 @@
       </div>
     </section>
 
-    <section class="inputs main--content">
+    <section class="login--inputs layout--span1__center">
       <input-default
         v-model="authData.email"
         :input="{
@@ -424,17 +424,25 @@ export default {
   margin-bottom: var(--1base);
 }
 
-@media (min-width: 45em) {
+@media (min-width: 48em) {
   .login--logo {
     height: var(--h2--fontsize__fixed);
   }
 }
 
-.subheadline {
+.subheadline,
+.login--features,
+.login--inputs {
   max-width: 30rem;
 }
 
-.inputs {
+@media (min-width: 48em) {
+  .login--inputs {
+    grid-row: 2/3;
+  }
+}
+
+.login--inputs {
   display: grid;
   grid-template-rows: min-content min-content min-content 1fr;
   grid-row-gap: var(--1base);

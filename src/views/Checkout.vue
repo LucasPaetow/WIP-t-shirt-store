@@ -1,6 +1,6 @@
 <template>
-  <article class="checkout main main__small">
-    <header class="checkout--header main--header">
+  <article class="checkout default-view layout">
+    <header class="checkout--header default-header">
       <div class="checkout--progress z-index-3">
         <router-link
           :to="{ name: 'address' }"
@@ -24,49 +24,28 @@
       </div>
     </header>
 
-    <aside class="checkout--background main--background"></aside>
+    <aside class="checkout--background default-background"></aside>
 
-    <section class="checkout-recap recap-mobile recap-wrapper">
-      <recap headline="Amount"> <totalAmount></totalAmount></recap>
-      <recap headline="Address">
-        <ul>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-          <li>1</li>
-        </ul>
-      </recap>
-      <recap headline="Shipping"></recap>
-      <recap :last="true" headline="Payment"></recap>
-    </section>
-
-    <section class="checkout--content main--content">
+    <section class="checkout--content layout--span1__center">
       <page-transition>
         <router-view />
       </page-transition>
     </section>
 
-    <section class="main--sidebar">
-      <div class="main--sidebar__sticky checkout--sidebar__sticky">
-        <div class="checkout--buttons">
-          <button-simple
-            class="checkout--button-cta"
-            :buttonText="'Show my shipping options'"
-            @simplebuttonevent="goTo('shipping')"
-          />
-        </div>
-        <div class="checkout-recap recap-desktop recap-wrapper">
-          <recap headline="Amount"><totalAmount></totalAmount></recap>
-          <recap headline="Address"> </recap>
-          <recap headline="Shipping"></recap>
-          <recap :last="true" headline="Payment"></recap>
-        </div>
+    <section class="layout--span1__right">
+      <div class="checkout-recap recap-wrapper">
+        <recap headline="Amount"><totalAmount></totalAmount></recap>
+        <recap headline="Address"> </recap>
+        <recap headline="Shipping"></recap>
+        <recap :last="true" headline="Payment"></recap>
       </div>
     </section>
 
-    <footer class="footer main--footer">
-      <h4 class="footer--headline">This is only a mockup</h4>
-      <p class="footer--body">
+    <footer class="footer default-footer layout layout--full">
+      <h4 class="footer--headline layout--span1__center">
+        This is only a mockup
+      </h4>
+      <p class="footer--body layout--span1__center">
         You can not order a real product so please don't input your real
         information
       </p>
@@ -78,14 +57,12 @@
 import { mapGetters } from "vuex";
 import pageTransition from "@/components/transitions/transition.vue";
 import totalAmount from "@/components/cart/totalAmount.vue";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import recap from "@/components/checkout/recap.vue";
 
 export default {
   components: {
     pageTransition,
     totalAmount,
-    buttonSimple,
     recap
   },
   //if the basics are being edited, this array contains existing basic information
@@ -119,10 +96,9 @@ export default {
 <style scoped>
 .checkout-recap {
   /* Positioning */
-  grid-column: 2/3;
 
   /* Box-model */
-
+  max-width: 30rem;
   /* Typography */
   /* Visual */
 
@@ -132,77 +108,11 @@ export default {
 .checkout--content {
   /* Positioning */
   /* Box-model */
-
-  /* Typography */
-  /* Visual */
-  box-shadow: 0px 0px 5px 1px hsla(0, 0%, 0%, 0.25);
-  /* Misc */
-}
-
-.checkout--sidebar__sticky {
-  /* Positioning */
-  display: grid;
-  grid-auto-flow: row;
-  /* Box-model */
-
-  /* Typography */
-  /* Visual */
-  box-shadow: 0px 0px 5px 1px hsla(0, 0%, 0%, 0.25);
-  /* Misc */
-}
-
-.checkout--amount__layout {
-  /* Positioning */
-  grid-column: 1/2;
-  grid-row: 1/2;
-  /* Box-model */
-  width: 100%;
+  max-width: 30rem;
   /* Typography */
   /* Visual */
 
   /* Misc */
-}
-
-.checkout--buttons {
-  /* Positioning */
-  grid-column: 1/2;
-  grid-row: 2/3;
-  /* Box-model */
-  width: 100%;
-  /* Typography */
-  /* Visual */
-
-  /* Misc */
-}
-
-.recap-desktop {
-  /* Positioning */
-  grid-column: 1/2;
-  grid-row: 3/4;
-  /* Box-model */
-  display: none;
-  width: 100%;
-  /* Typography */
-  /* Visual */
-
-  /* Misc */
-}
-
-.recap-mobile {
-  display: grid;
-}
-
-@media (min-width: 45em) {
-  .recap-desktop {
-    display: grid;
-  }
-  .recap-mobile {
-    display: none;
-  }
-}
-
-.checkout--header {
-  padding: 5vh 0;
 }
 
 .checkout--progress {
@@ -311,8 +221,6 @@ export default {
 
 .footer {
   /* Positioning */
-  display: grid;
-  grid-template-columns: var(--column-spacing) 1fr var(--column-spacing);
   grid-template-rows: 1fr;
   grid-auto-rows: min-content;
   grid-row-gap: var(--4base);
@@ -327,7 +235,6 @@ export default {
 
 .footer--headline {
   /* Positioning */
-  grid-column: 2/3;
   /* Box-model */
   margin-bottom: var(--halfbase);
   /* Typography */
@@ -339,7 +246,6 @@ export default {
 
 .footer--body {
   /* Positioning */
-  grid-column: 2/3;
   display: flex;
   flex-direction: column;
   /* Box-model */

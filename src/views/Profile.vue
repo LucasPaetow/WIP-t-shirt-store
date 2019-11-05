@@ -1,13 +1,13 @@
 <template>
-  <article class="profile main">
-    <header class="profile--header main--header">
+  <article class="profile default-view layout">
+    <header class="profile--header default-header">
       <styledHeadline headlineText="Header"></styledHeadline>
     </header>
 
-    <aside class="profile--background main--background"></aside>
+    <aside class="profile--background default-background"></aside>
 
-    <section class="main--sidebar">
-      <div class="main--sidebar__sticky">
+    <section class="profile--features layout--span1__right">
+      <div class="profile--features__sticky">
         <router-link :to="{ name: 'profile' }">Track your order</router-link>
         <router-link :to="{ name: 'profile' }">Change your address</router-link>
         <router-link :to="{ name: 'profile' }"
@@ -16,7 +16,7 @@
         <router-link :to="{ name: 'profile' }">delete accout</router-link>
       </div>
     </section>
-    <section class=" main--content">
+    <section class="profile--content layout--span1__center">
       <div class="profile--current">
         <styledHeadline
           headlineText="Your open orders"
@@ -50,17 +50,19 @@
       </div>
     </section>
 
-    <storeFooter class="footer__layout main--footer" />
+    <storeFooter class="footer__layout default-footer" />
   </article>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import styledHeadline from "@/components/headline/headline.vue";
+import storeFooter from "@/components/footer/footer.vue";
 
 export default {
   components: {
-    styledHeadline
+    styledHeadline,
+    storeFooter
   },
   //if the basics are being edited, this array contains existing basic information
   props: {},
