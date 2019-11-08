@@ -5,7 +5,7 @@
     <header class="header js-hide-on-search default-header">
       <styledHeadline
         class="header--headline__layout"
-        headlineText="Your perfect t-shirt now comes in your perfect color"
+        headlineText="Your perfect t-shirt, in your perfect color"
       ></styledHeadline>
       <div class="header--rotating-headline">
         <styledHeadline
@@ -289,7 +289,7 @@ export default {
     },
     addColor(entry) {
       let index = entry.id.split("-");
-      this.currentColor = this.colors[index[6]];
+      this.currentColor = this.colors[index[1]];
     },
     //navigation
     goTo(locationName, paramObject) {
@@ -350,8 +350,11 @@ export default {
       productData: "productModule/getProduct"
     }),
     responsiveImageHeight() {
+      if (window.innerHeight > 340) {
+        return 85;
+      }
       if (window.innerHeight > 700) {
-        return 80;
+        return 90;
       }
       return 100;
     }
@@ -404,7 +407,7 @@ export default {
   /* Box-model */
   overflow: hidden;
   z-index: 5;
-
+  top: calc(var(--navbar__height) + 1.5%);
   width: 100%;
   /* Typography */
 

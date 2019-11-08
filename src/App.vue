@@ -226,7 +226,7 @@ export default {
 @media (min-width: 30em) {
   :root {
     --navbar__height: var(--8base);
-    --column-spacing: 5vw;
+    --column-spacing: 3vw;
   }
 }
 
@@ -247,6 +247,7 @@ export default {
 
 @media (min-width: 56em) {
   :root {
+    --column-spacing: 1vw;
   }
 }
 
@@ -258,7 +259,7 @@ export default {
     --h2--lineHeight-factor__fixed: 1.1rem;
     --h3--fontsize__fixed: var(--3base);
     --h3--lineHeight-factor__fixed: 0.9rem;
-    --column-spacing: 10vw;
+    --column-spacing: 5vw;
   }
 }
 
@@ -267,6 +268,13 @@ export default {
     --h1--padding__fixed: var(--halfbase);
     --h1--lineHeight-factor__fixed: 1.6rem;
     --h2--padding__fixed: var(--halfbase);
+    --column-spacing: 8vw;
+  }
+}
+
+@media (min-width: 110em) {
+  :root {
+    --column-spacing: 15vw;
   }
 }
 
@@ -514,11 +522,9 @@ input {
 .layout--span2__right {
   grid-column: 3/5;
 }
-.layout--span1__center {
-  grid-column: 3/5;
-}
+.layout--span1__center,
 .layout--span1__right {
-  grid-column: 4/5;
+  grid-column: 3/5;
 }
 
 .row-gap-5 {
@@ -577,16 +583,6 @@ input {
 }
 
 @media (min-width: 22.5em) {
-  .layout {
-    /* Positioning */
-    grid-template-columns: var(--column-spacing) 0.5fr 6fr 3fr var(
-        --column-spacing
-      );
-    /* Box-model */
-    /* Typography */
-    /* Visual */
-    /* Misc */
-  }
 }
 
 @media (min-width: 30em) {
@@ -595,12 +591,15 @@ input {
     grid-template-columns: var(--column-spacing) 1fr 6fr 3fr var(
         --column-spacing
       );
+    grid-column-gap: 2vw;
     /* Box-model */
     /* Typography */
     /* Visual */
     /* Misc */
   }
+}
 
+@media (min-width: 56em) {
   .default-header {
     /* Positioning */
     grid-column: 3/4;
@@ -613,14 +612,25 @@ input {
   .layout--span1__center {
     grid-column: 3/4;
   }
-}
 
-@media (min-width: 48em) {
+  .layout--span1__right {
+    grid-column: 4/5;
+  }
 }
 
 @media (min-width: 64em) {
 }
 
 @media (min-width: 70em) {
+  .layout {
+    /* Positioning */
+    grid-template-columns: var(--column-spacing) 2fr 5fr 3fr var(
+        --column-spacing
+      );
+    /* Box-model */
+    /* Typography */
+    /* Visual */
+    /* Misc */
+  }
 }
 </style>

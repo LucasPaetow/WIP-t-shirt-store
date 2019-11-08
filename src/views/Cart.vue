@@ -2,9 +2,9 @@
   <article class="" v-if="!supportData">
     <h1>loading</h1>
   </article>
-  <article class="cart main" v-else>
+  <article class="cart default-view layout" v-else>
     <page-transition>
-      <header class="cart--header main--header" v-if="shoppingCart.length">
+      <header class="cart--header default-header" v-if="shoppingCart.length">
         <styledHeadline
           :headlineText="
             `You have ${shoppingCart.length}
@@ -12,14 +12,17 @@
           "
         />
       </header>
-      <header class="cart--header main--header" v-else>
+      <header class="cart--header default-header" v-else>
         <styledHeadline headlineText="Your cart is empty" />
       </header>
     </page-transition>
 
-    <aside class="cart--background main--background"></aside>
+    <aside class="cart--background default-background"></aside>
     <page-transition>
-      <section class="cart--entries main--content" v-if="shoppingCart.length">
+      <section
+        class="cart--entries layout--span1__center"
+        v-if="shoppingCart.length"
+      >
         <cartEntry
           v-for="(entry, index) in shoppingCart"
           :key="'shoppingEntry' + index"
@@ -27,7 +30,7 @@
           :index="index"
         />
       </section>
-      <section class="cart--entries main--content" v-else>
+      <section class="cart--entries layout--span1__center" v-else>
         <p class="header--subline">
           If you saved you favourite t-shirt on another device before, you can
           log in to restore it
@@ -74,7 +77,7 @@
       </section></page-transition
     >
 
-    <section class="cart-sidebar main--sidebar">
+    <section class="cart-sidebar layout--span1__right">
       <div class="product-info main--sidebar__sticky">
         <totalAmount class="payment--amount__layout" />
         <page-transition>
@@ -125,7 +128,7 @@ export default {
   },
   methods: {
     checkoutGuest() {
-      this.$store.dispatch("authModule/USER_guest").then(() => {
+      this.$store.dispatch("authModule/AUTH_guest").then(() => {
         this.goTo("address");
       });
     },
@@ -191,6 +194,7 @@ export default {
   grid-row-gap: 3vh;
   /* Box-model */
   padding: 0 0 3vh 0;
+  max-width: 30rem;
   /* Typography */
 
   /* Visual */

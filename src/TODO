@@ -1,4 +1,9 @@
 
+Store:
+- Add Recap content
+
+
+
 
 ######### Functionality ############
 
@@ -66,6 +71,9 @@ Yikes, About, Legal
 
 Auth:
 - Sidebar-content, which is different from the sub headline
+
+Store:
+- change <h4 > + supporting information into sentences
 
 ########################################################################
 

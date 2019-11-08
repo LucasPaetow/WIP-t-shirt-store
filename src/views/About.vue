@@ -1,12 +1,12 @@
 <template>
-  <article class="about main">
-    <header class="about--header main--header">
+  <article class="about default-view layout">
+    <header class="about--header default-header">
       <styledHeadline headlineText="Header"></styledHeadline>
     </header>
 
-    <aside class="about--background main--background"></aside>
+    <aside class="about--background default-background"></aside>
 
-    <section class="main--sidebar">
+    <section class="about--main-content layout--span1__right">
       <div class="main--sidebar__sticky">
         <router-link :to="{ name: 'about' }">about X</router-link>
         <router-link :to="{ name: 'about' }">about X</router-link>
@@ -16,7 +16,7 @@
         <router-link :to="{ name: 'about' }">about X</router-link>
       </div>
     </section>
-    <section class=" main--content">
+    <section class=" layout--span1__center">
       <div class="about--shirt">
         <styledHeadline
           headlineText="About the shirt"
@@ -63,7 +63,7 @@
       </div>
     </section>
 
-    <storeFooter class="footer__layout main--footer" />
+    <storeFooter class="default-footer" />
   </article>
 </template>
 
@@ -99,9 +99,10 @@ export default {
 </script>
 
 <style scoped>
-.template {
+.about--main-content {
   /* Positioning */
   /* Box-model */
+  grid-row: 2/3;
   /* Typography */
   /* Visual */
   /* Misc */

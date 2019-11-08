@@ -201,10 +201,9 @@ export default {
 .svg--tshirt,
 .image--tshirt {
   height: auto;
+  max-height: 120vh;
   width: 100%;
   object-fit: cover;
-  grid-column: 1/2;
-  grid-row: 1/2;
 }
 
 .svg--tshirt {
