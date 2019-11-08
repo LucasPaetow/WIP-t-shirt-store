@@ -39,15 +39,15 @@ const router = new Router({
     {
       path: "/your-:color-t-shirt",
       name: "store",
-      component: () => import("@/views/Store.vue"),
-      children: [
+      component: () => import("@/views/Store.vue")
+      /*children: [
         {
           path: "/your-:color-t-shirt/choose-size",
           name: "sizeOptions",
           props: true,
           component: () => import("@/components/homepage/sizeOptions.vue")
         }
-      ]
+      ]*/
     },
     {
       path: "/checkout",

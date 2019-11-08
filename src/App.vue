@@ -247,6 +247,7 @@ export default {
 
 @media (min-width: 56em) {
   :root {
+    --column-spacing: 1vw;
   }
 }
 
@@ -598,7 +599,7 @@ input {
   }
 }
 
-@media (min-width: 50em) {
+@media (min-width: 56em) {
   .default-header {
     /* Positioning */
     grid-column: 3/4;

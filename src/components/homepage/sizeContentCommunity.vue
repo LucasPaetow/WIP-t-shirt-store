@@ -1,15 +1,15 @@
 <template>
-  <modal-layout class="option-completion" :extraContent="true">
-    <template #header>
-      <h2 class="header--headline">
-        Well done!
-      </h2>
-      <p class="header--subline">
-        Your added this sweet t-shirt to your shopping cart
-      </p>
-    </template>
-    <template #main>
-      <section class="option-completion--product__layout">
+  <section>
+    <h4 class="more-shirts--headline">
+      Here are some community favourites, you might be interested in
+    </h4>
+    <div class="more-shirts--shirts">
+      <div
+        class="shirt-wrapper"
+        v-for="(color, index) in communityColors"
+        :key="color + index + 'sizeContentLast'"
+        @click="changeToCommunityColor(color)"
+      >
         <image-overlay
           :image_full="require('@/assets/images/kA9asUxmVka.png')"
           :image_regular="require('@/assets/images/kA9asUxmVka.png')"
@@ -17,97 +17,24 @@
           :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
           :svg="supportData[3].svg"
           :alt_description="supportData[3].alt_description"
-          :overlay_color="currentColor || ['white', '#ffffff']"
-          :fullHeight="25"
-          class="image-overlay product--image"
+          :overlay_color="color || ['white', '#ffffff']"
+          class="image-overlay more-shirts--image"
         />
-        <div class="product--price">
-          <styledHeadline
-            :headlineText="`${product.amount * 20}`"
-            :headlineType="responsiveHeadline"
-            :invertedColor="true"
-            class="product--headline"
-          >
-            <i>$</i></styledHeadline
-          >
-
-          <p class="product--shipping-label">+shipping</p>
-        </div>
-
-        <div class="product--info">
-          <p class="product--description">Color:</p>
-          <p class="product--color">
-            <b>{{ product.color[0] }}</b>
-          </p>
-          <p class="product--description">Size:</p>
-          <p class="product--size">
-            <b>{{ product.size }}</b>
-          </p>
-          <p class="product--description">Amount:</p>
-          <p class="product--amount">
-            <b>{{ product.amount }}</b>
-          </p>
-        </div>
-      </section>
-    </template>
-    <template #buttons>
-      <buttonSimple
-        class="option-completion--cta"
-        :buttonText="'view cart'"
-        @simplebuttonevent="goTo('cart')"
-    /></template>
-    <template #extra>
-      <h4 class="more-shirts--headline">
-        Here are some community favourites, you might be interested in
-      </h4>
-      <div class="more-shirts--shirts">
-        <div
-          class="shirt-wrapper"
-          v-for="(color, index) in communityColors"
-          :key="color + index + 'sizeContentLast'"
-          @click="changeToCommunityColor(color)"
-        >
-          <image-overlay
-            :image_full="require('@/assets/images/kA9asUxmVka.png')"
-            :image_regular="require('@/assets/images/kA9asUxmVka.png')"
-            :image_small="require('@/assets/images/kA9asUxmVka.png')"
-            :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
-            :svg="supportData[3].svg"
-            :alt_description="supportData[3].alt_description"
-            :overlay_color="color || ['white', '#ffffff']"
-            class="image-overlay more-shirts--image"
-          />
-          <h4 class="shirt--headline ">{{ color[0] }}</h4>
-        </div>
+        <h4 class="shirt--headline ">{{ color[0] }}</h4>
       </div>
-    </template>
-  </modal-layout>
+    </div>
+  </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import imageOverlay from "@/components/overlay/ImageOverlay.vue";
-import modalLayout from "@/components/modal/modalLayout.vue";
-import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
-    buttonSimple,
-    imageOverlay,
-    modalLayout,
-    styledHeadline
+    imageOverlay
   },
-  props: {
-    product: {
-      type: Object,
-      default: () => ({
-        amount: 1,
-        size: "M",
-        color: ["darkslategray", "#2F4F4F"]
-      })
-    }
-  },
+  props: {},
   name: "sizeOptions",
   data() {
     return {

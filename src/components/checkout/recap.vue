@@ -30,9 +30,8 @@
     v-else
     class="recap"
     :class="[last ? 'last' : '', expanded ? 'expanded' : '']"
-    @click="expanded = !expanded"
   >
-    <div class="recap--collapsed">
+    <div class="recap--collapsed" @click="closeRecap()">
       <h3 class="recap--headline z-index-2">
         {{ headline }}
       </h3>
@@ -94,6 +93,11 @@ export default {
     };
   },
   methods: {
+    closeRecap() {
+      this.expanded = !this.expanded;
+      this.$emit("recapevent", this.expanded);
+    },
+
     animate({ timing, draw, duration }) {
       let start = performance.now();
 
@@ -232,6 +236,7 @@ export default {
 
   /* Visual */
   transition: opacity 0.3s cubic-bezier(0.55, 0, 0.1, 1);
+  background-color: hsla(0, 0%, 100%, 0.5);
   /* Misc */
 }
 
@@ -316,7 +321,7 @@ export default {
   /* Typography */
 
   /* Visual */
-
+  background-color: hsla(0, 0%, 100%, 0.7);
   /* Misc */
 }
 </style>

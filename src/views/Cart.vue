@@ -128,7 +128,7 @@ export default {
   },
   methods: {
     checkoutGuest() {
-      this.$store.dispatch("authModule/USER_guest").then(() => {
+      this.$store.dispatch("authModule/AUTH_guest").then(() => {
         this.goTo("address");
       });
     },
