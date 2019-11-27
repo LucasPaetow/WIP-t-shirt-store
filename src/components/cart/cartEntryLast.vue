@@ -1,80 +1,40 @@
 <template>
-  <modal-layout class="cart-entry-last">
-    <template #header>
-      <styledHeadline
-        headlineText="What do you want to change?"
-        :headlineType="responsiveHeadline"
-        :invertedColor="true"
-      />
-    </template>
-    <template #main>
-      <section class="cart-entry-last--product__layout">
-        <div class="cart-entry-last--inputs">
-          <p class="sizes--description inputs--description">
-            <b>Your size:</b>
-          </p>
-          <div class="sizes--inputs inputs">
-            <input
-              v-for="(clothingSize, index1) in sizes"
-              :key="clothingSize + index1"
-              type="radio"
-              :id="`size-${clothingSize}`"
-              :value="clothingSize"
-              v-model="size"
-              class="sizes--inputs__input "
-            />
-            <label
-              v-for="(clothingSize, index2) in sizes"
-              :key="clothingSize + index2"
-              :for="`size-${clothingSize}`"
-              class="sizes--inputs__label default-input-style"
-              :class="[size === clothingSize ? 'active' : '']"
-              >{{ clothingSize }}</label
-            >
-          </div>
-          <p class="amount--description inputs--description">
-            <b>Amount:</b>
-          </p>
-          <div class="amount--inputs inputs">
-            <button
-              class="amount--button amount--increase default-input-style"
-              @click="changeAmount('decrease')"
-            >
-              -
-            </button>
-            <p class="amount--number default-input-style">
-              {{ amount }}
-            </p>
-            <button
-              class="amount--button amount--decrease default-input-style"
-              @click="changeAmount('increase')"
-            >
-              +
-            </button>
-          </div>
-        </div>
-      </section>
-    </template>
-    <template #buttons>
-      <buttonSimple
-        class="cart-entry-last--cta"
-        :buttonText="`back`"
-        @simplebuttonevent="$emit('entrylastevent', { amount, size })"
-      />
-    </template>
-  </modal-layout>
+  <div class="option-selection">
+    <input-size
+      :propSizes="sizes"
+      :propValue="size"
+      @change="changeSize"
+      class="input-size--layout"
+    ></input-size>
+    <input-amount
+      :amount="amount"
+      @inputamountevent="changeAmount"
+      class="input-amount--layout"
+    ></input-amount>
+    <p class="promotion" v-if="amount < 3">
+      If you buy 3 t-shirts or more, you will get free shipping
+    </p>
+    <p class="promotion success" v-else>
+      Noice! Free shippping for you!
+    </p>
+    <buttonSimple
+      class="cart-entry-last--cta"
+      buttonText="back"
+      @simplebuttonevent="$emit('entrylastevent', { amount, size })"
+    />
+  </div>
 </template>
 
 <script>
+import inputAmount from "@/components/inputs/inputAmount.vue";
+import inputSize from "@/components/inputs/inputSize.vue";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
-import modalLayout from "@/components/modal/modalLayout.vue";
-import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
-    buttonSimple,
-    modalLayout,
-    styledHeadline
+    inputSize,
+    inputAmount,
+    buttonSimple
   },
   props: {
     entry: {
@@ -102,6 +62,9 @@ export default {
       }
 
       this.amount += 1;
+    },
+    changeSize(newValue) {
+      this.size = newValue;
     }
   },
   computed: {
@@ -114,8 +77,8 @@ export default {
   },
 
   mounted() {
-    console.log("entryLast: " + this.entry);
-    (this.amount = this.entry.amount), (this.size = this.entry.size);
+    this.amount = this.entry.amount;
+    this.size = this.entry.size;
   },
   //same check for route-view keep-alive
   activated() {}

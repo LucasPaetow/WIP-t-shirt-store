@@ -1,10 +1,4 @@
 
-Store:
-- Add Recap content
-
-
-
-
 ######### Functionality ############
 
 
@@ -12,9 +6,6 @@ User:
 - User can add to wishlist and it gets stored in the user account ==> Watcher
 - After a "purchase", the cart gets emptied and the purchase is added to the order history
 - Guest checkout should have the option to register after purchase
-
-totalAmount
-- Update Amount and Shipping
 
 Checkout + Children
 - Input-Validation
@@ -26,14 +17,11 @@ loadingState
 - Store
 - Checkout should get redirected to card, if the card is empty
 
-
 Modals
 => Vue Portal for 1 Modal und 1 Alert
 - "Pick a Color" modal (Store, )
 - "Register" Modal after order completion
 - "Choose Size" from different places (Store,)
-
-
 
 ######### Layout and Style ############
 
@@ -45,8 +33,6 @@ General:
 
 Main-Layout needs dedicated padding-top and row-gap
 
-Cart
-- Entry and Cart Itself can overflow, needs a different layout
 
 Checkout + Children
 - Better Radiobuttons and a datepicker
@@ -61,10 +47,6 @@ Navbar
 
 
 ######### Content ############
-
-Home page
-- add more images with 2-3 colors each (3 images in total?)
-- complete 2 feature sections with a headline combo and text
 
 Yikes, About, Legal
 - Textcontent
