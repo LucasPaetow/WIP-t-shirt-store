@@ -1,8 +1,7 @@
 # T-shirt store
 
 
-![Example of the e-commerce homepage(https://github.com/LucasPaetow/WIP-t-shirt-store/raw/master/ecom-preview.gif)
-
+![Example of the e-commerce homepage](https://github.com/LucasPaetow/WIP-t-shirt-store/raw/master/ecom-preview.gif)
 
 
 ## Table of Contents
