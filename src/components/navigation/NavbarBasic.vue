@@ -38,7 +38,10 @@
         >FAQ</router-link
       >
       <router-link :to="{ name: 'signup', params: {} }" class="extended--link"
-        >Signup for free shipping</router-link
+        >Sign up for free shipping</router-link
+      >
+      <router-link :to="{ name: 'login', params: {} }" class="extended--link"
+        >log in</router-link
       >
     </aside>
   </article>

@@ -7,6 +7,7 @@
         class="header--headline__layout"
         headlineText="Your perfect t-shirt, in your perfect color"
       ></styledHeadline>
+      <!--
       <div class="header--rotating-headline">
         <styledHeadline
           class="header--headline__layout"
@@ -14,7 +15,11 @@
           :invertedColor="true"
           headlineType="h2"
         ></styledHeadline>
-      </div>
+    </div> -->
+      <p class="header--subline">
+        You don't have to choose between the perfect fit or the perfect color
+        anymore. <b>Just get both.</b>
+      </p>
     </header>
 
     <section class="home--product sticky-wrapper layout layout--full">
@@ -34,7 +39,7 @@
       </div>
       <div
         class="non-sticky observe js-hide-on-search layout--span1__center"
-        v-for="(color, index) in colors"
+        v-for="(color, index) in colors.preview1"
         :key="'colorsection1' + index"
       >
         <a @click="changeToPreviewColor(color)"
@@ -61,7 +66,7 @@
           class="search--input search__layout"
           :input="{
             label: null,
-            placeholder: 'mediumspringgreen?',
+            placeholder: 'Your dream color?',
             id: 'home'
           }"
           :error="errorSearch"
@@ -111,7 +116,7 @@
       </div>
       <div
         class="non-sticky observe js-hide-on-search layout--span1__center"
-        v-for="(color, index) in colors"
+        v-for="(color, index) in colors.preview2"
         :key="'colorsection1' + index"
       >
         <a @click="changeToPreviewColor(color)"
@@ -121,7 +126,7 @@
               index === 0 ? `is it ${color[0]}?` : `or ${color[0]}?`
             "
             :invertedColor="true"
-            :id="`preview1-${index}`"
+            :id="`preview2-${index}`"
             headlineType="h1"
           ></styledHeadline
         ></a>
@@ -129,7 +134,7 @@
       <div class="search-container layout--span1__center">
         <styledHeadline
           class="search--headline__layout"
-          headlineText="In what color do you want to leave others breathless?"
+          headlineText="In what color do you want to rule the world?"
           :invertedColor="true"
           headlineType="h1"
         ></styledHeadline>
@@ -138,7 +143,7 @@
           class="search--input search__layout"
           :input="{
             label: null,
-            placeholder: 'mediumspringgreen?',
+            placeholder: 'the one color to rule them all?',
             id: 'home'
           }"
           :error="errorSearch"
@@ -155,19 +160,18 @@
 
     <section class="home--feature layout--span1__center">
       <h1 class="feature--headline__layout">
-        A T-shirt that has astonishing stamina
+        Ordering this t-shirt
       </h1>
       <styledHeadline
         class="feature--headline__layout"
-        headlineText="just like you?"
+        headlineText="won't take long"
         headlineType="h2"
         :invertedColor="true"
       ></styledHeadline>
       <p class="feature--body big-text">
-        We dont just make perfect t-shirts. We train them to become the worlds
-        greatest. At the end of their training they could partake in the
-        olympics. But that would be fair to the other athletes. This is why they
-        last so long.
+        We get it, you are important and have to be somewhere else to show them
+        how its done. This is why we sell only this one, perfect t-shirt in that
+        color you like so much.
       </p>
     </section>
 
@@ -188,7 +192,7 @@
       </div>
       <div
         class="non-sticky observe js-hide-on-search layout--span1__center"
-        v-for="(color, index) in colors"
+        v-for="(color, index) in colors.preview3"
         :key="'colorsection1' + index"
       >
         <a @click="changeToPreviewColor(color)"
@@ -198,7 +202,7 @@
               index === 0 ? `is it ${color[0]}?` : `or ${color[0]}?`
             "
             :invertedColor="true"
-            :id="`preview1-${index}`"
+            :id="`preview3-${index}`"
             headlineType="h1"
           ></styledHeadline
         ></a>
@@ -206,7 +210,7 @@
       <div class="search-container layout--span1__center">
         <styledHeadline
           class="search--headline__layout"
-          headlineText="In what color do you want to leave others breathless?"
+          headlineText="In what color do you want to define the new awesome?"
           :invertedColor="true"
           headlineType="h1"
         ></styledHeadline>
@@ -215,7 +219,7 @@
           class="search--input search__layout"
           :input="{
             label: null,
-            placeholder: 'mediumspringgreen?',
+            placeholder: 'type your awesome color here',
             id: 'home'
           }"
           :error="errorSearch"
@@ -258,11 +262,23 @@ export default {
       errorSearch: "",
       selectedColor: "",
       showTransitionMessage: "",
-      colors: [
-        ["tomato", "#FF6347"],
-        ["lemonchiffon", "#FFFACD"],
-        ["mediumspringgreen", "#00FA9A"]
-      ],
+      colors: {
+        preview1: [
+          ["tomato", "#FF6347"],
+          ["lemonchiffon", "#FFFACD"],
+          ["mediumspringgreen", "#00FA9A"]
+        ],
+        preview2: [
+          ["firebrick", "#B22222"],
+          ["gold", "#FFD700"],
+          ["lightsteelblue", "#B0C4DE"]
+        ],
+        preview3: [
+          ["sandybrown", "#F4A460"],
+          ["lavenderblush", "#FFF0F5"],
+          ["dimgray", "#696969"]
+        ]
+      },
       currentColor: ["ghostwhite", "#F8F8FF"]
     };
   },
@@ -288,8 +304,10 @@ export default {
       });
     },
     addColor(entry) {
-      let index = entry.id.split("-");
-      this.currentColor = this.colors[index[1]];
+      let index = entry.id.split("-")[1];
+      let colorArray = entry.id.split("-")[0];
+
+      this.currentColor = this.colors[colorArray][index];
     },
     //navigation
     goTo(locationName, paramObject) {
@@ -387,6 +405,15 @@ export default {
 </script>
 
 <style scoped>
+.header--subline {
+  /* Positioning */
+  /* Box-model */
+  /* Typography */
+  font-size: var(--h3--fontsize__fixed);
+  /* Visual */
+  /* Misc */
+}
+
 .sticky-wrapper {
   /* Positioning */
   position: relative;

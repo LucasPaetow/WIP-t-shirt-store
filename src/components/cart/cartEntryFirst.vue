@@ -1,53 +1,56 @@
 <template>
-  <modal-layout class="cart-entry-first" :alignButtons="'space-around'">
-    <template #header>
-      <h2 class="header--headline">
+  <section class="cart-entry-first">
+    <header>
+      <h4 class="header--headline">
         Your awesome {{ entry.color[0] }} t-shirt ({{ entry.size }})
-      </h2>
-    </template>
-    <template #main>
-      <section class="cart-entry-first--product__layout">
-        <image-overlay
-          :image_full="require('@/assets/images/kA9asUxmVka.png')"
-          :image_regular="require('@/assets/images/kA9asUxmVka.png')"
-          :image_small="require('@/assets/images/kA9asUxmVka.png')"
-          :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
-          :svg="supportData[3].svg"
-          :alt_description="supportData[3].alt_description"
-          :overlay_color="entry.color || ['white', '#ffffff']"
-          :fullHeight="25"
-          class="image-overlay product--image"
-        />
-        <div class="product--price">
-          <styledHeadline
-            :headlineText="`${entry.amount * 20}`"
-            :headlineType="responsiveHeadline"
-            :invertedColor="true"
-            class="product--headline"
-          >
-            <i>$</i></styledHeadline
-          >
+      </h4>
+    </header>
 
-          <p class="product--shipping-label">+shipping</p>
-        </div>
+    <section class="cart-entry-first--product">
+      <image-overlay
+        :image_full="require('@/assets/images/kA9asUxmVka.png')"
+        :image_regular="require('@/assets/images/kA9asUxmVka.png')"
+        :image_small="require('@/assets/images/kA9asUxmVka.png')"
+        :image_thumb="require('@/assets/images/kA9asUxmVka.png')"
+        :svg="supportData[3].svg"
+        :alt_description="supportData[3].alt_description"
+        :overlay_color="entry.color || ['white', '#ffffff']"
+        class="image-overlay product--image"
+      />
+      <div class="product--price">
+        <styledHeadline
+          :headlineText="`${entry.amount * 20}`"
+          :headlineType="responsiveHeadline"
+          :invertedColor="true"
+          class="product--headline"
+        >
+          <i>$</i></styledHeadline
+        >
+        <p
+          class="product--shipping-label"
+          v-if="!shoppingCartCalulations.freeShipping"
+        >
+          +shipping
+        </p>
+      </div>
+    </section>
 
-        <div class="product--info">
-          <p class="product--description">Color:</p>
-          <p class="product--color">
-            <b>{{ entry.color[0] }}</b>
-          </p>
-          <p class="product--description">Size:</p>
-          <p class="product--size">
-            <b>{{ entry.size }}</b>
-          </p>
-          <p class="product--description">Amount:</p>
-          <p class="product--amount">
-            <b>{{ entry.amount }}</b>
-          </p>
-        </div>
-      </section>
-    </template>
-    <template #buttons>
+    <div class="product--info">
+      <p class="product--description">Color:</p>
+      <p class="product--color">
+        <b>{{ entry.color[0] }}</b>
+      </p>
+      <p class="product--description">Size:</p>
+      <p class="product--size">
+        <b>{{ entry.size }}</b>
+      </p>
+      <p class="product--description">Amount:</p>
+      <p class="product--amount">
+        <b>{{ entry.amount }}</b>
+      </p>
+    </div>
+
+    <section>
       <buttonSimple
         class="cart-entry-first--cta"
         :buttonText="`delete`"
@@ -59,22 +62,20 @@
         :buttonText="'edit'"
         @simplebuttonevent="$emit('entryfirsteditevent')"
       />
-    </template>
-  </modal-layout>
+    </section>
+  </section>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import buttonSimple from "@/components/buttons/ButtonSimple.vue";
 import imageOverlay from "@/components/overlay/ImageOverlay.vue";
-import modalLayout from "@/components/modal/modalLayout.vue";
 import styledHeadline from "@/components/headline/headline.vue";
 
 export default {
   components: {
     buttonSimple,
     imageOverlay,
-    modalLayout,
     styledHeadline
   },
 
@@ -94,7 +95,8 @@ export default {
     ...mapGetters({
       supportData: "productModule/getSupport",
       currentColor: "productModule/getCurrentColor",
-      allColors: "productModule/getColorPalette"
+      allColors: "productModule/getColorPalette",
+      shoppingCartCalulations: "userModule/getShoppingCartCalulations"
     }),
     responsiveHeadline() {
       if (window.innerWidth > 700) {
@@ -110,18 +112,18 @@ export default {
 </script>
 
 <style scoped>
-@media (min-width: 70em) {
-  .cart-entry-first {
-    /* Positioning */
-    /* Box-model */
-    max-width: 36rem;
+.cart-entry-first {
+  /* Positioning */
+  display: grid;
+  grid-row-gap: var(--halfbase);
+  /* Box-model */
+  max-width: 30rem;
+  padding: var(--halfbase);
+  /* Typography */
 
-    /* Typography */
+  /* Visual */
 
-    /* Visual */
-
-    /* Misc */
-  }
+  /* Misc */
 }
 
 .header--headline {
@@ -130,18 +132,17 @@ export default {
   /* Box-model */
   padding: 0;
   /* Typography */
-  font-size: var(--h2__fontSize);
   /* Visual */
 
   /* Misc */
 }
 
-.cart-entry-first--product__layout {
+.cart-entry-first--product {
   /* Positioning */
   display: grid;
-  grid-template-columns: 1fr 0.61fr;
-  grid-template-rows: min-content min-content;
-  grid-gap: var(--1base);
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+  grid-column-gap: var(--halfbase);
   /* Box-model */
 
   /* Typography */
@@ -155,8 +156,9 @@ export default {
   /* Positioning */
   grid-column: 1/2;
   grid-row: 1/2;
+  justify-self: end;
   /* Box-model */
-  max-width: 12rem;
+  max-width: 6rem;
   /* Typography */
 
   /* Visual */
@@ -180,14 +182,12 @@ export default {
 
 .product--info {
   /* Positioning */
-  grid-column: 1/3;
-  grid-row: 2/3;
   display: grid;
   grid-template-columns: 0.61fr 1fr;
   grid-auto-rows: min-content;
   grid-column-gap: var(--1base);
   /* Box-model */
-  padding: var(--1base);
+  padding: var(--halfbase);
   /* Typography */
 
   /* Visual */

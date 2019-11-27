@@ -85,4 +85,8 @@ export default {
 
   /* Misc */
 }
+
+.crossed-out {
+  text-decoration: line-through;
+}
 </style>
